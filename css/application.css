@@ -1,0 +1,16 @@
+div[data-role=page],div[data-role=panel] {
+    display: none;
+}
+
+div[data-role=page].active, div[data-role=panel].active {
+    display: block;
+}
+
+
+.stock-title {
+  font-size:1.5em;
+}
+.stock-add-btn {
+  margin-left: 130px;
+}
+
