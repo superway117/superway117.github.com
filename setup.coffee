@@ -1,0 +1,5 @@
+
+$ = Spine.$
+window.Stock ?= {}
+
+$ ->

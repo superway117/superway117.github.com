@@ -1,0 +1,57 @@
+$ = Spine.$
+
+class GoogStock extends Spine.Module
+	@include Spine.Events
+
+	constructor: ->
+		@bind('fetchStock', @fetchCNStockImpl)
+
+
+	fetchStock: (callbackOrParams) ->
+	    @trigger('fetchStock', callbackOrParams)
+
+	fetchCNStockImpl: (stockID="SHA:000001") ->
+		stockID=@canonical(stockID)
+		cnUrlTemplete="http://www.google.cn/finance/info?q=#{stockID}&infotype=infoquoteall&oe=gb2312&callback=?"
+		$.getJSON(cnUrlTemplete, (data) =>
+			@fetchStockCallback(data)
+	 	)
+
+
+#privte
+	canonical: (stockID) ->
+		return if stockID.length < 6
+		id = stockID[0..5]
+		if stockID.lastIndexOf('.') isnt -1 and stockID.length is 9
+			site=(stockID[7..8]).toLowerCase()
+			if site is "ss"
+				prefix = "SHA:"
+			else
+				prefix = "SHE:"
+		else
+			if stockID.charAt(0) is '6' then prefix = "SHA:" else prefix = "SHE:"
+		"#{prefix}#{id}" 
+	###
+	[ { "id": "7521596" ,"t" : "000001" ,"e" : "SHA" ,
+	"l" : "2,105.62" ,"l_cur" : "￥2,105.62" ,
+	"s": "0" ,"ltt":"15:01" ,"lt" : "10月17日 15:01" ,
+	"c" : "+6.81" ,"cp" : "0.32" ,"ccol" : "chr" ,
+	"eo" : "" ,"delay": "" ,"op" : "2,104.28" ,"hi" : "2,113.16" ,
+	"lo" : "2,088.04" ,"vo" : "5987.41万" ,"avvo" : "" ,
+	"hi52" : "3,478.01" ,"lo52" : "1,844.09" ,"mc" : "" ,
+	"pe" : "" ,"fwpe" : "" ,"beta" : "" ,"eps" : "" ,
+	"shares" : "" ,"inst_own" : "" ,"name" : "上证综合指数" ,
+	"lname" : "上证指数" ,"type" : "Company" } ] 
+	###
+	fetchStockCallback: (data) =>
+		result={}
+		result.status = "fail"
+		if data.length>0
+			result.status = "succ"
+			result.list=data;
+		@trigger('fetchFinished', result)
+
+	fetchHistoryCallback: (data) =>
+		@trigger('fetchHistoryFinished', data.result)
+		
+window.Stock["GoogStock"]    = GoogStock
