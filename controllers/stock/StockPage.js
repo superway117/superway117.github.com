@@ -67,6 +67,7 @@
         return false;
       }
       this.setStock(value);
+      e.preventDefault();
       return false;
     };
 
