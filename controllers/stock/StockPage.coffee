@@ -47,7 +47,7 @@ class StockPage extends Stock.StockBasePage
         value = @searchText.val()[0..5]
         return false if not Stock.Util.isValidStockID(value)
         @setStock value
-
+        e.preventDefault()
         return false
 
     deGoHome: (e) ->
