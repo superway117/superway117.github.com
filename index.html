@@ -9,6 +9,7 @@
 
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/application.css" />
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script src="libs/jquery/jquery-1.8.3.min.js"></script>
   <script src="libs/jquery/jquery.tmpl.js"></script>
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
@@ -36,15 +37,19 @@
   <script src="controllers/stock/StockInfo.js"></script>
   <script src="controllers/stock/StockTech.js"></script>
   <script src="controllers/stock/StockHistory.js"></script>
+  <script src="controllers/stock/StockFeed.js"></script>
   <script src="controllers/stock/StockPage.js"></script>
 
   <script src="controllers/plate/PlatePage.js"></script>
   <script src="controllers/app.js"></script>
+  <script type="text/javascript">
+    google.load("feeds", "1")
+  </script>
 
   <script id='pageTmpl' type='text/x-jquery-tmpl'> 
     <div data-role='page'> 
         <div data-role='header'>
-            <div class="navbar navbar-inverse" style="position: static;">
+            <div class="navbar  navbar-inverse" style="position: static;">
               <div class="navbar-inner">
                 <div class="container">
                   
@@ -74,6 +79,8 @@
 
         <div data-role='content'>
         </div>
+        <br>
+        <br>
         <div data-role='footer'>
           <div class="navbar navbar-fixed-bottom navbar-inverse">
             <div class="navbar-inner">
@@ -439,7 +446,20 @@
         </tr>
     </script>
 
+    <script id='stockFeedTmpl' type='text/x-jquery-tmpl'> 
+        <ul data-role="panel-data" class="none-style"></ul>
+    </script>
+    <script id='stockFeedTableTmpl' type='text/x-jquery-tmpl'> 
+        <li>
+            <ul class="none-style">
+                <li><h4><a href=${link}  target='_blank'>${title}</a><h4></li>
+                <li>${contentSnippet}</li>
+            </ul>
+            <br>
+        </li>
 
+    </script>
+    
 </head> 
 <body> 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.
