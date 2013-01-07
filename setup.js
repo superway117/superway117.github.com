@@ -1,1 +1,0 @@
-(function(){var b,a;b=Spine.$;if((a=window.Stock)==null){window.Stock={}}b(function(){})}).call(this);

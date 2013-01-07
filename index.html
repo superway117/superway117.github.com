@@ -2,50 +2,17 @@
 <html> 
 <head> 
   <title>HapiStock</title> 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/application.css" />
-  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-  <script src="libs/jquery/jquery-1.8.3.min.js"></script>
-  <script src="libs/jquery/jquery.tmpl.js"></script>
-  <script src="libs/bootstrap/js/bootstrap.min.js"></script>
-  <script src="libs/bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
+  <link rel="stylesheet" href="css/application.min.css" />
   <link rel="stylesheet" href="libs/bootstrap/datepicker/css/datepicker.css" />
-  <script src="libs/json2.js"></script>
-  <script src="libs/spine/spine.js"></script>
-  <script src="libs/spine/local.js"></script>
-  <script src="libs/spine/manager.js"></script>
-  <script src="libs/spine/route.js"></script>
+  
 
-  <script src="setup.js"></script>
-
-  <script src="util/GoogStock.js"></script>
-  <script src="util/YahooStock.js"></script>
-  <script src="util/Util.js"></script>
-  <script src="util/StockDict.js"></script>
-  <script src="base/Page.js"></script>
-
-  <script src="models/FavStockSetting.js"></script>
-  <script src="models/StockList.js"></script>
-
-  <script src="controllers/StockBasePage.js"></script>
-
-  <script src="controllers/stock/StockInfo.js"></script>
-  <script src="controllers/stock/StockTech.js"></script>
-  <script src="controllers/stock/StockHistory.js"></script>
-  <script src="controllers/stock/StockFeed.js"></script>
-  <script src="controllers/stock/StockPage.js"></script>
-
-  <script src="controllers/plate/PlatePage.js"></script>
-  <script src="controllers/app.js"></script>
-  <script type="text/javascript">
-    google.load("feeds", "1")
-  </script>
-
+  
   <script id='pageTmpl' type='text/x-jquery-tmpl'> 
     <div data-role='page'> 
         <div data-role='header'>
@@ -359,6 +326,57 @@
             <td>${adjclose}</td>
         </tr>
     </script>
+    <script id='stockFundsTmpl' type='text/x-jquery-tmpl'> 
+        <form class="form-inline"> 
+            <label>Date Range:</label>
+            <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="startDate">
+            <label>to</label>
+            <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="endDate">
+            <button type="submit" class="btn" >Fetch</button>
+        </form>
+
+        <table class="table table-condensed table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>全部(万)</th>
+                    <th>散户(万)</th>
+                    <th>中户(万)</th>
+                    <th>大户(万)</th>
+                    <th>超大(万)</th>
+                    <th>成交额(万)</th>
+                    <th>涨跌幅</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </script>
+    <script id='stockFundsTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr>
+            <td>${date}</td>
+            <td>${total}</td>
+            <td>${stotal}</td>
+            <td>${mtotal}</td>
+            <td>${ltotal}</td>
+            <td>${sltotal}</td>
+            <td>${volume}</td>
+            <td style={{if growth.charAt(0)=='-'}}"color:#468847"{{else}}"color:#FF0000"{{/if}}>${growth}</td>
+        </tr>
+    </script>
+    <script id='stockFeedTmpl' type='text/x-jquery-tmpl'> 
+        <ul data-role="panel-data" class="none-style"></ul>
+    </script>
+    <script id='stockFeedTableTmpl' type='text/x-jquery-tmpl'> 
+        <li>
+            <ul class="none-style">
+                <li><h4><a href=${link}  target='_blank'>${title}</a><h4></li>
+                <li>${contentSnippet}</li>
+            </ul>
+            <br>
+        </li>
+
+    </script>
     <script id='plateTmpl' type='text/x-jquery-tmpl'> 
         
         <div >
@@ -425,13 +443,30 @@
             <td><input type="checkbox"></td>
             <td data-value=${id}><a>${name}</a></td>
             <td>${id}</td>
-            <td class="price">${price}(${((price-preclose)*100/preclose).toFixed(2)}%)</td>
+            <td style=
+                {{if price>=preclose}}"color:#FF0000"{{else}}"color:#468847"{{/if}}>
+                ${price}(${((price-preclose)*100/preclose).toFixed(2)}%)
+            </td>
             <td>${open}</td>
             <td>${preclose}</td>
             <td>${high}</td>
             <td>${low}</td>
             <td>${volMoney}</td>
             <td>${volume}</td>
+        </tr>
+    </script>
+    <script id='plateGeneralPreTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr >
+            <td><input type="checkbox"></td>
+            <td data-value=${id}><a>${name}</a></td>
+            <td>${id}</td>
+            <td class="price"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
     </script>
     <script id='plateBaseTableTmpl' type='text/x-jquery-tmpl'> 
@@ -445,23 +480,40 @@
             <td>${movAvg50}(${chgMovAvg50}  ${chgPreMovAvg50})</td>
         </tr>
     </script>
-
-    <script id='stockFeedTmpl' type='text/x-jquery-tmpl'> 
-        <ul data-role="panel-data" class="none-style"></ul>
+    <script id='plateBasePreTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr>
+            <td><input type="checkbox"></td>
+            <td><a>${name}</a></td>
+            <td>${id}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
     </script>
-    <script id='stockFeedTableTmpl' type='text/x-jquery-tmpl'> 
-        <li>
-            <ul class="none-style">
-                <li><h4><a href=${link}  target='_blank'>${title}</a><h4></li>
-                <li>${contentSnippet}</li>
-            </ul>
-            <br>
-        </li>
-
-    </script>
-    
 </head> 
 <body> 
+    <script src="libs/cordova.min.js"></script>
+    <script src="libs/jquery/jquery-1.8.3.min.js"></script>
+    <script src="libs/jquery/jquery.tmpl.js"></script>
+    <script src="libs/jquery/hammer.js"></script>
+    <script src="libs/jquery/jquery.specialevent.hammer.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="libs/bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
+    
+    <script src="libs/json2.js"></script>
+    <script src="libs/spine.min.js"></script>
+    <!--
+    <script src="http://192.168.1.2:8081/target/target-script-min.js"></script>
+    -->
+ 
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script src="hapistock.min.js"></script>
+    <script type="text/javascript">
+  
+      window.Stock.Startup.init()
+      google.load("feeds", "1")
+    </script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.
     <script>
         var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
