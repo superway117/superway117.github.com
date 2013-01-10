@@ -11,23 +11,24 @@
   <link rel="stylesheet" href="css/application.min.css" />
   <link rel="stylesheet" href="libs/bootstrap/datepicker/css/datepicker.css" />
   
-
   
-  <script id='pageTmpl' type='text/x-jquery-tmpl'> 
+</head> 
+<body> 
+     <script id='pageTmpl' type='text/x-jquery-tmpl'> 
     <div data-role='page'> 
         <div data-role='header'>
             <div class="navbar  navbar-inverse" style="position: static;">
               <div class="navbar-inner">
                 <div class="container">
                   
-                  <a class="brand" href="#">Home</a>
+                  <a class="brand" href="#">上证</a>
                   <div class="nav-collapse collapse navbar-inverse-collapse">
                     <ul class="nav" data-role="quickbar">
                         <!-- append menuItemTmpl here-->
                     </ul>
                     <form class="navbar-search pull-left" action="">
                       <input type="text" class="search-query span2" placeholder="Search" data-provide="typeahead" data-items="4">
-                      <input type="submit" value="Go" class="btn btn-inverse"/>
+                      <input type="submit" value="确定" class="btn btn-inverse"/>
                     </form>
                     <ul class="nav pull-right">
                         <li class="divider-vertical"></li>
@@ -141,8 +142,8 @@
                         </label>
                         </div>
                         <div class="control-group ">
-                        <input type="text" class="" placeholder="new tag">
-                        <button id="addTagButton" class="btn">Create Tag</button>
+                        <input type="text" class="" placeholder="new label">
+                        <button id="addTagButton" class="btn">创建标签</button>
                         
                         </div>
                     </form>
@@ -162,7 +163,7 @@
             <form class="form-inline"> 
                 <Strong class="stock-title">${lname}(${t})</Strong>
                 <span class="label">${lt}</span>
-                <button type="button" class="btn stock-add-btn"  data-toggle="modal" >Add</button>
+                <button type="button" class="btn stock-add-btn"  data-toggle="modal" >添加</button>
             </form>  
             <div class="row">
                 <div class="span3">
@@ -226,7 +227,7 @@
     </script>
     <script id='stockTechTmpl' type='text/x-jquery-tmpl'> 
         <div >
-            <span class="label label-info">Range</span>
+            <span class="label label-info">范围</span>
             <div class="btn-group" data-toggle="buttons-radio">
                 <button type="button" class="btn" data-command="range" data-value="1d">1d</button>
                 <button type="button" class="btn" data-command="range" data-value="5d">5d</button>
@@ -267,9 +268,9 @@
         </div> <!--otherTech -->
         <div>
             <form class="form-inline">
-                <span class="label label-info">Compare</span>
+                <span class="label label-info">比较</span>
                 <input type="text" class="input-small" placeholder="stock" data-provide="typeahead" data-items="4">
-                <button type="submit" class="btn">compare</button>
+                <button type="submit" class="btn">比较</button>
                 <select>
                     <option value="">选择技术参数</option>
                     <option value="macd">MACD</option>
@@ -290,24 +291,24 @@
     </script>
     <script id='stockHistoryTmpl' type='text/x-jquery-tmpl'> 
         <form class="form-inline"> 
-            <label>Date Range:</label>
+            <label>起始日期</label>
             <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="startDate">
-            <label>to</label>
+            <label>到</label>
             <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="endDate">
-            <button type="submit" class="btn" >Fetch</button>
+            <button type="submit" class="btn" >确定</button>
         </form>
 
         <table class="table table-condensed table-hover table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Open</th>
-                    <th>High</th>
-                    <th>Low</th>
-                    <th>Close</th>
+                    <th>日期</th>
+                    <th>开盘价</th> 
+                    <th>最高价</th>
+                    <th>最低价</th>
+                    <th>收盘价</th>
                     <!--<th>Growth</th>-->
-                    <th>Volume</th>
-                    <th>Adj Close*</th>
+                    <th>交易量</th>
+                    <th>调整后收盘价</th>
                 </tr>
             </thead>
             <tbody>
@@ -328,13 +329,15 @@
     </script>
     <script id='stockFundsTmpl' type='text/x-jquery-tmpl'> 
         <form class="form-inline"> 
-            <label>Date Range:</label>
+            <label>起始日期</label>
             <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="startDate">
-            <label>to</label>
+            <label>到</label>
             <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="endDate">
-            <button type="submit" class="btn" >Fetch</button>
+            <button type="submit" class="btn" >确定</button>
         </form>
-
+        <div class="alert-info">
+        说明：正为净流入，负为净流出，成交额<10万的为散户，10万-50万为中户，50万-100万为大户，100万为超大
+        </div>
         <table class="table table-condensed table-hover table-striped table-bordered">
             <thead>
                 <tr>
@@ -355,12 +358,12 @@
     <script id='stockFundsTableTmpl' type='text/x-jquery-tmpl'> 
         <tr>
             <td>${date}</td>
-            <td>${total}</td>
-            <td>${stotal}</td>
-            <td>${mtotal}</td>
-            <td>${ltotal}</td>
-            <td>${sltotal}</td>
-            <td>${volume}</td>
+            <td>${total}万</td>
+            <td>${stotal}万</td>
+            <td>${mtotal}万</td>
+            <td>${ltotal}万</td>
+            <td>${sltotal}万</td>
+            <td>${volume}{{if volume}}万{{/if}}</td>
             <td style={{if growth.charAt(0)=='-'}}"color:#468847"{{else}}"color:#FF0000"{{/if}}>${growth}</td>
         </tr>
     </script>
@@ -491,8 +494,6 @@
             <td></td>
         </tr>
     </script>
-</head> 
-<body> 
     <script src="libs/cordova.min.js"></script>
     <script src="libs/jquery/jquery-1.8.3.min.js"></script>
     <script src="libs/jquery/jquery.tmpl.js"></script>
@@ -501,13 +502,14 @@
     <script src="libs/bootstrap/js/bootstrap.min.js"></script>
     <script src="libs/bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
     
-    <script src="libs/json2.js"></script>
+    <script src="libs/json2.min.js"></script>
     <script src="libs/spine.min.js"></script>
     <!--
     <script src="http://192.168.1.2:8081/target/target-script-min.js"></script>
     -->
  
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    
     <script src="hapistock.min.js"></script>
     <script type="text/javascript">
   

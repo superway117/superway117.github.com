@@ -188,7 +188,7 @@ function Hammer(element, options, undefined)
         if(!_has_touch && !Stock.env.android) {
             var doc = document,
                 body = doc.body;
-            console.log("getXYfromEvent 1")
+
             return [{
                 x: event.pageX || event.clientX + ( doc && doc.scrollLeft || body && body.scrollLeft || 0 ) - ( doc && doc.clientLeft || body && doc.clientLeft || 0 ),
                 y: event.pageY || event.clientY + ( doc && doc.scrollTop || body && body.scrollTop || 0 ) - ( doc && doc.clientTop || body && doc.clientTop || 0 )
@@ -197,7 +197,7 @@ function Hammer(element, options, undefined)
         // multitouch, return array with positions
         else {
             var pos = [], src;
-            console.log("getXYfromEvent len="+event.touches.length)
+
             for(var t=0, len=event.touches.length; t<len; t++) {
                 src = event.touches[t];
                 pos.push({ x: src.pageX, y: src.pageY });
