@@ -1,0 +1,529 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+  <title>HapiStock</title> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/application.min.css" />
+  <link rel="stylesheet" href="libs/bootstrap/datepicker/css/datepicker.css" />
+  
+  
+</head> 
+<body> 
+     <script id='pageTmpl' type='text/x-jquery-tmpl'> 
+    <div data-role='page'> 
+        <div data-role='header'>
+            <div class="navbar  navbar-inverse" style="position: static;">
+              <div class="navbar-inner">
+                <div class="container">
+                  
+                  <a class="brand" href="#">上证</a>
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                    <ul class="nav" data-role="quickbar">
+                        <!-- append menuItemTmpl here-->
+                    </ul>
+                    <form class="navbar-search pull-left" action="">
+                      <input type="text" class="search-query span2" placeholder="Search" data-provide="typeahead" data-items="4">
+                      <input type="submit" value="确定" class="btn btn-inverse"/>
+                    </form>
+                    <ul class="nav pull-right">
+                        <li class="divider-vertical"></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <!-- append menuItemTmpl here-->
+                            </ul>
+                        </li>
+                    </ul>
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div><!-- /navbar -->
+        </div>
+
+        <div data-role='content'>
+        </div>
+        <br>
+        <br>
+        <div data-role='footer'>
+          <div class="navbar navbar-fixed-bottom navbar-inverse">
+            <div class="navbar-inner">
+              <ul class="nav nav-pills">
+                <!-- append menuItemTmpl here-->
+
+              </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+    </script>
+
+    <script id='menuItemTmpl' type='text/x-jquery-tmpl'> 
+        <li><a href="#" name=${name}>${text}</a></li>
+    </script>
+
+    <script id='selectItemTmpl' type='text/x-jquery-tmpl'> 
+        <option value=${name}>${text}</option>
+    </script>
+
+    <script id='promptInfoModalTmpl' type='text/x-jquery-tmpl'> 
+        <div id="promptInfoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="promptInfoModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="promptInfoModalLabel">${header}</h3>
+            </div>
+            <div class="modal-body">
+              <p>${body}</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </script>
+    <script id='comfirmModalTmpl' type='text/x-jquery-tmpl'> 
+        <div id="comfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="comfirmModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="comfirmModalLabel">${header}</h3>
+            </div>
+            <div class="modal-body">
+              <p>${body}</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </script>
+    <script id='stockInputModalTmpl' type='text/x-jquery-tmpl'> 
+        <div id="stockInputModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="stockInputModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="stockInputModalLabel">${header}</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <label>输入股票:</label>
+                    <input type="text" class="" data-provide="typeahead" data-items="4" placeholder="stock">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </script>
+
+    <script id='alertTmpl' type='text/x-jquery-tmpl'> 
+        <div class="alert fade in">
+            <strong>${body}</strong>
+        </div>
+    </script>
+
+    <script id='stockInfoTmpl' type='text/x-jquery-tmpl'> 
+        <!--<div data-role="panel">-->
+            
+            <div id="addStockModal" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h3 id="addStockModalLabel">Select Tag</h3>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="control-group ">
+                        <label>Select Tag
+                            <select>
+                                <!-- append selectItemTmpl here-->
+                            </select>
+                        </label>
+                        </div>
+                        <div class="control-group ">
+                        <input type="text" class="" placeholder="new label">
+                        <button id="addTagButton" class="btn">创建标签</button>
+                        
+                        </div>
+                    </form>
+             
+                </div>
+                <div class="modal-footer">
+                    <button id="addStockButton" class="btn btn-primary"  aria-hidden="true">Save</button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+
+                </div>
+                
+            </div>
+            <div data-role="panel-data">
+            </div>
+    </script> 
+    <script id='stockInfoDataTmpl' type='text/x-jquery-tmpl'>      
+            <form class="form-inline"> 
+                <Strong class="stock-title">${lname}(${t})</Strong>
+                <span class="label">${lt}</span>
+                <button type="button" class="btn stock-add-btn"  data-toggle="modal" >添加</button>
+            </form>  
+            <div class="row">
+                <div class="span3">
+                    <table class="table table-condensed table-hover table-striped table-bordered">
+                        <tbody> 
+                            <tr>
+                                <th>当前价格</th>
+                                <td>${l}</td>
+                            </tr>
+                            <tr>
+                                <th>涨跌幅</th>
+                                <td id="updownCell">${c} (${cp}%)</td>
+                            </tr>
+                            <tr>
+                                <th>开盘价格</th>
+                                <td>${op}</td>
+                            </tr>
+                            <tr>
+                                <th>最高价</th>
+                                <td>${hi}</td>
+                            </tr>
+                            <tr>
+                                <th>最低价</th>
+                                <td>${lo}</td>
+                            </tr>
+                        </tbody> 
+                    </table>
+                </div>
+           
+                <div class="span3">
+                    <table class="table table-condensed table-hover table-striped table-bordered">
+                        <tbody> 
+                            <tr>
+                                <th>52周</th>
+                                <td>${lo52} - ${hi52}</td>
+                            </tr>
+                            <tr>
+                                <th>市盈率</th>
+                                <td>${pe}</td>
+                            </tr>
+                            <tr>
+                                <th>每股收益</th>
+                                <td>${eps}</td>
+                            </tr>
+                            <tr>
+                                <th>成交量</th>
+                                <td>${vo}</td>
+                            </tr>
+                            <tr>
+                                <th>股份</th>
+                                <td>${shares}</td>
+                            </tr>
+                        </tbody> 
+                    </table>  
+                </div>
+            </div><!-- /row -->
+            <div>
+                <img src=${chart} class="img-rounded">
+            </div>
+        <!--</div> /panel -->
+    </script>
+    <script id='stockTechTmpl' type='text/x-jquery-tmpl'> 
+        <div >
+            <span class="label label-info">范围</span>
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn" data-command="range" data-value="1d">1d</button>
+                <button type="button" class="btn" data-command="range" data-value="5d">5d</button>
+                <button type="button" class="btn" data-command="range" data-value="1m">1m</button>
+                <button type="button" class="btn" data-command="range" data-value="3m">3m</button>
+                <button type="button" class="btn" data-command="range" data-value="6m">6m</button>
+                <button type="button" class="btn" data-command="range" data-value="1y">1y</button>
+                <button type="button" class="btn" data-command="range" data-value="2y">2y</button>
+                <button type="button" class="btn" data-command="range" data-value="5y">5y</button>
+                <button type="button" class="btn" data-command="range" data-value="max">max</button>
+            </div>
+            <i class="icon-circle-arrow-down" data-toggle="collapse" data-target="#otherTech"></i>
+        </div>
+        <div id="otherTech" class="collapse in">
+            <div >
+                <span class="label label-info">Type</span>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="btn" data-command="type" data-value="bar">Bar</button>
+                    <button type="button" class="btn" data-command="type" data-value="line">Line</button>
+                    <button type="button" class="btn" data-command="type" data-value="candle">Candle</button>
+                </div>
+                
+            </div>
+            <div >
+                <span class="label label-info">Size</span>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="btn" data-command="size" data-value="large">Large</button>
+                    <button type="button" class="btn" data-command="size" data-value="middle">Middle</button>
+                </div>  
+            </div>
+            <div >
+                <span class="label label-info">Scale</span>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="btn" data-command="scale" data-value="linear">Linear</button>
+                    <button type="button" class="btn" data-command="scale" data-value="log">Log</button>
+                </div>        
+            </div>
+        </div> <!--otherTech -->
+        <div>
+            <form class="form-inline">
+                <span class="label label-info">比较</span>
+                <input type="text" class="input-small" placeholder="stock" data-provide="typeahead" data-items="4">
+                <button type="submit" class="btn">比较</button>
+                <select>
+                    <option value="">选择技术参数</option>
+                    <option value="macd">MACD</option>
+                    <option value="mfi">MFI</option>
+                    <option value="roc">ROC</option>
+                    <option value="rsi">RSI</option>
+                    <option value="ss">Slow Stoch</option>
+                    <option value="fs">Fast Stoch</option>
+                    <option value="vol">Vol</option>
+                    <option value="volma">Vol+MA</option>
+                    <option value="wr">W%R</option>
+                </select>
+            </form>
+        </div>
+        <div>
+            <img id="techChart" class="img-rounded">
+        </div>
+    </script>
+    <script id='stockHistoryTmpl' type='text/x-jquery-tmpl'> 
+        <form class="form-inline"> 
+            <label>起始日期</label>
+            <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="startDate">
+            <label>到</label>
+            <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="endDate">
+            <button type="submit" class="btn" >确定</button>
+        </form>
+
+        <table class="table table-condensed table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>开盘价</th> 
+                    <th>最高价</th>
+                    <th>最低价</th>
+                    <th>收盘价</th>
+                    <!--<th>Growth</th>-->
+                    <th>交易量</th>
+                    <th>调整后收盘价</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </script>
+    <script id='stockHistoryTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr>
+            <td>${date}</td>
+            <td>${open}</td>
+            <td>${high}</td>
+            <td>${low}</td>
+            <td>${close}</td>
+            <!--<td>${(close-open).toFixed(2)}</td>-->
+            <td>${volume}</td>
+            <td>${adjclose}</td>
+        </tr>
+    </script>
+    <script id='stockFundsTmpl' type='text/x-jquery-tmpl'> 
+        <form class="form-inline"> 
+            <label>起始日期</label>
+            <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="startDate">
+            <label>到</label>
+            <input  class="input-small" data-date="12-17-2012" data-date-format="mm-dd-yyyy" type="text" value="12-17-2012" id="endDate">
+            <button type="submit" class="btn" >确定</button>
+        </form>
+        <div class="alert-info">
+        说明：正为净流入，负为净流出，成交额<10万的为散户，10万-50万为中户，50万-100万为大户，100万为超大
+        </div>
+        <table class="table table-condensed table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>全部(万)</th>
+                    <th>散户(万)</th>
+                    <th>中户(万)</th>
+                    <th>大户(万)</th>
+                    <th>超大(万)</th>
+                    <th>成交额(万)</th>
+                    <th>涨跌幅</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </script>
+    <script id='stockFundsTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr>
+            <td>${date}</td>
+            <td>${total}万</td>
+            <td>${stotal}万</td>
+            <td>${mtotal}万</td>
+            <td>${ltotal}万</td>
+            <td>${sltotal}万</td>
+            <td>${volume}{{if volume}}万{{/if}}</td>
+            <td style={{if growth.charAt(0)=='-'}}"color:#468847"{{else}}"color:#FF0000"{{/if}}>${growth}</td>
+        </tr>
+    </script>
+    <script id='stockFeedTmpl' type='text/x-jquery-tmpl'> 
+        <ul data-role="panel-data" class="none-style"></ul>
+    </script>
+    <script id='stockFeedTableTmpl' type='text/x-jquery-tmpl'> 
+        <li>
+            <ul class="none-style">
+                <li><h4><a href=${link}  target='_blank'>${title}</a><h4></li>
+                <li>${contentSnippet}</li>
+            </ul>
+            <br>
+        </li>
+
+    </script>
+    <script id='plateTmpl' type='text/x-jquery-tmpl'> 
+        
+        <div >
+            <ul class="nav nav-tabs">
+              <li data-value="generalTab" class="active"><a href="#generalTab" data-toggle="tab">概览</a></li>
+              <li data-value="baseTab"><a href="#baseTab" data-toggle="tab">基本信息</a></li>
+              <span class="badge badge-success" id="tagLabel">default</span>
+            </ul>
+            <div class="btn-group">
+            <!--
+                <span class="label">Comapre</span>
+                <span class="label">Delete</span>
+            --> 
+                <button class="btn" id ="compareBtn">Comapre</button>
+                <button class="btn" id ="deleteBtn">Delete</button>
+                
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="generalTab">
+                    <table class="table table-condensed table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <th>股票名称</th>
+                                <th>股票代码</th>
+                                <th>当前价格</th>
+                                <th>开盘价</th>
+                                <th>昨日收盘价</th>
+                                <th>最高价</th>
+                                <th>最低价</th>
+                                <th>成交股票数</th>
+                                <th>成交金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="baseTab">
+                    <table class="table table-condensed table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th>股票名称</th>
+                                <th>股票代码</th>
+                                <th>52周最高价</th>
+                                <th>52周最低价</th>
+                                <th>200天平均价格</th>
+                                <th>50天平均价格</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+          </div>
+
+    </script>
+    <script id='plateGeneralTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr >
+            <td><input type="checkbox"></td>
+            <td data-value=${id}><a>${name}</a></td>
+            <td>${id}</td>
+            <td style=
+                {{if price>=preclose}}"color:#FF0000"{{else}}"color:#468847"{{/if}}>
+                ${price}(${((price-preclose)*100/preclose).toFixed(2)}%)
+            </td>
+            <td>${open}</td>
+            <td>${preclose}</td>
+            <td>${high}</td>
+            <td>${low}</td>
+            <td>${volMoney}</td>
+            <td>${volume}</td>
+        </tr>
+    </script>
+    <script id='plateGeneralPreTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr >
+            <td><input type="checkbox"></td>
+            <td data-value=${id}><a>${name}</a></td>
+            <td>${id}</td>
+            <td class="price"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </script>
+    <script id='plateBaseTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr>
+            <td><input type="checkbox"></td>
+            <td><a>${name}</a></td>
+            <td>${id}</td>
+            <td>${high52}(${chgHigh52}  ${chgPreHigh52})</td>
+            <td>${low52}(${chgLow52}  ${chgPreLow52})</td>
+            <td>${movAvg200}(${chgMovAvg200}  ${chgPreMovAvg200})</td>
+            <td>${movAvg50}(${chgMovAvg50}  ${chgPreMovAvg50})</td>
+        </tr>
+    </script>
+    <script id='plateBasePreTableTmpl' type='text/x-jquery-tmpl'> 
+        <tr>
+            <td><input type="checkbox"></td>
+            <td><a>${name}</a></td>
+            <td>${id}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </script>
+    <script src="libs/cordova.min.js"></script>
+    <script src="libs/jquery/jquery-1.8.3.min.js"></script>
+    <script src="libs/jquery/jquery.tmpl.js"></script>
+    <script src="libs/jquery/hammer.js"></script>
+    <script src="libs/jquery/jquery.specialevent.hammer.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="libs/bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
+    
+    <script src="libs/json2.min.js"></script>
+    <script src="libs/spine.min.js"></script>
+    <!--
+    <script src="http://192.168.1.2:8081/target/target-script-min.js"></script>
+    -->
+ 
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    
+    <script src="hapistock.min.js"></script>
+    <script type="text/javascript">
+  
+      window.Stock.Startup.init()
+      google.load("feeds", "1")
+    </script>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.
+    <script>
+        var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+    -->
+</body>
+
+</html>
