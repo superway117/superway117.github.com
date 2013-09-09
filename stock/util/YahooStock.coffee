@@ -125,7 +125,7 @@ class YahooStock extends Spine.Module
         if @debug
             @urlBase = "http://127.0.0.1:3003/stock?api="
         else
-            @urlBase = "http://107.22.188.63:3003/stock?api="
+            @urlBase = "http://rocky-thicket-9504.herokuapp.com/stock?api="
 
     fetchHistory: (options) ->
         stockID=YahooStock.canonical(options.stockID)

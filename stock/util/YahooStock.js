@@ -181,7 +181,7 @@
       if (this.debug) {
         this.urlBase = "http://127.0.0.1:3003/stock?api=";
       } else {
-        this.urlBase = "http://107.22.188.63:3003/stock?api=";
+        this.urlBase = "http://rocky-thicket-9504.herokuapp.com/stock?api=";
       }
     }
 
