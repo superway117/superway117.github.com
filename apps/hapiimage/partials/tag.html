@@ -1,0 +1,82 @@
+<div data-role="page" id="tagPage">
+
+      <div id="tag2-carousel" class="carousel slide" data-interval="false">
+        <ol class="carousel-indicators">
+          <li data-target="#tag2-carousel" data-slide-to="0" class="active"></li>
+          <li data-target="#tag2-carousel" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="item active">
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+                  <div class="btn-group">
+                      <button class="btn btn-default" type="button" ng-repeat="item in getTag2List()" ng-click="setTag2(item.name)" ng-show="$index<10">{{item.name}}</button>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="item" ng-show="getTag2ListLen()>=10">
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+                  <div class="btn-group">
+                      <button class="btn btn-default" type="button" ng-repeat="item in getTag2List()" ng-click="setTag2(item.name)" ng-show="$index>=10&&$index<20">{{item.name}}</button>
+                  </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="item" ng-show="getTag2ListLen()>=20">
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+                  <div class="btn-group">
+                      <button class="btn btn-default" type="button" ng-repeat="item in getTag2List()" ng-click="setTag2(item.name)" ng-show="$index>=20&&$index<30">{{item.name}}</button>
+                  </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="item" ng-show="getTag2ListLen()>=30">
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+                  <div class="btn-group">
+                      <button class="btn btn-default" type="button" ng-repeat="item in getTag2List()" ng-click="setTag2(item.name)" ng-show="$index>=30&&$index<40">{{item.name}}</button>
+                  </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="item" ng-show="getTag2ListLen()>=40">
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+                  <div class="btn-group">
+                      <button class="btn btn-default" type="button" ng-repeat="item in getTag2List()" ng-click="setTag2(item.name)" ng-show="$index>=40">{{item.name}}</button>
+                  </div>
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
+        <a class="left carousel-control" href="#tag2-carousel" data-slide="prev">
+          <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#tag2-carousel" data-slide="next">
+          <span class="icon-next"></span>
+        </a>
+      </div>
+
+
+    <div id="tagGalleria">
+      
+    </div>
+<!--
+    <div class="panel panel-default">
+      <div class="panel-body">
+          <pre>length:{{data.length}}</pre>
+          <pre ng-bind="getTag2List() | json"></pre>
+          <pre ng-bind="originData | json"></pre>
+
+      </div>
+    </div> 
+--> 
+  </div><!-- /.indexPage -->

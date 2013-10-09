@@ -1,127 +1,55 @@
-<html>
+<!doctype html>
+<html lang="en" ng-app="myHome">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <title>Superway is a programmer</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi">
+
+  <title>Pan Wei's Home Page</title>
+  
+  <link rel="stylesheet" href="libs/debug/bootstrap-3.0.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="libs/debug/jquery-1.9.1.js"></script>
+  <script src="libs/debug/bootstrap-3.0.0/dist/js/bootstrap.js"></script>
+  <script src="libs/debug/galleria/galleria-1.2.9.js"></script>
+  <link rel="stylesheet" href="libs/debug/galleria/themes/classic/galleria.classic.css">
+  <script src="libs/debug/galleria/themes/classic/galleria.classic.min.js"></script>
+  
+  <link rel="stylesheet" href="libs/debug/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="libs/debug/fancybox/jquery.fancybox.pack.js"></script>
+  
+  <script src="libs/debug/angular/angular.js"></script>
+  <script src="libs/debug/angular/angular-route.js"></script>
+  <script src="libs/debug/cordova-2.2.0.js"></script>
+  <script src="libs/debug/sniff.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/articles.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/services.js"></script>
+  
 </head>
-<body>
+<body ng-controller="MainCntl">
 
-<br/>
-<p>Superway is a programmer, the following are some of his codes.
-<p>
-<table width="100%">
-<tr>
-<td>
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  <nav class="navbar navbar-inverse navbar-fix-top" role="navigation">
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#/index">Home</a></li>
+        <li><a href="#/codes">Open Source</a></li>
+        <li><a href="#/products">Products</a></li>
+        <li><a href="#/articles">Articles</a></li>
+        <li><a href="#/contact">Contact with Me</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </nav>
 
-<ul>
-  <li> <a href="https://github.com/superway117/Renju">HapiRenu(哈皮五子连珠)</a>
-  </li>
-    <ul>
-      <li>A renju game based cocos2d-2.1, it is already released on some android market, you can download from <a href="http://as.baidu.com/a/item?docid=3907419&pre=web_am_se">百度应用</a>,or search "哈皮五子连珠" on other market.</li>
-      <li>Public domain,can be free used</li>
-      <li>C++ code</li>
-      <li>2013-08</li>
-    </ul>
-</ul>
-
-<ul>
-  <li>HapiStock(web and android apk)</li>
-    <ul>
-      <li>
-        UI uses Spine, Server side uses nodejs and express <a href="./stock/index.html">link</a>.
-      </li>
-      <li>
-        UI uses Spine(early version), Server side uses nodejs <a href="./stock_old/index.html">link</a>
-      </li>
-      <li>Android APk uses Phonegap to package, can be download <a href="./stock/index.html">here</a>.</li>
-      <li>JS and Coffee script code</li>
-      <li>2012-12</li>
-    </ul>
-</ul>
-
-<ul>
-  <li> <a href="https://github.com/superway117/libsensors-for-android-froyo">libsensors-for-android-froyo</a>
-  </li>
-    <ul>
-      <li>It is a library for android froyo to handle Bosch BMC050 and Avago apds990x sensors</li>
-      <li>Apache License, Version 2.0</li>
-      <li>C code</li>
-      <li>2012-04</li>
-    </ul>
-</ul>
-
-<ul>
-  <li> <a href="https://github.com/superway117/crashdump">android crash dump</a>
-  </li>
-    <ul>
-      <li>It is a tool to analyse anroid crash log</li>
-      <li>Public domain,can be free used</li>
-      <li>Python code</li>
-      <li>2012-03</li>
-    </ul>
-</ul>
-
-<ul>
-  <li> <a href="https://github.com/superway117/findcheaper">find cheaper</a>
-  </li>
-    <ul>
-      <li>It is a <a href="http://findcheaper.appspot.com">web page</a> to find cheaper good,it will fetch the page from the main B2C site according to the user's search,like dangdang,JD .etc.<br>
-      It run on google GAE, the page is not maintained for long time, can not work now.</li>
-      <li>Public domain,can be free used</li>
-      <li>Python code</li>
-      <li>2011-06</li>
-    </ul>
-</ul>
-
-<ul>
-  <li>
-    <a href="https://github.com/superway117/sqlite_wrapper">sqlite wrapper</a>
-  </li>
-    <ul>
-      <li>
-        This implement is referred to Android sqlite wrapper, but simpler and faster.
-      </li>
-      <li>Public domain,can be free used</a>
-      <li>C code</li>
-      <li>2011-04</li>
-    </ul>
-</ul>
-
-<ul>
-  <li>
-    <a href="https://github.com/superway117/dlmalloc_debug">dlmalloc debug version</a>
-  </li>
-    <ul>
-      <li>
-        Add debug infomration inside dlmalloc struct to easy debug memory leak and overwrite issue; <br>
-        There are also some CMM script for ARM platform and C166 platform(this script is trace32 script)
-      </li>
-      <li>Public domain,can be free used</a>
-      <li>C code and trace32 script</li>
-      <li>2011-03</li>
-    </ul>
-</ul>
-
-<ul>
-  <li>
-    <a href="https://github.com/superway117/imagelib">imagelib</a>
-  </li>
-    <ul>
-      <li>
-        Features:<br>
-        <ul>
-          <li>Support format:JPG,BMP,WBMP,PNG,GIF</li>
-          <li>Line decode and encode</li>
-          <li>Support resize</li>
-          <li>Support some effects</li>
-        </ul>
-      </li>
-      <li>Public domain,can be free used</a>
-      <li>C code</li>
-      <li>20010-03</li>
-    </ul>
-</ul>
-
-<small>my <b>email</b> address is superway_build@hotmail.com</small>
-<br/>
+  <div ng-view></div>
 </body>
 </html>
