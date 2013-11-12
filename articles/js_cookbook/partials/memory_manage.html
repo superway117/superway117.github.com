@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<title>memory_manage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- base href="file:///D:/dropbox/Dropbox/github/superway117.github.com/articles/js_cookbook/partials/" -->
+</head>
+<body>
+<h2>内存管理</h2>
+<p>在C/C++里面,语言层面是没有垃圾回收机制的,开发人员需要通过malloc/free等函数去分配释放内存,换句话说,开发人员需要知道什么
+时候要申请内存,什么时候释放内存. 
+相对C/C++，javascript是一个high-level的语言,语言层面没有提供类似mallc/free这样的函数,内存的使用都是通过
+javascript engine来完成的. </p>
+<h3>内存分配</h3>
+<p>在javascript中,可以通过以下方式来申请内存.</p>
+<p><strong>变量初始化</strong>    
+</p>
+<pre><code>var n = 123; // allocates memory for a number
+var s = "azerty"; // allocates memory for a string 
+
+var o = {
+  a: 1,
+  b: null
+}; // allocates memory for an object and contained values
+
+var a = [1, null, "abra"]; // (like object) allocates memory for the array and contained values
+
+function f(a){
+  return a + 2;
+} // allocates a function (which is a callable object)
+
+// function expressions also allocate an object
+someElement.addEventListener('click', function(){
+  someElement.style.backgroundColor = 'blue';
+}, false);
+</code></pre>
+
+<p><strong>函数调用</strong>   
+</p>
+<p>很多函数调特别是构造函数的执行(new)也会导致内存分配，</p>
+<pre><code>var d = new Date();
+var e = document.createElement('div'); // allocates an DOM element
+</code></pre>
+
+<p>数组和字符串的一些函数也会导致内存分配.</p>
+<pre><code>var s = "azerty";
+var s2 = s.substr(0, 3); // s2 is a new string
+// Since strings are immutable value, JavaScript may decide to not allocate memory, but just store the [0, 3] range.
+
+var a = ["ouais ouais", "nan nan"];
+var a2 = ["generation", "nan nan"];
+var a3 = a.concat(a2); // new array with 4 elements being the concatenation of a and a2 elements
+</code></pre>
+
+<h3>内存释放</h3>
+<p>类似java,javascript里面并不需要开发人员显示的去调用函数释放内存,javascript engine提供了内存的垃圾回收机制,垃圾回收关心的是那些<strong>不再需要的内存</strong>，它会把这些不再需要的内存释放掉.     
+</p>
+<p>虽然有了垃圾回收,并不意味开发者可以完全不关系内存的使用,因为如何去判定一个内存是否真的不再需要了,这个问题本身就很难解决.</p>
+<h3>垃圾回收算法</h3>
+<h4>Reference-counting garbage collection</h4>
+<p>也就是常说的引用计数,这个算法基本只存在于早期的浏览器(Internet Explorer 6, 7等),2012年以后发布的浏览器版本基本都不再使用这个算法.</p>
+<p>这个算法把问题: 如何确定一个对象/内存块是否还需要存在,转换成了:一个对象是否还被其他对象引用，如果不被其他任何对象引用,那么这个对象就可以被释放了.</p>
+<pre><code>var o = { 
+  a: {
+    b:2
+  }
+}; // 2 objects are created. One is referenced by the other as one of its property.
+// The other is referenced by virtue of being assigned to the 'o' variable.
+// Obviously, none can be garbage-collected
+
+
+var o2 = o; // the 'o2' variable is the second thing that has a reference to the object
+o = 1; // now, the object that was originally in 'o' has a unique reference embodied by the 'o2' variable
+
+var oa = o2.a; // reference to 'a' property of the object.
+// This object has now 2 references: one as a property, the other as the 'oa' variable
+
+o2 = "yo"; // The object that was originally in 'o' has now zero references to it.
+// It can be garbage-collected.
+// However what was its 'a' property is still referenced by the 'oa' variable, so it cannot be free'd
+
+oa = null; // what was the 'a' property of the object originally in o has zero references to it.
+// it can be garbage collected.
+</code></pre>
+
+<p>这个算法有个致命伤:循环引用.2个对象相互引用,即使这2个对象都是可以被释放的对象,但是因为有了相互引用,垃圾回收就没办法释放他们.</p>
+<pre><code>function f(){
+  var o = {};
+  var o2 = {};
+  o.a = o2; // o references o2
+  o2.a = o; // o2 references o
+
+  return "azerty";
+}
+
+f();
+// Two objects are created and reference one another thus creating a cycle.
+// They will not get out of the function scope after the function call, so they
+// are effectively useless and could be free'd.
+// However, the reference-counting algorithm considers that since each of both object is referenced
+// at least once, none can be garbage-collected
+</code></pre>
+
+<p>Internet Explorer 6, 7在DOM对象的管理上,使用了引用计数的垃圾回收算法.下面的代码在这些浏览器上面是一个比较常见的内存泄露bug.</p>
+<pre><code>window.onload = function(){
+    var div = document.createElement("div");
+    div.onclick = function(){
+        //div对象在这里永远可见
+    }; // The div has a reference to the event handler via its 'onclick' property
+    // The handler also has a reference to the div since the 'div' variable can be accessed within the function scope
+    // This cycle will cause both objects not to be garbage-collected and thus a memory leak.
+}
+</code></pre>
+
+<p>因为闭包的存在,对象div是一直存在的,如果div指向一个DOM对象,那么也就意味着这个DOM对象也是一直存在这个引用,在引用计数的算法里面,这个DOM对象就一直没法释放.</p>
+<p>怎么避免上面的bug?     
+</p>
+<p><strong>Break the circular reference</strong>  
+</p>
+<pre><code>window.onload = function(){
+    var div = document.createElement("div");
+    div.onclick = function(){
+    }; 
+    div = null;
+
+}
+</code></pre>
+
+<p>div对象虽然一直存在,但是设置成null后,原来的DOM对象就没有了引用,DOM对象会把垃圾回收释放掉.</p>
+<p><strong>Add another closure</strong></p>
+<pre><code>window.onload = function(){
+
+    var doesNotLeak = function(){
+    }; 
+    (function anotherInnerFunction(){
+        var obj =  document.getElementById("div");
+        obj.onclick=doesNotLeak })();
+
+}
+</code></pre>
+
+<p>说白了就是使用闭包的时候，把一些不需要保存的对象,尽量放到闭包内部函数里面.</p>
+<p><strong>Avoid the closure</strong>  
+</p>
+<pre><code>window.onload=function()
+{
+    var obj = document.getElementById("div");
+    obj.onclick = doesNotLeak;
+}
+function doesNotLeak()
+{
+}
+</code></pre>
+
+<p>没有闭包,倒是清静了. 不过很多时候,不使用闭包,就无法体现javascript的强大了.</p>
+<h4>Mark-and-sweep algorithm</h4>
+<p>这个算法应该在很多java(android dalvik)的实现里面也用到了,2012年以后的浏览器基本上都是采用了这个算法. </p>
+<p>这个算法把问题: 如何确定一个对象/内存块是否还需要存在,转换成了:一个对象是否是reachable,具体的说就是从root出发,是否有路径可以找到当前对象,如果对象是non-reachable的,那么也就意味着他可以被释放掉.    
+</p>
+<p>这个算法解决了引用计数循环引用的问题,也就是说上面2个循环引用的例子,采用mark-and-sweep的算法后,问题就不存在了.因为上面例子里面循环引用的对象,执行完函数后,从root出发,是non-reachable的,他们是可以被回收的.</p>
+<p>参考文章    
+</p>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management?redirectlocale=en-US&amp;redirectslug=JavaScript%2FMemory_Management">Mozilla: Memory Management</a>  <br>
+<a href="http://msdn.microsoft.com/en-us/library/Bb250448.aspx">MSDN: Understanding and Solving Internet Explorer Leak Patterns</a>  <br>
+<a href="http://www.ibm.com/developerworks/web/library/wa-memleak/">IBM: Memory leak patterns in JavaScript" (2007)</a>   <br>
+<a href="http://msdn.microsoft.com/en-us/magazine/ff728624.aspx">Kangax article: how to register event handler and avoid memory leaks (2010)</a>  <br>
+<a href="https://wiki.mozilla.org/Performance:Leak_Tools">Performance: Leak Tools</a> <br>
+<a href="http://javascript.crockford.com/memory/leak.html">Douglas Crockford: JScript Memory Leaks</a>     
+</p>
+</blockquote>
+
+
+
+
+</body></html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

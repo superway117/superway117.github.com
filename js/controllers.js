@@ -40,7 +40,7 @@ function HomeCtrl($scope) {
     var galleriaConfig = {
         width:getWidth(),//$(window).width(),
         height:getHeight()-$("#indexPage").position().top-50,//$(window).height()-$("#searchPage").position().top-50,
-        dummy: 'img/products/hapirenju/1.png',
+        dummy: 'img/products/hapirenju/1.jpg',
         transition: 'fade',//'fade',
         easing: 'galleriaIn',
         autoplay: 5000
@@ -48,73 +48,73 @@ function HomeCtrl($scope) {
 
     $scope.data = [
         {
-            image: "img/products/hapirenju/1.png",
+            image: "img/products/hapirenju/1.jpg",
             title: "Android game HapiRenju",
             description: "Based on cocos2d-x 2.3, using C++"
     
         },
         {
-            image: "img/products/hapirenju/2.png",
+            image: "img/products/hapirenju/2.jpg",
             title: "Android game HapiRenju",
             description: "Based on cocos2d-x 2.3, using C++"
     
         },
         {
-            image: "img/products/hapirenju/3.png",
+            image: "img/products/hapirenju/3.jpg",
             title: "Android game HapiRenju",
             description: "Based on cocos2d-x 2.3, using C++"
     
         },
         {
-            image: "img/products/hapirenju/4.png",
+            image: "img/products/hapirenju/4.jpg",
             title: "Android game HapiRenju",
             description: "Based on cocos2d-x 2.3, using C++"
     
         },
         {
-            image: "img/products/hapistock/1.png",
+            image: "img/products/hapistock/1.jpg",
             title: "Web/Android app HapiStock",
             description: "Client is based on Spine,using CoffeeScript;<br>Server is based on nodejs, using CoffeeScript"
     
         },
         {
-            image: "img/products/hapistock/2.png",
+            image: "img/products/hapistock/2.jpg",
             title: "Web/Android app HapiStock",
             description: "Client is based on Spine,using CoffeeScript;<br>Server is based on nodejs, using CoffeeScript"
     
         },
         {
-            image: "img/products/hapistock/3.png",
+            image: "img/products/hapistock/3.jpg",
             title: "Web/Android app HapiStock",
             description: "Client is based on Spine,using CoffeeScript;<br>Server is based on nodejs, using CoffeeScript"
     
         },
         {
-            image: "img/products/hapistock/4.png",
+            image: "img/products/hapistock/4.jpg",
             title: "Web/Android app HapiStock",
             description: "Client is based on Spine,using CoffeeScript;<br>Server is based on nodejs, using CoffeeScript"
     
         },
         {
-            image: "img/products/hapiimage/1.png",
+            image: "img/products/hapiimage/1.jpg",
             title: "Web/Android app HapiImage",
             //description: "Client is based on Angular,using javascript;<br>Server is based on nodejs, using CoffeeScript"
     
         },
         {
-            image: "img/products/hapiimage/2.png",
+            image: "img/products/hapiimage/2.jpg",
             title: "Web/Android app HapiImage",
             //description: "Client is based on Angular,using javascript;<br>Server is based on nodejs, using CoffeeScript"
     
         },
         {
-            image: "img/products/hapiimage/3.png",
+            image: "img/products/hapiimage/3.jpg",
             title: "Web/Android app HapiImage",
             //description: "Client is based on Angular,using javascript;<br>Server is based on nodejs, using CoffeeScript"
     
         },
         {
-            image: "img/products/hapiimage/4.png",
+            image: "img/products/hapiimage/4.jpg",
             title: "Web/Android app HapiImage",
             //description: "Client is based on Angular,using javascript;<br>Server is based on nodejs, using CoffeeScript"
     
@@ -239,10 +239,10 @@ function ProductsCtrl($scope, $timeout, $log,dateFilter) {
                 }
             ],
             imgs: [
-                "img/products/hapiimage/1.png",
-                "img/products/hapiimage/2.png",
-                "img/products/hapiimage/3.png",
-                "img/products/hapiimage/4.png"
+                "img/products/hapiimage/1.jpg",
+                "img/products/hapiimage/2.jpg",
+                "img/products/hapiimage/3.jpg",
+                "img/products/hapiimage/4.jpg"
             ],
             source: "close",
             lanuage: [
@@ -283,10 +283,10 @@ function ProductsCtrl($scope, $timeout, $log,dateFilter) {
                 }
             ],
             imgs: [
-                "img/products/hapirenju/1.png",
-                "img/products/hapirenju/2.png",
-                "img/products/hapirenju/3.png",
-                "img/products/hapirenju/4.png"
+                "img/products/hapirenju/1.jpg",
+                "img/products/hapirenju/2.jpg",
+                "img/products/hapirenju/3.jpg",
+                "img/products/hapirenju/4.jpg"
             ],
             source: "open",
             license: "Public domain,can be free used",
@@ -306,10 +306,10 @@ function ProductsCtrl($scope, $timeout, $log,dateFilter) {
                 }
             ],
             imgs: [
-                "img/products/hapistock/1.png",
-                "img/products/hapistock/2.png",
-                "img/products/hapistock/3.png",
-                "img/products/hapistock/4.png"
+                "img/products/hapistock/1.jpg",
+                "img/products/hapistock/2.jpg",
+                "img/products/hapistock/3.jpg",
+                "img/products/hapistock/4.jpg"
             ],
             source: "close",
             lanuage: [

@@ -1,0 +1,55 @@
+var articles_list=[
+    {
+        title: "介绍",
+        link:"partials/introduction.html"
+    },
+    {
+        title: "基础知识",
+        section:[
+            {
+              title: "理解Scope Chain",
+              link: "partials/understand_scope_chain.html",
+            },
+            {
+              title: "理解delete操作",
+              link: "partials/understand_delete.html",
+            },
+            {
+              title: "内存管理",
+              link: "partials/memory_manage.html",
+            }
+        ]
+        
+    },
+    {
+        title: "面向对象",
+        section:[
+            {
+              title: "理解Scope Chain",
+              link: "partials/understand_scope_chain.html",
+            }
+        ]
+        
+    },
+    {
+        title: "Performance",
+        section:[
+            {
+              title: "理解Scope Chain",
+              link: "partials/understand_scope_chain.html",
+            }
+        ]
+        
+    },
+    {
+        title: "浏览器兼容性",
+        section:[
+            {
+              title: "理解Scope Chain",
+              link: "partials/understand_scope_chain.html",
+            }
+        ]
+        
+    },
+
+]
