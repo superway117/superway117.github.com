@@ -1,0 +1,63 @@
+{
+
+    "level": [
+        {
+            "title": "三等奖",
+            "num": 2,
+            "target": [
+                
+            ]
+        },
+        {
+            "title": "二等奖",
+            "num": 2,
+            "target": [
+                "superway",
+                "alex"
+            ]
+        },
+        {
+            "title": "一等奖",
+            "num": 1,
+            "target": [
+                "eason"
+            ]
+        }
+    ], 
+   
+    "people": [
+        {
+            "name": "eason",
+            "img": "img/1.jpg"
+        }, 
+        {
+            "name": "superway",
+            "img": "img/2.jpg"
+        }, 
+        {
+            "name": "alex",
+            "img": "img/3.jpg"
+        }, 
+        {
+            "name": "tt",
+            "img": "img/4.jpg"
+        }, 
+        {
+            "name": "rt",
+            "img": "img/5.jpg"
+        },
+        {
+            "name": "fg",
+            "img": "img/6.jpg"
+        },
+        {
+            "name": "sd",
+            "img": "img/7.jpg"
+        },
+        {
+            "name": "kk",
+            "img": "img/8.jpg"
+        }
+    ]
+    
+}

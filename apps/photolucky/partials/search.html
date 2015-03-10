@@ -1,0 +1,26 @@
+<div data-role="page" id="searchPage">
+
+	
+	  <div class="text-center">
+	  	<button type="button" class="btn btn-primary btn-lg" ng-if="stage<lucky.level.length" ng-show="!isPlaying" ng-click="playToggle()">
+	  		{{lucky.level[stage].title}} 第{{count}}次开始
+		</button>
+	
+	  </div>
+
+	</div>
+	
+	
+
+    <div id="searchGalleria">
+      
+    </div>
+<!--
+    <div class="panel panel-default"> 
+      <div class="panel-body">
+          <pre>length:{{data.length}}</pre>
+          <pre ng-bind="originData | json"></pre>
+      </div>
+  </div>  
+-->
+</div><!-- /.tagPage -->
