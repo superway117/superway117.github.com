@@ -123,11 +123,11 @@ function SearchCtrl($scope,$timeout,$http, $log) {
 
     var galleriaConfig = {
         width:getWidth(),//$(window).width(),
-        height:getHeight(),//$(window).height()-$("#searchPage").position().top-50,
+        height:getHeight()+100,//$(window).height()-$("#searchPage").position().top-50,
         dummy: 'img/1.jpg',
         //imageCrop: "height",
         
-        transition: 'fade',//fadeslide',//'fade',//flash',//'fade',
+        transition: 'fadeslide',//fadeslide',//'fade',//flash',//'fade',
         transitionSpeed: 10,
         //showInfo: false,
         //opacity: 0.7,
