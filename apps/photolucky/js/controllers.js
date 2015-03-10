@@ -22,9 +22,10 @@ function SearchCtrl($scope,$timeout,$http, $log) {
     $scope.stage = 0;
     $scope.count = 1;
     $scope.isPlaying = false;
-    var nextTarget = -1;
+  
     var nextTargets = [];
-    var nextNoTarget = [];
+    var secNextTargets = [];
+  
     var selected = -1;
     var done = false;
 
@@ -45,8 +46,7 @@ function SearchCtrl($scope,$timeout,$http, $log) {
 
     }
     var findTarget = function(){
-        nextTarget = -1;
-        nextNoTarget = [];
+        secNextTargets = [];
         nextTargets = [];
         console.log("findTarget $scope.stage="+$scope.stage);
         console.log("findTarget $scope.count="+$scope.count);
@@ -72,10 +72,7 @@ function SearchCtrl($scope,$timeout,$http, $log) {
 
                 angular.forEach(noTargetTmp,function(target){
                     if(target === p.name){
-                        //nextNoTarget.push(index);
                         console.log("remove :"+p.name+":"+index)
-                        //nextTargets.splice(index,1);
-                        //noTargetTmp1.push(index);
                         nextTargets = _.without(nextTargets, index);
                     }
 
@@ -88,7 +85,7 @@ function SearchCtrl($scope,$timeout,$http, $log) {
             angular.forEach($scope.people,function(p,index){
                 angular.forEach(targets,function(target){
                     if(target === p.name){
-                        nextTarget = index;
+                        
                         nextTargets.push(index);
                         console.log("stage:"+$scope.stage);
                         console.log("count:"+$scope.count);
@@ -100,10 +97,34 @@ function SearchCtrl($scope,$timeout,$http, $log) {
 
                
             });
+            if(nextTargets.length < $scope.lucky["level"][$scope.stage].num ){
+                var noTargetTmp = []
+                for(var i=0;i<$scope.people.length;i++){
+                    secNextTargets.push(i);
+                }
+                angular.forEach($scope.lucky["level"],function(level,index){
+                    if(level.target.length>0){
+                        console.log("level.target:"+level.target)
+                        noTargetTmp = noTargetTmp.concat(level.target)
+                    }
+                });
+                angular.forEach($scope.people,function(p,index){
+
+                    angular.forEach(noTargetTmp,function(target){
+                        if(target === p.name){
+                            console.log("remove :"+p.name+":"+index)
+                            secNextTargets = _.without(secNextTargets, index);
+                        }
+
+                    });
+               
+                });
+
+
+            }
         }
-        console.log("nextTarget:"+nextTarget);
-        //console.log("nextNoTarget:"+nextNoTarget);
         console.log("nextTargets:"+nextTargets);
+        console.log("secNextTargets:"+secNextTargets);
 
     }
     var removeLuckGuy = function(){
@@ -123,7 +144,7 @@ function SearchCtrl($scope,$timeout,$http, $log) {
 
     var galleriaConfig = {
         width:getWidth(),//$(window).width(),
-        height:getHeight()+100,//$(window).height()-$("#searchPage").position().top-50,
+        height:getHeight()+30,//$(window).height()-$("#searchPage").position().top-50,
         dummy: 'img/1.jpg',
         //imageCrop: "height",
         
@@ -139,9 +160,10 @@ function SearchCtrl($scope,$timeout,$http, $log) {
         //http://galleria.io/docs/options/pauseOnInteraction/
         //During playback, Galleria will stop the playback if the user presses thumbnails or any other navigational links. 
         //If you dont want this behaviour, set this option to false.
-        pauseOnInteraction: false
+        pauseOnInteraction: false,
         //autoplay: true,
         //showCounter:false
+        thumbnails: false
     }
 
 
@@ -159,13 +181,16 @@ function SearchCtrl($scope,$timeout,$http, $log) {
         if($scope.isPlaying){
             done = false;
             reloadData()
+            /*
             timeoutId = $timeout(function() {
                 timeoutId = null;
                 $scope.playToggle()
                             
             }, 10000);
+            */
      
             Galleria.get(0).setPlaytime(10);
+            //Galleria.get(0).resize();
             Galleria.get(0).playToggle();
             //Galleria.get(0).enterFullscreen();
         }
@@ -186,20 +211,34 @@ function SearchCtrl($scope,$timeout,$http, $log) {
                     else
                         $scope.count+=1;
      
-                    $scope.$apply();
-
-                   
+                    
 
                     Galleria.get(0).pause();
                     console.log("stage:"+$scope.stage);
                     console.log("count:"+$scope.count);
                     done = true;
+                    $scope.$apply();
                     return;
 
                 }
             }
-            var random = (Math.random()*nextTargets.length);
-            var nextOne = nextTargets[Math.floor(random)];
+            var nextOne = 0;
+            if(nextTargets.length === 1){
+                nextOne=nextTargets[0];
+            }
+            else if(nextTargets.length > 1){
+                var random = (Math.random()*nextTargets.length);
+                nextOne = nextTargets[Math.floor(random)];
+            }
+            else if(secNextTargets.length === 1){
+                nextOne=secNextTargets[0];
+            }
+            else if(secNextTargets.length > 1){
+                var random = (Math.random()*secNextTargets.length);
+                nextOne = secNextTargets[Math.floor(random)];
+            } 
+            
+            console.log("not find it on playtoggle, nextTargets:"+nextTargets);
             console.log("not find it on playtoggle, try a random one:"+nextOne);
   
             selected = nextOne;
@@ -260,6 +299,7 @@ function SearchCtrl($scope,$timeout,$http, $log) {
             Galleria.get(0).pause();
             console.log("stage:"+$scope.stage);
             console.log("count:"+$scope.count);
+            done = true;
             $scope.$apply();
 
 
