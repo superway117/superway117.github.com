@@ -5,33 +5,33 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://yoursite.com">
+  <link rel="dns-prefetch" href="http://superway117.github.io">
   <title>Python Thread Local | Eason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Problem如何实现: 保存线程自己的值或者状态,并且这个值对其他线程是不可见
 Solutionthread-local storage object 可以用来满足这个需求,thread-local只有当前的线程可见.
-Sample Code下面的code demo了怎么样使用 thread-local, 
-12345678910111213141516171819202122232425262">
+Sample Code下面的code demo了怎么样使用 thread-local
+1234567891011121314151617181920212223242526272">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python Thread Local">
-<meta property="og:url" content="http://yoursite.com/2016/12/07/py_thread_local/index.html">
+<meta property="og:url" content="http://superway117.github.io/2016/12/07/py_thread_local/index.html">
 <meta property="og:site_name" content="Eason's Blog">
 <meta property="og:description" content="Problem如何实现: 保存线程自己的值或者状态,并且这个值对其他线程是不可见
 Solutionthread-local storage object 可以用来满足这个需求,thread-local只有当前的线程可见.
-Sample Code下面的code demo了怎么样使用 thread-local, 
-12345678910111213141516171819202122232425262">
-<meta property="og:updated_time" content="2016-12-07T05:04:09.430Z">
+Sample Code下面的code demo了怎么样使用 thread-local
+1234567891011121314151617181920212223242526272">
+<meta property="og:updated_time" content="2016-12-07T16:40:32.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python Thread Local">
 <meta name="twitter:description" content="Problem如何实现: 保存线程自己的值或者状态,并且这个值对其他线程是不可见
 Solutionthread-local storage object 可以用来满足这个需求,thread-local只有当前的线程可见.
-Sample Code下面的code demo了怎么样使用 thread-local, 
-12345678910111213141516171819202122232425262">
+Sample Code下面的code demo了怎么样使用 thread-local
+1234567891011121314151617181920212223242526272">
   
     <link rel="alternative" href="/atom.xml" title="Eason&#39;s Blog" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
   
   <link rel="stylesheet" href="/main.css?v=4.0.0.css">
   
@@ -46,7 +46,7 @@ Sample Code下面的code demo了怎么样使用 thread-local,
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="null" class="js-avatar">
+			<img src="/images/header.png" class="js-avatar">
 		</a>
 
 		<hgroup>
@@ -60,7 +60,15 @@ Sample Code下面的code demo了怎么样使用 thread-local,
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/随笔">随笔</a></li>
+				<li><a href="/tags/python">Python</a></li>
+	        
+				<li><a href="/tags/angularjs">AngularJs</a></li>
+	        
+				<li><a href="/tags/nodejs">Nodejs</a></li>
+	        
+				<li><a href="/tags/ionic">Ionic</a></li>
+	        
+				<li><a href="/tags/量化">量化</a></li>
 	        
 			</ul>
 		</nav>
@@ -73,7 +81,7 @@ Sample Code下面的code demo了怎么样使用 thread-local,
     			
             
     			
-    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
+    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">Links</a>
     			
     			
             
@@ -86,13 +94,15 @@ Sample Code下面的code demo了怎么样使用 thread-local,
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
-		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="github" target="_blank" href="https://github.com/superway117" title="github"><i class="icon-github"></i></a>
 		        
 					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/eason.pan" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:superway117@163.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/wei-pan-bb6a5182" title="linkedin"><i class="icon-linkedin"></i></a>
 		        
 			</div>
 		</nav>
@@ -109,7 +119,7 @@ Sample Code下面的code demo了怎么样使用 thread-local,
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="null" class="js-avatar">
+				<img src="/images/header.png" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author">Eason Pan</h1>
@@ -120,7 +130,15 @@ Sample Code下面的code demo了怎么样使用 thread-local,
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/tags/随笔">随笔</a></li>
+					<li><a href="/tags/python">Python</a></li>
+		        
+					<li><a href="/tags/angularjs">AngularJs</a></li>
+		        
+					<li><a href="/tags/nodejs">Nodejs</a></li>
+		        
+					<li><a href="/tags/ionic">Ionic</a></li>
+		        
+					<li><a href="/tags/量化">量化</a></li>
 		        
 		        
 		        	<li><a href="/archives">所有文章</a></li>
@@ -130,13 +148,15 @@ Sample Code下面的code demo了怎么样使用 thread-local,
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
-			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="github" target="_blank" href="https://github.com/superway117" title="github"><i class="icon-github"></i></a>
 			        
 						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/eason.pan" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:superway117@163.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/wei-pan-bb6a5182" title="linkedin"><i class="icon-linkedin"></i></a>
 			        
 				</div>
 			</nav>
@@ -170,10 +190,10 @@ Sample Code下面的code demo了怎么样使用 thread-local,
       
         <h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>如何实现: 保存线程自己的值或者状态,并且这个值对其他线程是不可见</p>
 <h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p><code>thread-local storage object</code> 可以用来满足这个需求,<code>thread-local</code>只有当前的线程可见.</p>
-<h2 id="Sample-Code"><a href="#Sample-Code" class="headerlink" title="Sample Code"></a>Sample Code</h2><p>下面的code demo了怎么样使用 thread-local, </p>
+<h2 id="Sample-Code"><a href="#Sample-Code" class="headerlink" title="Sample Code"></a>Sample Code</h2><p>下面的code demo了怎么样使用 thread-local</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> socket, AF_INET, SOCK_STREAM</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LazyConnection</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, address, family=AF_INET, type=SOCK_STREAM)</span>:</span></div><div class="line">    self.address = address</div><div class="line">    self.family = AF_INET</div><div class="line">    self.type = SOCK_STREAM</div><div class="line">    self.local = threading.local()</div><div class="line">    <span class="keyword">print</span> <span class="string">"__init__"</span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"__enter__"</span></div><div class="line">    <span class="keyword">if</span> hasattr(self.local, <span class="string">'sock'</span>):</div><div class="line">      <span class="keyword">raise</span> RuntimeError(<span class="string">'Already connected'</span>)</div><div class="line">    self.local.sock = socket(self.family, self.type)</div><div class="line">    self.local.sock.connect(self.address)</div><div class="line">    <span class="keyword">return</span> self.local.sock</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_ty, exc_val, tb)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"__exit__"</span></div><div class="line">    self.local.sock.close()</div><div class="line">    <span class="keyword">del</span> self.local.sock</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(conn)</span>:</span></div><div class="line">  <span class="keyword">with</span> conn <span class="keyword">as</span> s:</div><div class="line">    s.send(<span class="string">b'GET /index.html HTTP/1.0\r\n'</span>)</div><div class="line">    s.send(<span class="string">b'Host: www.python.org\r\n'</span>)</div><div class="line"></div><div class="line">    s.send(<span class="string">b'\r\n'</span>)</div><div class="line">    resp = <span class="string">b''</span>.join(iter(partial(s.recv, <span class="number">8192</span>), <span class="string">b''</span>))</div><div class="line">    print(<span class="string">'Got &#123;&#125; bytes'</span>.format(len(resp)))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  conn = LazyConnection((<span class="string">'www.python.org'</span>, <span class="number">80</span>))</div><div class="line">  t1 = threading.Thread(target=test, args=(conn,))</div><div class="line">  t2 = threading.Thread(target=test, args=(conn,))</div><div class="line">  t1.start()</div><div class="line">  t2.start()</div><div class="line">  t1.join()</div><div class="line">  t2.join()</div></pre></td></tr></table></figure>
 <p>打印的结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">__init__</div><div class="line">__enter__</div><div class="line">__enter__</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">__init__</div><div class="line">__enter__</div><div class="line">__enter__</div><div class="line">Got 795 bytes</div><div class="line">__exit__</div><div class="line">Got 795 bytes</div><div class="line">__exit__</div></pre></td></tr></table></figure>
 <h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>打开python 2.7的源码,thread local 对应的源码在  </p>
 <blockquote>
 <p>Python-2.7.11\Lib_threading_local.py</p>
@@ -192,36 +212,15 @@ Sample Code下面的code demo了怎么样使用 thread-local,
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">_localbase</span><span class="params">(object)</span>:</span></div><div class="line">    __slots__ = <span class="string">'_local__key'</span>, <span class="string">'_local__args'</span>, <span class="string">'_local__lock'</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, *args, **kw)</span>:</span></div><div class="line">        self = object.__new__(cls)</div><div class="line">        key = <span class="string">'_local__key'</span>, <span class="string">'thread.local.'</span> + str(id(self))</div><div class="line">        object.__setattr__(self, <span class="string">'_local__key'</span>, key)</div><div class="line">        object.__setattr__(self, <span class="string">'_local__args'</span>, (args, kw))</div><div class="line">        object.__setattr__(self, <span class="string">'_local__lock'</span>, RLock())</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (args <span class="keyword">or</span> kw) <span class="keyword">and</span> (cls.__init__ <span class="keyword">is</span> object.__init__):</div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">"Initialization arguments are not supported"</span>)</div><div class="line"></div><div class="line">        <span class="comment"># We need to create the thread dict in anticipation of</span></div><div class="line">        <span class="comment"># __init__ being called, to make sure we don't call it</span></div><div class="line">        <span class="comment"># again ourselves.</span></div><div class="line">        dict = object.__getattribute__(self, <span class="string">'__dict__'</span>)</div><div class="line">        current_thread().__dict__[key] = dict</div><div class="line"></div><div class="line">        <span class="keyword">return</span> self</div></pre></td></tr></table></figure>
 <p>看下local get操作 ,进入之前acquire,finally 保证了释放</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span><span class="params">(self, name)</span>:</span></div><div class="line">  lock = object.__getattribute__(self, <span class="string">'_local__lock'</span>)</div><div class="line">  lock.acquire()</div><div class="line">  <span class="keyword">try</span>:</div><div class="line">      _patch(self)</div><div class="line">      <span class="keyword">return</span> object.__getattribute__(self, name)</div><div class="line">  <span class="keyword">finally</span>:</div><div class="line">      lock.release()</div></pre></td></tr></table></figure>
-<h3 id="slots"><a href="#slots" class="headerlink" title="slots"></a><strong>slots</strong></h3><p>_localbase 用 <strong>slots</strong> 来限制 local的 instance variables</p>
-<p><strong>slots</strong> 的解释: copy from <a href="https://www.python.org/download/releases/2.2.2/descrintro/" target="_blank" rel="external">python org</a></p>
+<h3 id="slots"><a href="#slots" class="headerlink" title="__slots__"></a>__slots__</h3><p>_localbase 用 __slots__ 来限制 local的 instance variables</p>
+<p>__slots__ 的解释: copy from <a href="https://www.python.org/download/releases/2.2.2/descrintro/" target="_blank" rel="external">python org</a></p>
 <blockquote>
-<p>The <strong>slots</strong> declaration takes a list of instance variables, and reserves space in the instance for exactly these in the instance. When <strong>slots</strong> is used, other instance variables cannot be assigned to</p>
+<p>The __slots__ declaration takes a list of instance variables, and reserves space in the instance for exactly these in the instance. When __slots__ is used, other instance variables cannot be assigned to</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">defaultdict2</span><span class="params">(dict)</span>:</span></div><div class="line"></div><div class="line">    __slots__ = [<span class="string">'default'</span>]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, default=None)</span>:</span></div><div class="line">    ...(like before)...</div></pre></td></tr></table></figure>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = defaultdict2(default=0.0)</div><div class="line">&gt;&gt;&gt; a[1]</div><div class="line">0.0</div><div class="line">&gt;&gt;&gt; a.default = -1</div><div class="line">&gt;&gt;&gt; a[1]</div><div class="line">-1</div><div class="line">&gt;&gt;&gt; a.x1 = 1</div><div class="line">Traceback (most recent call last):</div><div class="line">  File "&lt;stdin&gt;", line 1, in ?</div><div class="line">AttributeError: 'defaultdict2' object has no attribute 'x1'</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -282,7 +281,7 @@ Sample Code下面的code demo了怎么样使用 thread-local,
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2016/12/07/py_thread_local/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2016/12/07/py_thread_local/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -296,6 +295,15 @@ Sample Code下面的code demo了怎么样使用 thread-local,
   
 <nav id="article-nav">
   
+    <a href="/2016/12/09/python_package_import/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Python Package管理
+        
+      </div>
+    </a>
+  
   
     <a href="/2016/12/06/hexo_usage/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Hexo Usage</div>
@@ -307,6 +315,26 @@ Sample Code下面的code demo了怎么样使用 thread-local,
 
 
 
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python Thread Local" data-url="http://superway117.github.io/2016/12/07/py_thread_local/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"superway117"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
 
@@ -419,27 +447,19 @@ Sample Code下面的code demo了怎么样使用 thread-local,
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="http://zksq.info/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>赚客神器</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+              <a href="http://shouji.baidu.com/game/3907419.html/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>哈皮五子连珠</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+              <a href="https://github.com/superway117/libsensors-for-android-froyo/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>libsensors</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+              <a href="https://github.com/superway117/imagelib/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>imagelib</a>
             </li>
           
         </ul>
@@ -450,7 +470,7 @@ Sample Code下面的code demo了怎么样使用 thread-local,
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">程序员一枚</div>
   	  	
     	</section>
     
