@@ -6,14 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://superway117.github.io">
-  <title>Eason&#39;s Blog</title>
+  <title>Python partial | Eason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Eason's Blog">
-<meta property="og:url" content="http://superway117.github.io/index.html">
+  <meta name="description" content="什么是partialpartial 是functools里面的一个函数对象,虽然用起来就是一个函数.
+它是一个decorator function,也就是说用来decorator其他函数的.
+比如decorator add函数，它的第一个参数必须是一个函数,后面的参数,在真正执行add的时候，会带入到add里面,作为add的参数.
+123456789101112131415161718In [9]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python partial">
+<meta property="og:url" content="http://superway117.github.io/2016/12/12/py_partial/index.html">
 <meta property="og:site_name" content="Eason's Blog">
+<meta property="og:description" content="什么是partialpartial 是functools里面的一个函数对象,虽然用起来就是一个函数.
+它是一个decorator function,也就是说用来decorator其他函数的.
+比如decorator add函数，它的第一个参数必须是一个函数,后面的参数,在真正执行add的时候，会带入到add里面,作为add的参数.
+123456789101112131415161718In [9]">
+<meta property="og:updated_time" content="2016-12-12T16:37:50.009Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eason's Blog">
+<meta name="twitter:title" content="Python partial">
+<meta name="twitter:description" content="什么是partialpartial 是functools里面的一个函数对象,虽然用起来就是一个函数.
+它是一个decorator function,也就是说用来decorator其他函数的.
+比如decorator add函数，它的第一个参数必须是一个函数,后面的参数,在真正执行add的时候，会带入到add里面,作为add的参数.
+123456789101112131415161718In [9]">
   
     <link rel="alternative" href="/atom.xml" title="Eason&#39;s Blog" type="application/atom+xml">
   
@@ -157,16 +170,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-py_partial" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-py_partial" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/py_partial/">Python partial</a>
+    <h1 class="article-title" itemprop="name">
+      Python partial
     </h1>
   
 
@@ -253,249 +264,101 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/12/py_partial/">展开全文 >></a>
-        </p>
-      
 
       
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-python_package_import" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/python_package_import/">Python Package管理</a>
-    </h1>
-  
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
 
-        <a href="/2016/12/09/python_package_import/" class="archive-article-date">
-  	<time datetime="2016-12-09T04:49:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-09</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="init-py"><a href="#init-py" class="headerlink" title="init.py"></a><strong>init</strong>.py</h2><p>module(包括sub module)目录下面, 在py2.7上面,这个文件是需要的;在3.x上面,这个文件已经不是必须的.</p>
-<p><code>__init__</code>是会被在module(submodule)加载之前加载 .</p>
-<p><code>__init__</code>可以用来实现下面的功能:</p>
-<ol>
-<li><p>帮用户加载需要的submodule或者符号 </p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># graphics/formats/__init__.py</span></div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> jpg</div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> png</div></pre></td></tr></table></figure>
-<p>这样的话用户只需要下面的语句,就可以得到需要的符号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import graphics.formats</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="如何控制-export-symbol"><a href="#如何控制-export-symbol" class="headerlink" title="如何控制 export symbol"></a>如何控制 export symbol</h2><h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><p>下面的语句会导致把<code>module</code>里面的所有符号都导出. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> module <span class="keyword">import</span> *</div></pre></td></tr></table></figure>
-<p>这样的做法是不受鼓励的,但是事实上为了方便,我们经常这么干.</p>
-<p>从性能或者从安全的角度出发,很多时候我们要控制export的符号</p>
-<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p><code>__all__</code> 可以帮你控制输出的符号</p>
-<p>demo<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># somemodule.py</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">pass</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">grok</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">pass</span></div><div class="line"></div><div class="line">blah = <span class="number">42</span></div><div class="line"><span class="comment"># Only export 'spam' and 'grok'</span></div><div class="line">__all__ = [<span class="string">'spam'</span>, <span class="string">'grok'</span>]</div></pre></td></tr></table></figure></p>
-<ul>
-<li>如果你定义了<code>__all__</code>为一个空数组,那么nothing will be exported.</li>
-<li>AttributeError is raised on import if <strong>all</strong> contains undefined names.</li>
-</ul>
-<h2 id="Namespace-Packages"><a href="#Namespace-Packages" class="headerlink" title="Namespace Packages"></a>Namespace Packages</h2><p>“namespace package” Essentially, a namespace package is a special kind of package designed for merging different directories of code together under a common namespace</p>
-<p>links</p>
-<ul>
-<li><a href="https://www.python.org/dev/peps/pep-0420/" target="_blank" rel="external">Implicit Namespace Packages</a></li>
-</ul>
-
-      
-
-      
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2016/12/12/py_partial/" alt="微信分享二维码">
     </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
+</div>
 
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/09/python_package_import/">展开全文 >></a>
-        </p>
-      
-
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
 
-
-
-
-
-
-
-
   
-    <article id="post-py_thread_local" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/07/py_thread_local/">Python Thread Local</a>
-    </h1>
-  
-
-        <a href="/2016/12/07/py_thread_local/" class="archive-article-date">
-  	<time datetime="2016-12-06T16:54:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-07</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>如何实现: 保存线程自己的值或者状态,并且这个值对其他线程是不可见</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p><code>thread-local storage object</code> 可以用来满足这个需求,<code>thread-local</code>只有当前的线程可见.</p>
-<h2 id="Sample-Code"><a href="#Sample-Code" class="headerlink" title="Sample Code"></a>Sample Code</h2><p>下面的code demo了怎么样使用 thread-local</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> socket, AF_INET, SOCK_STREAM</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LazyConnection</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, address, family=AF_INET, type=SOCK_STREAM)</span>:</span></div><div class="line">    self.address = address</div><div class="line">    self.family = AF_INET</div><div class="line">    self.type = SOCK_STREAM</div><div class="line">    self.local = threading.local()</div><div class="line">    <span class="keyword">print</span> <span class="string">"__init__"</span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"__enter__"</span></div><div class="line">    <span class="keyword">if</span> hasattr(self.local, <span class="string">'sock'</span>):</div><div class="line">      <span class="keyword">raise</span> RuntimeError(<span class="string">'Already connected'</span>)</div><div class="line">    self.local.sock = socket(self.family, self.type)</div><div class="line">    self.local.sock.connect(self.address)</div><div class="line">    <span class="keyword">return</span> self.local.sock</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_ty, exc_val, tb)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"__exit__"</span></div><div class="line">    self.local.sock.close()</div><div class="line">    <span class="keyword">del</span> self.local.sock</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(conn)</span>:</span></div><div class="line">  <span class="keyword">with</span> conn <span class="keyword">as</span> s:</div><div class="line">    s.send(<span class="string">b'GET /index.html HTTP/1.0\r\n'</span>)</div><div class="line">    s.send(<span class="string">b'Host: www.python.org\r\n'</span>)</div><div class="line"></div><div class="line">    s.send(<span class="string">b'\r\n'</span>)</div><div class="line">    resp = <span class="string">b''</span>.join(iter(partial(s.recv, <span class="number">8192</span>), <span class="string">b''</span>))</div><div class="line">    print(<span class="string">'Got &#123;&#125; bytes'</span>.format(len(resp)))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  conn = LazyConnection((<span class="string">'www.python.org'</span>, <span class="number">80</span>))</div><div class="line">  t1 = threading.Thread(target=test, args=(conn,))</div><div class="line">  t2 = threading.Thread(target=test, args=(conn,))</div><div class="line">  t1.start()</div><div class="line">  t2.start()</div><div class="line">  t1.join()</div><div class="line">  t2.join()</div></pre></td></tr></table></figure>
-<p>打印的结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">__init__</div><div class="line">__enter__</div><div class="line">__enter__</div><div class="line">Got 795 bytes</div><div class="line">__exit__</div><div class="line">Got 795 bytes</div><div class="line">__exit__</div></pre></td></tr></table></figure>
-<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>打开python 2.7的源码,thread local 对应的源码在  </p>
-<blockquote>
-<p>Python-2.7.11\Lib\_threading_local.py</p>
-</blockquote>
-<p>thread local 就是下面的继承关系</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object &gt; _localbase &gt; local</div></pre></td></tr></table></figure>
-<h3 id="如何实现线程独立拥有自己的local"><a href="#如何实现线程独立拥有自己的local" class="headerlink" title="如何实现线程独立拥有自己的local"></a>如何实现线程独立拥有自己的local</h3><p>仔细看上面的code, LazyConnection 只实例化了一次,也就是说<code>__init__</code>只调用了一次,所以<code>conn</code>对各个线程来说是共享的,为什么下面的 socket 赋值可以做到各个线程拥有独立的sock对象?</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self.local.sock = socket(self.family, self.type)</div></pre></td></tr></table></figure>
-<p>虽然new 一个 local 实例, 这个实例对于所有线程是共享的,但是真正执行set/get操作的实现在 _patch,这个函数是关键.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_patch</span><span class="params">(self)</span>:</span></div><div class="line">    key = object.__getattribute__(self, <span class="string">'_local__key'</span>)</div><div class="line">    d = current_thread().__dict__.get(key)</div><div class="line">    <span class="keyword">if</span> d <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        d = &#123;&#125;</div><div class="line">        current_thread().__dict__[key] = d</div><div class="line">        object.__setattr__(self, <span class="string">'__dict__'</span>, d)</div><div class="line"></div><div class="line">        <span class="comment"># we have a new instance dict, so call out __init__ if we have</span></div><div class="line">        <span class="comment"># one</span></div><div class="line">        cls = type(self)</div><div class="line">        <span class="keyword">if</span> cls.__init__ <span class="keyword">is</span> <span class="keyword">not</span> object.__init__:</div><div class="line">            args, kw = object.__getattribute__(self, <span class="string">'_local__args'</span>)</div><div class="line">            cls.__init__(self, *args, **kw)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        object.__setattr__(self, <span class="string">'__dict__'</span>, d)</div></pre></td></tr></table></figure>
-<p>先看 if d is not None 的case</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object.__setattr__(self, <span class="string">'__dict__'</span>, d)</div></pre></td></tr></table></figure>
-<p>也就是说 每次set/get的时候，上面这句话改变了 <code>__dict__</code>,他把 <code>current_thread().__dict__.get(key)</code> 赋值给了<code>__dict__</code>, 而对object的set/get 操作，实际也就是对 <code>__dict__</code>的操作.</p>
-<h3 id="如何实现lock"><a href="#如何实现lock" class="headerlink" title="如何实现lock"></a>如何实现lock</h3><p>因为每次都要改变local.<strong>dict</strong>,必然存在一个问题,就是要锁操作.</p>
-<p>下面的代码会构造一个RLock 给 local, 注意,这个rlock是给local的,也就是说所有线程都是用这个rlock来执行锁操作的.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">_localbase</span><span class="params">(object)</span>:</span></div><div class="line">    __slots__ = <span class="string">'_local__key'</span>, <span class="string">'_local__args'</span>, <span class="string">'_local__lock'</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, *args, **kw)</span>:</span></div><div class="line">        self = object.__new__(cls)</div><div class="line">        key = <span class="string">'_local__key'</span>, <span class="string">'thread.local.'</span> + str(id(self))</div><div class="line">        object.__setattr__(self, <span class="string">'_local__key'</span>, key)</div><div class="line">        object.__setattr__(self, <span class="string">'_local__args'</span>, (args, kw))</div><div class="line">        object.__setattr__(self, <span class="string">'_local__lock'</span>, RLock())</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (args <span class="keyword">or</span> kw) <span class="keyword">and</span> (cls.__init__ <span class="keyword">is</span> object.__init__):</div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">"Initialization arguments are not supported"</span>)</div><div class="line"></div><div class="line">        <span class="comment"># We need to create the thread dict in anticipation of</span></div><div class="line">        <span class="comment"># __init__ being called, to make sure we don't call it</span></div><div class="line">        <span class="comment"># again ourselves.</span></div><div class="line">        dict = object.__getattribute__(self, <span class="string">'__dict__'</span>)</div><div class="line">        current_thread().__dict__[key] = dict</div><div class="line"></div><div class="line">        <span class="keyword">return</span> self</div></pre></td></tr></table></figure>
-<p>看下local get操作 ,进入之前acquire,finally 保证了释放</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span><span class="params">(self, name)</span>:</span></div><div class="line">  lock = object.__getattribute__(self, <span class="string">'_local__lock'</span>)</div><div class="line">  lock.acquire()</div><div class="line">  <span class="keyword">try</span>:</div><div class="line">      _patch(self)</div><div class="line">      <span class="keyword">return</span> object.__getattribute__(self, name)</div><div class="line">  <span class="keyword">finally</span>:</div><div class="line">      lock.release()</div></pre></td></tr></table></figure>
-<h3 id="slots"><a href="#slots" class="headerlink" title="__slots__"></a>__slots__</h3><p>_localbase 用 __slots__ 来限制 local的 instance variables</p>
-<p>__slots__ 的解释: copy from <a href="https://www.python.org/download/releases/2.2.2/descrintro/" target="_blank" rel="external">python org</a></p>
-<blockquote>
-<p>The __slots__ declaration takes a list of instance variables, and reserves space in the instance for exactly these in the instance. When __slots__ is used, other instance variables cannot be assigned to</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">defaultdict2</span><span class="params">(dict)</span>:</span></div><div class="line"></div><div class="line">    __slots__ = [<span class="string">'default'</span>]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, default=None)</span>:</span></div><div class="line">    ...(like before)...</div></pre></td></tr></table></figure>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = defaultdict2(default=0.0)</div><div class="line">&gt;&gt;&gt; a[1]</div><div class="line">0.0</div><div class="line">&gt;&gt;&gt; a.default = -1</div><div class="line">&gt;&gt;&gt; a[1]</div><div class="line">-1</div><div class="line">&gt;&gt;&gt; a.x1 = 1</div><div class="line">Traceback (most recent call last):</div><div class="line">  File "&lt;stdin&gt;", line 1, in ?</div><div class="line">AttributeError: 'defaultdict2' object has no attribute 'x1'</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/07/py_thread_local/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-hexo_usage" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/06/hexo_usage/">Hexo Usage</a>
-    </h1>
-  
-
-        <a href="/2016/12/06/hexo_usage/" class="archive-article-date">
-  	<time datetime="2016-12-06T00:54:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-06</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/06/hexo_usage/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
+<nav id="article-nav">
   
   
+    <a href="/2016/12/09/python_package_import/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python Package管理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python partial" data-url="http://superway117.github.io/2016/12/12/py_partial/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"superway117"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 
           </div>
@@ -517,8 +380,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

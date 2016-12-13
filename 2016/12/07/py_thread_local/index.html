@@ -20,7 +20,7 @@ Sample Code下面的code demo了怎么样使用 thread-local
 Solutionthread-local storage object 可以用来满足这个需求,thread-local只有当前的线程可见.
 Sample Code下面的code demo了怎么样使用 thread-local
 1234567891011121314151617181920212223242526272">
-<meta property="og:updated_time" content="2016-12-07T16:40:32.708Z">
+<meta property="og:updated_time" content="2016-12-12T15:52:48.063Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python Thread Local">
 <meta name="twitter:description" content="Problem如何实现: 保存线程自己的值或者状态,并且这个值对其他线程是不可见
@@ -196,7 +196,7 @@ Sample Code下面的code demo了怎么样使用 thread-local
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">__init__</div><div class="line">__enter__</div><div class="line">__enter__</div><div class="line">Got 795 bytes</div><div class="line">__exit__</div><div class="line">Got 795 bytes</div><div class="line">__exit__</div></pre></td></tr></table></figure>
 <h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>打开python 2.7的源码,thread local 对应的源码在  </p>
 <blockquote>
-<p>Python-2.7.11\Lib_threading_local.py</p>
+<p>Python-2.7.11\Lib\_threading_local.py</p>
 </blockquote>
 <p>thread local 就是下面的继承关系</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object &gt; _localbase &gt; local</div></pre></td></tr></table></figure>
