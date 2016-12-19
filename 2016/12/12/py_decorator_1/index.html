@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://superway117.github.io">
+  <title>Python Decorator - 理解partial | Eason&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="主要topic是partial的源码实现
+什么是partialpartial 是functools里面的一个函数对象,虽然用起来就是一个函数.
+它是一个decorator function,也就是说用来decorator其他函数的.
+比如decorator add函数，它的第一个参数必须是一个函数,后面的参数,在真正执行add的时候，会带入到add里面,作为add的参数.
+123456789101">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Decorator - 理解partial">
+<meta property="og:url" content="http://superway117.github.io/2016/12/12/py_decorator_1/index.html">
+<meta property="og:site_name" content="Eason's Blog">
+<meta property="og:description" content="主要topic是partial的源码实现
+什么是partialpartial 是functools里面的一个函数对象,虽然用起来就是一个函数.
+它是一个decorator function,也就是说用来decorator其他函数的.
+比如decorator add函数，它的第一个参数必须是一个函数,后面的参数,在真正执行add的时候，会带入到add里面,作为add的参数.
+123456789101">
+<meta property="og:updated_time" content="2016-12-16T02:49:00.078Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python Decorator - 理解partial">
+<meta name="twitter:description" content="主要topic是partial的源码实现
+什么是partialpartial 是functools里面的一个函数对象,虽然用起来就是一个函数.
+它是一个decorator function,也就是说用来decorator其他函数的.
+比如decorator add函数，它的第一个参数必须是一个函数,后面的参数,在真正执行add的时候，会带入到add里面,作为add的参数.
+123456789101">
+  
+    <link rel="alternative" href="/atom.xml" title="Eason&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css?v=4.0.0.css">
+  
+
+  
+<!-- baidu_tongji -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d7c08ca1f1b9ed5c740dee2eb2ec85f6";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!-- End baidu_tongji -->
+
+
+</head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/images/header.png" class="js-avatar">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Eason Pan</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/python">Python</a></li>
+	        
+				<li><a href="/tags/angularjs">AngularJs</a></li>
+	        
+				<li><a href="/tags/nodejs">Nodejs</a></li>
+	        
+				<li><a href="/tags/ionic">Ionic</a></li>
+	        
+				<li><a href="/tags/ARM">ARM</a></li>
+	        
+				<li><a href="/tags/量化">量化</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a data-idx="0" q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">Links</a>
+    			
+    			
+            
+    			
+    			<a data-idx="2" q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/superway117" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/eason.pan" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:superway117@163.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/wei-pan-bb6a5182" title="linkedin"><i class="icon-linkedin"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-sort"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Eason Pan</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/images/header.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Eason Pan</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/python">Python</a></li>
+		        
+					<li><a href="/tags/angularjs">AngularJs</a></li>
+		        
+					<li><a href="/tags/nodejs">Nodejs</a></li>
+		        
+					<li><a href="/tags/ionic">Ionic</a></li>
+		        
+					<li><a href="/tags/ARM">ARM</a></li>
+		        
+					<li><a href="/tags/量化">量化</a></li>
+		        
+		        
+		        	<li><a href="/archives">所有文章</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/superway117" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/eason.pan" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:superway117@163.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/wei-pan-bb6a5182" title="linkedin"><i class="icon-linkedin"></i></a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-py_decorator_1" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python Decorator - 理解partial
+    </h1>
+  
+
+        <a href="/2016/12/12/py_decorator_1/" class="archive-article-date">
+  	<time datetime="2016-12-12T15:42:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-12</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>主要topic是partial的源码实现</p>
+<h2 id="什么是partial"><a href="#什么是partial" class="headerlink" title="什么是partial"></a>什么是partial</h2><p><code>partial</code> 是<code>functools</code>里面的一个函数对象,虽然用起来就是一个函数.</p>
+<p>它是一个<code>decorator function</code>,也就是说用来decorator其他函数的.</p>
+<p>比如decorator add函数，它的第一个参数必须是一个函数,后面的参数,在真正执行add的时候，会带入到add里面,作为add的参数.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">9</span>]: <span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line">In [<span class="number">10</span>]: <span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a,b)</span>:</span></div><div class="line">....: <span class="keyword">return</span> a+b</div><div class="line">....:</div><div class="line"></div><div class="line">In [<span class="number">11</span>]: add(<span class="number">4</span>,<span class="number">3</span>)</div><div class="line">Out[<span class="number">11</span>]: <span class="number">7</span></div><div class="line"></div><div class="line">In [<span class="number">12</span>]: plus = partial(add,<span class="number">100</span>)</div><div class="line"></div><div class="line">In [<span class="number">13</span>]: plus(<span class="number">9</span>)</div><div class="line">Out[<span class="number">13</span>]: <span class="number">109</span></div><div class="line"></div><div class="line">In [<span class="number">14</span>]: plus2 = partial(add,<span class="number">99</span>)</div><div class="line"></div><div class="line">In [<span class="number">15</span>]: plus2(<span class="number">9</span>)</div><div class="line">Out[<span class="number">15</span>]: <span class="number">108</span></div></pre></td></tr></table></figure>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>打开python 2.7的源码,partial是用C语言实现的,对应的源码在  </p>
+<blockquote>
+<p>Python-2.7.11\Modules\_functoolsmodule.c</p>
+</blockquote>
+<p>主要3个函数：</p>
+<ul>
+<li>partial_new: 执行plus = partial(add,100),会创建一个partialobject对象</li>
+<li>partial_dealloc: 释放partialobject对象</li>
+<li>partial_call: 执行plus(9),会调用到这个函数</li>
+<li>partial_setstate: 这个用来替换前面传入的add,以及参数, 一般情况很少用</li>
+</ul>
+<p>下面的这些函数,一般情况是用不上.</p>
+<ul>
+<li>partial_traverse</li>
+<li>partial_get_dict</li>
+<li>partial_set_dict</li>
+</ul>
+<h3 id="partial-new"><a href="#partial-new" class="headerlink" title="partial_new"></a>partial_new</h3><ul>
+<li>创建partialobject对象</li>
+<li><p>args是一个<code>PyTuple</code>,第一个参数必须是一个<code>PyCallable</code>，简单的说就是一个函数对象</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">func = PyTuple_GET_ITEM(args, <span class="number">0</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>args其他的参数会保存为 <code>pto-&gt;args</code></p>
+  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pto-&gt;args = PyTuple_GetSlice(args, 1, PY_SSIZE_T_MAX);</div></pre></td></tr></table></figure>
+</li>
+<li><p>kw如果存在会被<code>复制</code>一份</p>
+  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pto-&gt;kw = (kw != NULL) ? PyDict_Copy(kw) : PyDict_New();</div></pre></td></tr></table></figure>
+</li>
+<li><p>dict默认是null, 后面可以通过<code>partial_set_dict</code>来设置</p>
+  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pto-&gt;dict = NULL;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>source code<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">static PyObject *</div><div class="line">partial_new(PyTypeObject *type, PyObject *args, PyObject *kw)</div><div class="line">&#123;</div><div class="line">    PyObject *func;</div><div class="line">    partialobject *pto;</div><div class="line"></div><div class="line">    if (PyTuple_GET_SIZE(args) &lt; 1) &#123;</div><div class="line">        PyErr_SetString(PyExc_TypeError,</div><div class="line">                        "type 'partial' takes at least one argument");</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    func = PyTuple_GET_ITEM(args, 0);</div><div class="line">    if (!PyCallable_Check(func)) &#123;</div><div class="line">        PyErr_SetString(PyExc_TypeError,</div><div class="line">                        "the first argument must be callable");</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /* create partialobject structure */</div><div class="line">    pto = (partialobject *)type-&gt;tp_alloc(type, 0);</div><div class="line">    if (pto == NULL)</div><div class="line">        return NULL;</div><div class="line"></div><div class="line">    pto-&gt;fn = func;</div><div class="line">    Py_INCREF(func);</div><div class="line">    pto-&gt;args = PyTuple_GetSlice(args, 1, PY_SSIZE_T_MAX);</div><div class="line">    if (pto-&gt;args == NULL) &#123;</div><div class="line">        pto-&gt;kw = NULL;</div><div class="line">        Py_DECREF(pto);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    pto-&gt;kw = (kw != NULL) ? PyDict_Copy(kw) : PyDict_New();</div><div class="line">    if (pto-&gt;kw == NULL) &#123;</div><div class="line">        Py_DECREF(pto);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    pto-&gt;weakreflist = NULL;</div><div class="line">    pto-&gt;dict = NULL;</div><div class="line"></div><div class="line">    return (PyObject *)pto;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="partial-dealloc"><a href="#partial-dealloc" class="headerlink" title="partial_dealloc"></a>partial_dealloc</h3><p>new创建的所有对象的引用计数全部dec一下</p>
+<h3 id="partial-call"><a href="#partial-call" class="headerlink" title="partial_call"></a>partial_call</h3><ul>
+<li>执行plus(9),会调用到这个函数</li>
+<li><p>args会做一次合并,如果都不为空的话</p>
+  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">argappl = PySequence_Concat(pto-&gt;args, args);</div></pre></td></tr></table></figure>
+</li>
+<li><p>kw会做一次合并,如果都不为空的话</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (PyDict_Merge(kwappl, kw, <span class="number">1</span>) != <span class="number">0</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基本上看到这里,大概能理解<code>partial</code>的作用了.</p>
+<p>source code<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">static PyObject *</div><div class="line">partial_call(partialobject *pto, PyObject *args, PyObject *kw)</div><div class="line">&#123;</div><div class="line">    PyObject *ret;</div><div class="line">    PyObject *argappl = NULL, *kwappl = NULL;</div><div class="line"></div><div class="line">    assert (PyCallable_Check(pto-&gt;fn));</div><div class="line">    assert (PyTuple_Check(pto-&gt;args));</div><div class="line">    assert (pto-&gt;kw == Py_None  ||  PyDict_Check(pto-&gt;kw));</div><div class="line"></div><div class="line">    if (PyTuple_GET_SIZE(pto-&gt;args) == 0) &#123;</div><div class="line">        argappl = args;</div><div class="line">        Py_INCREF(args);</div><div class="line">    &#125; else if (PyTuple_GET_SIZE(args) == 0) &#123;</div><div class="line">        argappl = pto-&gt;args;</div><div class="line">        Py_INCREF(pto-&gt;args);</div><div class="line">    &#125; else &#123;</div><div class="line">        argappl = PySequence_Concat(pto-&gt;args, args);</div><div class="line">        if (argappl == NULL)</div><div class="line">            return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (pto-&gt;kw == Py_None) &#123;</div><div class="line">        kwappl = kw;</div><div class="line">        Py_XINCREF(kw);</div><div class="line">    &#125; else &#123;</div><div class="line">        kwappl = PyDict_Copy(pto-&gt;kw);</div><div class="line">        if (kwappl == NULL) &#123;</div><div class="line">            Py_DECREF(argappl);</div><div class="line">            return NULL;</div><div class="line">        &#125;</div><div class="line">        if (kw != NULL) &#123;</div><div class="line">            if (PyDict_Merge(kwappl, kw, 1) != 0) &#123;</div><div class="line">                Py_DECREF(argappl);</div><div class="line">                Py_DECREF(kwappl);</div><div class="line">                return NULL;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ret = PyObject_Call(pto-&gt;fn, argappl, kwappl);</div><div class="line">    Py_DECREF(argappl);</div><div class="line">    Py_XDECREF(kwappl);</div><div class="line">    return ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="partial的帮手"><a href="#partial的帮手" class="headerlink" title="partial的帮手"></a>partial的帮手</h2><p>从source code里面copy出来的注释:</p>
+<blockquote>
+<p>update_wrapper() and wraps() are tools to help write wrapper functions that can handle naive introspection</p>
+</blockquote>
+<p>简单的说,decorator function会导致被 decorator的函数,原有的<strong>module</strong>,<strong>name</strong>,<strong>doc</strong>丢失. update_wrapper() and wraps()就是为了解决这个问题存在的. 所以一般来说,还是多用<code>wraps</code>比较好,他会保留原函数的信息.</p>
+<p>但是<code>wraps</code>有一个限制，用了这个函数，第一个参数是函数对象, 后面没机会他给传其他参数了.也就是说，只能传被wrapper的函数,后面调用的时候自己传了. <code>partial</code>就没用这个限制.</p>
+<h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><p>下面是一个例子,用wraps来实现怎么打印一个函数的时间消耗.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">timethis</span><span class="params">(func)</span>:</span></div><div class="line">  <span class="string">'''</span></div><div class="line">  Decorator that reports the execution time.</div><div class="line">  '''</div><div class="line"><span class="meta">  @wraps(func)</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    start = time.time()</div><div class="line">    result = func(*args, **kwargs)</div><div class="line">    end = time.time()</div><div class="line">    print(func.__name__, end-start)</div><div class="line">    <span class="keyword">return</span> result</div><div class="line">  <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
+<p>Here is an example of using the decorator:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>@timethis</div><div class="line"><span class="meta">... </span><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></div><div class="line"><span class="meta">... </span><span class="string">'''</span></div><div class="line"><span class="meta">... </span>Counts down</div><div class="line"><span class="meta">... </span>'''</div><div class="line"><span class="meta">... </span><span class="keyword">while</span> n &gt; <span class="number">0</span>:</div><div class="line"><span class="meta">... </span>n -= <span class="number">1</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>countdown(<span class="number">100000</span>)</div><div class="line">countdown <span class="number">0.008917808532714844</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>countdown(<span class="number">10000000</span>)</div><div class="line">countdown <span class="number">0.87188299392912</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<p>前面提到wraps,只能</p>
+<h3 id="源码分析-1"><a href="#源码分析-1" class="headerlink" title="源码分析"></a>源码分析</h3><p>代码行比较少,就是给新函数重新赋值原函数的信息.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">WRAPPER_ASSIGNMENTS = (<span class="string">'__module__'</span>, <span class="string">'__name__'</span>, <span class="string">'__doc__'</span>)</div><div class="line">WRAPPER_UPDATES = (<span class="string">'__dict__'</span>,)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_wrapper</span><span class="params">(wrapper,</span></span></div><div class="line">                   wrapped,</div><div class="line">                   assigned = WRAPPER_ASSIGNMENTS,</div><div class="line">                   updated = WRAPPER_UPDATES):</div><div class="line">    <span class="string">"""Update a wrapper function to look like the wrapped function</span></div><div class="line"></div><div class="line">       wrapper is the function to be updated</div><div class="line">       wrapped is the original function</div><div class="line">       assigned is a tuple naming the attributes assigned directly</div><div class="line">       from the wrapped function to the wrapper function (defaults to</div><div class="line">       functools.WRAPPER_ASSIGNMENTS)</div><div class="line">       updated is a tuple naming the attributes of the wrapper that</div><div class="line">       are updated with the corresponding attribute from the wrapped</div><div class="line">       function (defaults to functools.WRAPPER_UPDATES)</div><div class="line">    """</div><div class="line">    <span class="keyword">for</span> attr <span class="keyword">in</span> assigned:</div><div class="line">        setattr(wrapper, attr, getattr(wrapped, attr))</div><div class="line">    <span class="keyword">for</span> attr <span class="keyword">in</span> updated:</div><div class="line">        getattr(wrapper, attr).update(getattr(wrapped, attr, &#123;&#125;))</div><div class="line">    <span class="comment"># Return the wrapper so this can be used as a decorator via partial()</span></div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">wraps</span><span class="params">(wrapped,</span></span></div><div class="line">          assigned = WRAPPER_ASSIGNMENTS,</div><div class="line">          updated = WRAPPER_UPDATES):</div><div class="line">    <span class="string">"""Decorator factory to apply update_wrapper() to a wrapper function</span></div><div class="line"></div><div class="line">       Returns a decorator that invokes update_wrapper() with the decorated</div><div class="line">       function as the wrapper argument and the arguments to wraps() as the</div><div class="line">       remaining arguments. Default arguments are as for update_wrapper().</div><div class="line">       This is a convenience function to simplify applying partial() to</div><div class="line">       update_wrapper().</div><div class="line">    """</div><div class="line">    <span class="keyword">return</span> partial(update_wrapper, wrapped=wrapped,</div><div class="line">                   assigned=assigned, updated=updated)</div></pre></td></tr></table></figure>
+<h3 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h3><p>copy from python cookbook</p>
+<blockquote>
+<p>Last, but not least, be aware that not all decorators utilize @wraps, and thus, they may not work as described. In particular, the built-in decorators @staticmethod and @class method create descriptor objects that don’t follow this convention (instead, they store the original function in a <strong>func</strong> attribute). Your mileage may vary.</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2016/12/12/py_decorator_1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/py_decorator_2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Python Decorator - 理解调用过程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/09/py_package_import/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python Package管理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python Decorator - 理解partial" data-url="http://superway117.github.io/2016/12/12/py_decorator_1/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"superway117"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Eason Pan
+    	</div>
+      	<div class="footer-right">
+      		
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js?v=4.0.0.js"></script>
+
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
+            缺失模块。<br/>1、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            2、在根目录_config.yml里添加配置：
+<pre style="font-size: 12px;" q-show="jsonFail">
+  jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: true
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
+</pre>
+          </p>
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends" q-show="friends">
+  		
+        <ul class="search-ul">
+          
+            <li class="search-li">
+              <a href="http://zksq.info/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>赚客神器</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://shouji.baidu.com/game/3907419.html/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>哈皮五子连珠</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://github.com/superway117/libsensors-for-android-froyo/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>libsensors</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://github.com/superway117/imagelib/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>imagelib</a>
+            </li>
+          
+        </ul>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">程序员一枚</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
