@@ -254,6 +254,68 @@ var _hmt = _hmt || [];
 
 
   
+    <article id="post-py_stringobject" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/20/py_stringobject/">Python PyStringObject</a>
+    </h1>
+  
+
+        <a href="/2016/12/20/py_stringobject/" class="archive-article-date">
+  	<time datetime="2016-12-19T16:09:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>PyStringObject</code>属于变长size的object</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_VAR_HEAD</div><div class="line">    <span class="keyword">long</span> ob_shash;</div><div class="line">    <span class="keyword">int</span> ob_sstate;</div><div class="line">    <span class="keyword">char</span> ob_sval[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="comment">/* Invariants:</span></div><div class="line">     *     ob_sval contains space for 'ob_size+1' elements.</div><div class="line">     *     ob_sval[ob_size] == 0.</div><div class="line">     *     ob_shash is the hash of the string or -1 if not computed yet.</div><div class="line">     *     ob_sstate != 0 iff the string object is in stringobject.c's</div><div class="line">     *       'interned' dictionary; in this case the two references</div><div class="line">     *       from 'interned' to this object are *not counted* in ob_refcnt.</div><div class="line">     */</div><div class="line">&#125; PyStringObject;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PyObject_VAR_HEAD               \</span></div><div class="line">    PyObject_HEAD                       \</div><div class="line">    Py_ssize_t ob_size; <span class="comment">/* Number of items in variable part */</span></div></pre></td></tr></table></figure>
+<p>ob_size存的是字符串的size,strlen(str),不包含结束符</p>
+<h2 id="针对size-0-or-1的字符串内存优化"><a href="#针对size-0-or-1的字符串内存优化" class="headerlink" title="针对size=0 or 1的字符串内存优化"></a>针对size=0 or 1的字符串内存优化</h2><p>看<code>PyString_FromStringAndSize</code>的实现</p>
+<ol>
+<li>如果size==0, 返回<code>null_strings</code>,引用计数+1</li>
+<li>如果size==1，如果characters数组里面已经存在,直接返回,引用计数+1;如果characters数组里面不存在,创建一个，并保存在characters数组</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="function">PyObject *</span></div><div class="line"><span class="title">PyString_FromStringAndSize</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *str, Py_ssize_t size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">register</span> PyStringObject *op;</div><div class="line">    <span class="keyword">if</span> (size &lt; <span class="number">0</span>) &#123;</div><div class="line">        PyErr_SetString(PyExc_SystemError,</div><div class="line">            <span class="string">"Negative size passed to PyString_FromStringAndSize"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span> &amp;&amp; (op = nullstring) != <span class="literal">NULL</span>) &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        null_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span> &amp;&amp;</div><div class="line">        (op = characters[*str &amp; UCHAR_MAX]) != <span class="literal">NULL</span>)</div><div class="line">    &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        one_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (size &gt; PY_SSIZE_T_MAX - PyStringObject_SIZE) &#123;</div><div class="line">        PyErr_SetString(PyExc_OverflowError, <span class="string">"string is too large"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* Inline PyObject_NewVar */</span></div><div class="line">    op = (PyStringObject *)PyObject_MALLOC(PyStringObject_SIZE + size);</div><div class="line">    <span class="keyword">if</span> (op == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> PyErr_NoMemory();</div><div class="line">    PyObject_INIT_VAR(op, &amp;PyString_Type, size);</div><div class="line">    op-&gt;ob_shash = <span class="number">-1</span>;</div><div class="line">    op-&gt;ob_sstate = SSTATE_NOT_INTERNED;</div><div class="line">    <span class="keyword">if</span> (str != <span class="literal">NULL</span>)</div><div class="line">        Py_MEMCPY(op-&gt;ob_sval, str, size);</div><div class="line">    op-&gt;ob_sval[size] = <span class="string">'\0'</span>;</div><div class="line">    <span class="comment">/* share short strings */</span></div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        nullstring = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        characters[*str &amp; UCHAR_MAX] = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (PyObject *) op;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/20/py_stringobject/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-py_decorator_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -733,11 +795,11 @@ var _hmt = _hmt || [];
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">python</a>
+                <a href="javascript:void(0)">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">hexo</a>
+                <a href="javascript:void(0)">python</a>
               </li>
             
             <div class="clearfix"></div>
