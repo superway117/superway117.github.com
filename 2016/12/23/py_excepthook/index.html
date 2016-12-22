@@ -6,30 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://superway117.github.io">
-  <title>Python PyIntObject | Eason&#39;s Blog</title>
+  <title>Python excepthook | Eason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="PyIntObject属于固定size的object,所以数据结构也比较简单.
-1234typedef struct &amp;#123;    PyObject_HEAD    long ob_ival;&amp;#125; PyIntObject;
-本文topic主要在PyIntObject如何实现内存/性能优化. 概括的说
-
-对于small int, 默认是-5–257之间的PyIntObject,是预分配">
+  <meta name="description" content="Python解释器默认定义了一个excepthook,发生异常退出的时候,会执行这个函数.然而我们可以重新定义这个hook函数,来实现更好的调试.
+重新定义hook,也就是重新给sys.excepthook赋值.
+use case出现异常打开ipython从scrapy里面copy出来的, scrapy里面用下面的方式把ipython当做他的shell
+1234567891011121314151">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python PyIntObject">
-<meta property="og:url" content="http://superway117.github.io/2016/12/20/py_intobject/index.html">
+<meta property="og:title" content="Python excepthook">
+<meta property="og:url" content="http://superway117.github.io/2016/12/23/py_excepthook/index.html">
 <meta property="og:site_name" content="Eason's Blog">
-<meta property="og:description" content="PyIntObject属于固定size的object,所以数据结构也比较简单.
-1234typedef struct &amp;#123;    PyObject_HEAD    long ob_ival;&amp;#125; PyIntObject;
-本文topic主要在PyIntObject如何实现内存/性能优化. 概括的说
-
-对于small int, 默认是-5–257之间的PyIntObject,是预分配">
-<meta property="og:updated_time" content="2016-12-19T16:36:49.412Z">
+<meta property="og:description" content="Python解释器默认定义了一个excepthook,发生异常退出的时候,会执行这个函数.然而我们可以重新定义这个hook函数,来实现更好的调试.
+重新定义hook,也就是重新给sys.excepthook赋值.
+use case出现异常打开ipython从scrapy里面copy出来的, scrapy里面用下面的方式把ipython当做他的shell
+1234567891011121314151">
+<meta property="og:updated_time" content="2016-12-22T21:47:22.951Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python PyIntObject">
-<meta name="twitter:description" content="PyIntObject属于固定size的object,所以数据结构也比较简单.
-1234typedef struct &amp;#123;    PyObject_HEAD    long ob_ival;&amp;#125; PyIntObject;
-本文topic主要在PyIntObject如何实现内存/性能优化. 概括的说
-
-对于small int, 默认是-5–257之间的PyIntObject,是预分配">
+<meta name="twitter:title" content="Python excepthook">
+<meta name="twitter:description" content="Python解释器默认定义了一个excepthook,发生异常退出的时候,会执行这个函数.然而我们可以重新定义这个hook函数,来实现更好的调试.
+重新定义hook,也就是重新给sys.excepthook赋值.
+use case出现异常打开ipython从scrapy里面copy出来的, scrapy里面用下面的方式把ipython当做他的shell
+1234567891011121314151">
   
     <link rel="alternative" href="/atom.xml" title="Eason&#39;s Blog" type="application/atom+xml">
   
@@ -192,48 +189,63 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-py_intobject" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-py_excepthook" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python PyIntObject
+      Python excepthook
     </h1>
   
 
-        <a href="/2016/12/20/py_intobject/" class="archive-article-date">
-  	<time datetime="2016-12-19T16:09:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+        <a href="/2016/12/23/py_excepthook/" class="archive-article-date">
+  	<time datetime="2016-12-22T20:58:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-23</time>
 </a>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><code>PyIntObject</code>属于固定size的object,所以数据结构也比较简单.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_HEAD</div><div class="line">    <span class="keyword">long</span> ob_ival;</div><div class="line">&#125; PyIntObject;</div></pre></td></tr></table></figure>
-<p>本文topic主要在<code>PyIntObject</code>如何实现内存/性能优化. 概括的说</p>
-<ul>
-<li>对于small int, 默认是-5–257之间的PyIntObject,是预分配的, 每次只要从small_ints这个池子里面去就行</li>
-<li>预先分配了一个pool(free_list),2.7定义的是(1000-8)个PyIntObject,每次需要分配PyIntObject,直接从free_list取</li>
-</ul>
-<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="PyInt-Init"><a href="#PyInt-Init" class="headerlink" title="_PyInt_Init"></a>_PyInt_Init</h3><p>Python解释器执行的时候会做一个动作.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Py_InitializeEx</div><div class="line">  --&gt;_PyInt_Init</div></pre></td></tr></table></figure>
-<p>所有的逻辑看<code>_PyInt_Init</code>就清楚了.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span></div><div class="line">_PyInt_Init(<span class="keyword">void</span>)</div><div class="line">&#123;</div><div class="line">    PyIntObject *v;</div><div class="line">    <span class="keyword">int</span> ival;</div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> NSMALLNEGINTS + NSMALLPOSINTS &gt; 0</span></div><div class="line">    <span class="keyword">for</span> (ival = -NSMALLNEGINTS; ival &lt; NSMALLPOSINTS; ival++) &#123;</div><div class="line">          <span class="keyword">if</span> (!free_list &amp;&amp; (free_list = fill_free_list()) == <span class="literal">NULL</span>)</div><div class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="comment">/* PyObject_New is inlined */</span></div><div class="line">        v = free_list;</div><div class="line">        free_list = (PyIntObject *)Py_TYPE(v);</div><div class="line">        PyObject_INIT(v, &amp;PyInt_Type);</div><div class="line">        v-&gt;ob_ival = ival;</div><div class="line">        small_ints[ival + NSMALLNEGINTS] = v;</div><div class="line">    &#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">    <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面的逻辑:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(ival=<span class="number">-5</span>; ival&lt;<span class="number">257</span>; ival++)</div><div class="line">&#123;</div><div class="line">  <span class="number">1.</span> 从free_list里面去一个空闲的 PyIntObject --&gt;v</div><div class="line">  <span class="number">2.</span> 给v赋值 ob_ival = ival</div><div class="line">  <span class="number">3.</span> free_list里面ob_type用来指向前一个block,所有这里需要做一个PyObject_INIT</div><div class="line">  <span class="number">4.</span> 因为是从<span class="number">-5</span>开始算起，所有small_ints[<span class="number">0</span>]是给<span class="number">-5</span>用的,以此类推</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>free_list只分配一次<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!free_list &amp;&amp; (free_list = fill_free_list()) == <span class="literal">NULL</span>)</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div></pre></td></tr></table></figure></p>
-<h3 id="free-list"><a href="#free-list" class="headerlink" title="free_list"></a>free_list</h3><p>fill_free_list的逻辑就是一次申请 N_INTOBJECTS 个 PyIntObject.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PyMem_MALLOC(<span class="keyword">sizeof</span>(PyIntBlock))</div></pre></td></tr></table></figure>
-<p>需要注意的是:</p>
-<ul>
-<li>fill_free_list返回的是最后一个block: p + N_INTOBJECTS - 1</li>
-<li>每一个block的ob_type,用来指向前一个block</li>
-<li>第一个block的ob_type是null,这个用来判断当前free_list是否已经用完了</li>
-<li>block_list用来维护多个free_list</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> _intblock &#123;</div><div class="line">    <span class="keyword">struct</span> _intblock *next;</div><div class="line">    PyIntObject objects[N_INTOBJECTS];</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> _intblock PyIntBlock;</div><div class="line"></div><div class="line"><span class="keyword">static</span> PyIntBlock *block_list = <span class="literal">NULL</span>;</div><div class="line"><span class="keyword">static</span> PyIntObject *free_list = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> PyIntObject *</span></div><div class="line"><span class="title">fill_free_list</span><span class="params">(<span class="keyword">void</span>)</span></div><div class="line">&#123;</div><div class="line">    PyIntObject *p, *q;</div><div class="line">    <span class="comment">/* Python's object allocator isn't appropriate for large blocks. */</span></div><div class="line">    p = (PyIntObject *) PyMem_MALLOC(<span class="keyword">sizeof</span>(PyIntBlock));</div><div class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> (PyIntObject *) PyErr_NoMemory();</div><div class="line">    ((PyIntBlock *)p)-&gt;next = block_list;</div><div class="line">    block_list = (PyIntBlock *)p;</div><div class="line">    <span class="comment">/* Link the int objects together, from rear to front, then return</span></div><div class="line">       the address of the last int object in the block. */</div><div class="line">    p = &amp;((PyIntBlock *)p)-&gt;objects[<span class="number">0</span>];</div><div class="line">    q = p + N_INTOBJECTS;</div><div class="line">    <span class="keyword">while</span> (--q &gt; p)</div><div class="line">        Py_TYPE(q) = (<span class="keyword">struct</span> _typeobject *)(q<span class="number">-1</span>);</div><div class="line">    Py_TYPE(q) = <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">return</span> p + N_INTOBJECTS - <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p>Python解释器默认定义了一个<code>excepthook</code>,发生异常退出的时候,会执行这个函数.然而我们可以重新定义这个hook函数,来实现更好的调试.</p>
+<p>重新定义hook,也就是重新给<code>sys.excepthook</code>赋值.</p>
+<h2 id="use-case"><a href="#use-case" class="headerlink" title="use case"></a>use case</h2><h3 id="出现异常打开ipython"><a href="#出现异常打开ipython" class="headerlink" title="出现异常打开ipython"></a>出现异常打开ipython</h3><p>从<code>scrapy</code>里面copy出来的, <code>scrapy</code>里面用下面的方式把ipython当做他的shell</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">try</span>:</div><div class="line">  <span class="keyword">from</span> IPython.terminal.embed <span class="keyword">import</span> InteractiveShellEmbed</div><div class="line">  <span class="keyword">from</span> IPython.terminal.ipapp <span class="keyword">import</span> load_default_config</div><div class="line"><span class="keyword">except</span> ImportError:</div><div class="line">  <span class="keyword">from</span> IPython.frontend.terminal.embed <span class="keyword">import</span> InteractiveShellEmbed</div><div class="line">  <span class="keyword">from</span> IPython.frontend.terminal.ipapp <span class="keyword">import</span> load_default_config</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Hook</span>:</span></div><div class="line">  <span class="string">"""A hook to replace sys.excepthook that open ipython</span></div><div class="line">  def __call__(self, etype, evalue, etb):</div><div class="line">    self.handle((etype, evalue, etb))</div><div class="line">  def handle(self, info=None):</div><div class="line">    config = load_default_config()</div><div class="line">    shell = InteractiveShellEmbed()</div><div class="line">    shell()</div><div class="line"></div><div class="line">handler = Hook().handle</div><div class="line">def enable()</div><div class="line">    sys.excepthook = Hook()</div></pre></td></tr></table></figure>
+<h3 id="ultratb-ColorTB"><a href="#ultratb-ColorTB" class="headerlink" title="ultratb.ColorTB"></a>ultratb.ColorTB</h3><blockquote>
+<p>I’ve always found it a bit hard to visually parse tracebacks in Python. The ColorTB class is a solution to that problem. It colors the different parts of a traceback in a manner similar to what you would expect from a syntax-highlighting text editor.</p>
+</blockquote>
+<p><a href="http://ipython.readthedocs.io/en/stable/api/generated/IPython.core.ultratb.html" target="_blank" rel="external">IPython.core.ultratb</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys,ultratb</div><div class="line">sys.excepthook = ultratb.ColorTB()</div></pre></td></tr></table></figure>
+<h3 id="ultratb-VerboseTB"><a href="#ultratb-VerboseTB" class="headerlink" title="ultratb.VerboseTB"></a>ultratb.VerboseTB</h3><blockquote>
+<p>I’ve also included a port of Ka-Ping Yee’s “cgitb.py” that produces all kinds of useful info when a traceback occurs. Ping originally had it spit out HTML and intended it for CGI programmers, but why should they have all the fun? I altered it to spit out colored text to the terminal. It’s a bit overwhelming, but kind of neat, and maybe useful for long-running programs that you believe are bug-free. If a crash does occur in that type of program you want details. Give it a shot–you’ll love it or you’ll hate it.</p>
+</blockquote>
+<p><a href="http://ipython.readthedocs.io/en/stable/api/generated/IPython.core.ultratb.html" target="_blank" rel="external">IPython.core.ultratb</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys,ultratb</div><div class="line">sys.excepthook = ultratb.VerboseTB()</div></pre></td></tr></table></figure>
+<h3 id="cgitb"><a href="#cgitb" class="headerlink" title="cgitb"></a>cgitb</h3><p>用来输出exception到html/text.</p>
+<p>源码:</p>
+<blockquote>
+<p>Python-2.7.11\Lib\cgitb.py</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cgitb</div><div class="line">cgitb.enable()</div></pre></td></tr></table></figure>
+<p>enable可以带参数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">display     - if true, tracebacks are displayed in the web browser</div><div class="line">logdir      - if set, tracebacks are written to files in this directory</div><div class="line">context     - number of lines of source code to show for each stack frame</div><div class="line">format      - &apos;text&apos; or &apos;html&apos; controls the output format</div></pre></td></tr></table></figure></p>
+<p>enable原型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">enable</span><span class="params">(display=<span class="number">1</span>, logdir=None, context=<span class="number">5</span>, format=<span class="string">"html"</span>)</span>:</span></div><div class="line">    <span class="string">"""Install an exception handler that formats tracebacks as HTML.</span></div><div class="line"></div><div class="line">    The optional argument 'display' can be set to 0 to suppress sending the</div><div class="line">    traceback to the browser, and 'logdir' can be set to a directory to cause</div><div class="line">    tracebacks to be written to files there."""</div><div class="line">    sys.excepthook = Hook(display=display, logdir=logdir,</div><div class="line">                          context=context, format=format)</div></pre></td></tr></table></figure>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><blockquote>
+<p>Python-2.7.11\Python\pythonrun.c</p>
+</blockquote>
+<p>pythonrun.c 里面程序退出前,总是会调用下<code>PyErr_Print</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">void</div><div class="line">PyErr_Print(void)</div><div class="line">&#123;</div><div class="line">    PyErr_PrintEx(<span class="number">1</span>);</div><div class="line">&#125;</div><div class="line">void</div><div class="line">PyErr_PrintEx(int set_sys_last_vars)</div><div class="line">&#123;</div><div class="line">  xxxx</div><div class="line">  hook = PySys_GetObject(<span class="string">"excepthook"</span>);</div><div class="line">  <span class="keyword">if</span> (hook &amp;&amp; hook != Py_None) &#123;</div><div class="line">    PyObject *result = PyEval_CallObject(hook, args);</div></pre></td></tr></table></figure>
+<p>上面的代码简单的理解就是,从<code>sys</code>模块里面找到<code>excepthook</code>,然后执行他.</p>
+<p>python默认的<code>excepthook</code>实现在<code>sys</code></p>
+<blockquote>
+<p>Python-2.7.11\Python\sysmodule.c</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">static PyObject *</div><div class="line">sys_excepthook(PyObject* self, PyObject* args)</div><div class="line">&#123;</div><div class="line">    PyObject *exc, *value, *tb;</div><div class="line">    <span class="keyword">if</span> (!PyArg_UnpackTuple(args, <span class="string">"excepthook"</span>, <span class="number">3</span>, <span class="number">3</span>, &amp;exc, &amp;value, &amp;tb))</div><div class="line">        <span class="keyword">return</span> NULL;</div><div class="line">    PyErr_Display(exc, value, tb);</div><div class="line">    Py_INCREF(Py_None);</div><div class="line">    <span class="keyword">return</span> Py_None;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注册给<code>sys</code>是这样的:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">static PyMethodDef sys_methods[] = &#123;</div><div class="line">  &#123;<span class="string">"excepthook"</span>,      sys_excepthook, METH_VARARGS, excepthook_doc&#125;,</div></pre></td></tr></table></figure>
+<p><code>sys</code>模块初始化的时候把默认<code>excepthook</code>的定义,保存在<code>__excepthook__</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">PyObject *</div><div class="line">_PySys_Init(void)</div><div class="line">&#123;</div><div class="line">  PyDict_SetItemString(sysdict, <span class="string">"__excepthook__"</span>,</div><div class="line">                         PyDict_GetItemString(sysdict, <span class="string">"excepthook"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
 
       
@@ -296,7 +308,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2016/12/20/py_intobject/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2016/12/23/py_excepthook/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -310,18 +322,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2016/12/20/py_stringobject/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python PyStringObject
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/15/py_decorator_2/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python Decorator - 理解调用过程</div>
+    <a href="/2016/12/22/python_debug/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python __debug__&amp;assert</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -334,7 +337,7 @@ var _hmt = _hmt || [];
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python PyIntObject" data-url="http://superway117.github.io/2016/12/20/py_intobject/"></div>
+	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python excepthook" data-url="http://superway117.github.io/2016/12/23/py_excepthook/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
