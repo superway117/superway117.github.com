@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://superway117.github.io">
+  <title>Python property | Eason&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="property对应的是c代码的实现propertyobject. 
+主要是用来处理class里面的属性get/set/delete/doc操作. 
+需要注意的是应用property的class必须继承object,不然有问题,root cause未知. python cookbook里面的case有些是跑不起来的,就是因为他的代码很多没有继承object
+主要的应用场景:
+
+set的时候做类型检">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python property">
+<meta property="og:url" content="http://superway117.github.io/2016/12/22/py_property/index.html">
+<meta property="og:site_name" content="Eason's Blog">
+<meta property="og:description" content="property对应的是c代码的实现propertyobject. 
+主要是用来处理class里面的属性get/set/delete/doc操作. 
+需要注意的是应用property的class必须继承object,不然有问题,root cause未知. python cookbook里面的case有些是跑不起来的,就是因为他的代码很多没有继承object
+主要的应用场景:
+
+set的时候做类型检">
+<meta property="og:updated_time" content="2016-12-22T04:55:04.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python property">
+<meta name="twitter:description" content="property对应的是c代码的实现propertyobject. 
+主要是用来处理class里面的属性get/set/delete/doc操作. 
+需要注意的是应用property的class必须继承object,不然有问题,root cause未知. python cookbook里面的case有些是跑不起来的,就是因为他的代码很多没有继承object
+主要的应用场景:
+
+set的时候做类型检">
+  
+    <link rel="alternative" href="/atom.xml" title="Eason&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css?v=4.0.0.css">
+  
+
+  
+<!-- baidu_tongji -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d7c08ca1f1b9ed5c740dee2eb2ec85f6";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!-- End baidu_tongji -->
+
+
+</head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/images/header.png" class="js-avatar">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Eason Pan</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/python">Python</a></li>
+	        
+				<li><a href="/tags/angularjs">AngularJs</a></li>
+	        
+				<li><a href="/tags/nodejs">Nodejs</a></li>
+	        
+				<li><a href="/tags/ionic">Ionic</a></li>
+	        
+				<li><a href="/tags/ARM">ARM</a></li>
+	        
+				<li><a href="/tags/量化">量化</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a data-idx="0" q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">Links</a>
+    			
+    			
+            
+    			
+    			<a data-idx="2" q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/superway117" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/eason.pan" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:superway117@163.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/wei-pan-bb6a5182" title="linkedin"><i class="icon-linkedin"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-sort"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Eason Pan</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/images/header.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Eason Pan</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/python">Python</a></li>
+		        
+					<li><a href="/tags/angularjs">AngularJs</a></li>
+		        
+					<li><a href="/tags/nodejs">Nodejs</a></li>
+		        
+					<li><a href="/tags/ionic">Ionic</a></li>
+		        
+					<li><a href="/tags/ARM">ARM</a></li>
+		        
+					<li><a href="/tags/量化">量化</a></li>
+		        
+		        
+		        	<li><a href="/archives">所有文章</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/superway117" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/eason.pan" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:superway117@163.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="linkedin" target="_blank" href="https://www.linkedin.com/in/wei-pan-bb6a5182" title="linkedin"><i class="icon-linkedin"></i></a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-py_property" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python property
+    </h1>
+  
+
+        <a href="/2016/12/22/py_property/" class="archive-article-date">
+  	<time datetime="2016-12-21T16:49:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-22</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>property</code>对应的是c代码的实现<code>propertyobject</code>. </p>
+<p>主要是用来处理class里面的属性get/set/delete/doc操作. </p>
+<p>需要注意的是应用property的class必须继承<code>object</code>,不然有问题,root cause未知. python cookbook里面的case有些是跑不起来的,就是因为他的代码很多没有继承object</p>
+<p>主要的应用场景:</p>
+<ul>
+<li>set的时候做类型检查</li>
+<li>get的时候做一些运算</li>
+<li>禁止delete操作</li>
+</ul>
+<p>实际python代码里面,可以继承<code>property</code>或者用<code>property</code>作为一个装饰器来用.</p>
+<p>下面的写法是一致的. 可以理解是用来做装饰器.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">class C(object):</div><div class="line">    def getx(self): return self._x</div><div class="line">    def setx(self, value): self._x = value</div><div class="line">    def delx(self): del self._x</div><div class="line">    x = property(getx, setx, delx, \"I'm the 'x' property.\")</div><div class="line"></div><div class="line">Decorators make defining new properties or modifying existing ones easy:</div><div class="line">class C(object):</div><div class="line">    @property</div><div class="line">    def x(self):</div><div class="line">        \"I am the 'x' property.\"</div><div class="line">        return self._x</div><div class="line">    @x.setter</div><div class="line">    def x(self, value):</div><div class="line">        self._x = value</div><div class="line">    @x.deleter</div><div class="line">    def x(self):</div><div class="line">        del self._x</div></pre></td></tr></table></figure>
+<h2 id="use-case"><a href="#use-case" class="headerlink" title="use case"></a>use case</h2><h3 id="cached-property"><a href="#cached-property" class="headerlink" title="cached_property"></a>cached_property</h3><p>代码从 werkzeug-master\werkzeug\utils.py copy出来的.</p>
+<p>这段代码主要用来cache已经计算过的值.</p>
+<p>需要注意的是</p>
+<ul>
+<li>cached value 存在 obj.<strong>dict</strong>[self.<strong>name</strong>], self.<strong>name</strong>默认是函数名</li>
+<li>c.area = 11 用来执行 cached_property.<strong>set</strong> ,给cached值重新赋值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> math</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">cached_property</span><span class="params">(property)</span>:</span></div><div class="line"></div><div class="line">    <span class="string">"""A decorator that converts a function into a lazy property.  The</span></div><div class="line">    function wrapped is called the first time to retrieve the result</div><div class="line">    and then that calculated result is used the next time you access</div><div class="line">    the value::</div><div class="line"></div><div class="line">        class Foo(object):</div><div class="line"></div><div class="line">            @cached_property</div><div class="line">            def foo(self):</div><div class="line">                # calculate something important here</div><div class="line">                return 42</div><div class="line"></div><div class="line">    The class has to have a `__dict__` in order for this property to</div><div class="line">    work.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="comment"># implementation detail: A subclass of python's builtin property</span></div><div class="line">    <span class="comment"># decorator, we override __get__ to check for a cached value. If one</span></div><div class="line">    <span class="comment"># choses to invoke __get__ by hand the property will still work as</span></div><div class="line">    <span class="comment"># expected because the lookup logic is replicated in __get__ for</span></div><div class="line">    <span class="comment"># manual invocation.</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, func, name=None, doc=None)</span>:</span></div><div class="line">        self.__name__ = name <span class="keyword">or</span> func.__name__</div><div class="line">        self.__module__ = func.__module__</div><div class="line">        self.__doc__ = doc <span class="keyword">or</span> func.__doc__</div><div class="line">        self.func = func</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__set__</span><span class="params">(self, obj, value)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">"__set__ value:%d"</span> % (value,)</div><div class="line">        obj.__dict__[self.__name__] = value</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span><span class="params">(self, obj, type=None)</span>:</span></div><div class="line">        <span class="keyword">if</span> obj <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> self</div><div class="line">        value = obj.__dict__.get(self.__name__, <span class="keyword">None</span>)</div><div class="line">        <span class="keyword">if</span> value <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">          value = self.func(obj)</div><div class="line">          obj.__dict__[self.__name__] = value</div><div class="line">        <span class="keyword">return</span> value</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span><span class="params">(object)</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, radius)</span>:</span></div><div class="line">    self.radius = radius</div><div class="line"></div><div class="line"><span class="meta">  @cached_property</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">area</span><span class="params">(self)</span>:</span></div><div class="line">    print(<span class="string">'Computing area'</span>)</div><div class="line">    <span class="keyword">return</span> math.pi * self.radius ** <span class="number">2</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  c=Circle(<span class="number">2</span>)</div><div class="line">  <span class="keyword">print</span> c.area</div><div class="line">  <span class="keyword">print</span> c.area</div><div class="line">  c.area = <span class="number">11</span></div><div class="line">  <span class="keyword">print</span> c.area</div></pre></td></tr></table></figure>
+<p>result</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Computing area</div><div class="line">12.5663706144</div><div class="line">12.5663706144</div><div class="line">11</div></pre></td></tr></table></figure>
+<h3 id="类型检查"><a href="#类型检查" class="headerlink" title="类型检查"></a>类型检查</h3><ul>
+<li><code>setter</code>里面做类型检查</li>
+<li><code>deleter</code>里面禁止删除动作</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">    self.name = name</div><div class="line"></div><div class="line">  <span class="comment"># Getter function</span></div><div class="line"><span class="meta">  @property</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self)</span>:</span></div><div class="line">    print(<span class="string">'get name in Person'</span>)</div><div class="line">    <span class="keyword">return</span> self._name</div><div class="line"></div><div class="line">  <span class="comment"># Setter function</span></div><div class="line"><span class="meta">  @name.setter</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self, value)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value, str):</div><div class="line">      <span class="keyword">raise</span> TypeError(<span class="string">'Expected a string'</span>)</div><div class="line">    print(<span class="string">'set name in Person'</span>)</div><div class="line">    self._name = value</div><div class="line"></div><div class="line">  <span class="comment"># Deleter function</span></div><div class="line"><span class="meta">  @name.deleter</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">raise</span> AttributeError(<span class="string">"Can't delete attribute"</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  s = Person(<span class="string">'Guido'</span>)</div><div class="line">  <span class="keyword">print</span> s.name</div><div class="line">  s.name = <span class="string">'Larry'</span></div><div class="line">  <span class="keyword">print</span> s.name</div><div class="line">  s.name = <span class="number">42</span></div><div class="line">  <span class="keyword">print</span> s.name</div></pre></td></tr></table></figure>
+<p>result</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">set name in Person</div><div class="line">get name in Person</div><div class="line">Guido</div><div class="line">set name in Person</div><div class="line">get name in Person</div><div class="line">Larry</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;test.py&quot;, line 45, in &lt;module&gt;</div><div class="line">    s.name = 42</div><div class="line">  File &quot;test.py&quot;, line 15, in name</div><div class="line">    raise TypeError(&apos;Expected a string&apos;)</div><div class="line">TypeError: Expected a string</div></pre></td></tr></table></figure>
+<h3 id="Extending-a-Property-in-a-Subclass"><a href="#Extending-a-Property-in-a-Subclass" class="headerlink" title="Extending a Property in a Subclass"></a>Extending a Property in a Subclass</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">    self.name = name</div><div class="line"></div><div class="line">  <span class="comment"># Getter function</span></div><div class="line"><span class="meta">  @property</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self)</span>:</span></div><div class="line">    print(<span class="string">'get name in Person'</span>)</div><div class="line">    <span class="keyword">return</span> self._name</div><div class="line"></div><div class="line">  <span class="comment"># Setter function</span></div><div class="line"><span class="meta">  @name.setter</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self, value)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value, str):</div><div class="line">      <span class="keyword">raise</span> TypeError(<span class="string">'Expected a string'</span>)</div><div class="line">    print(<span class="string">'set name in Person'</span>)</div><div class="line">    self._name = value</div><div class="line"></div><div class="line">  <span class="comment"># Deleter function</span></div><div class="line"><span class="meta">  @name.deleter</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">raise</span> AttributeError(<span class="string">"Can't delete attribute"</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubPerson</span><span class="params">(Person)</span>:</span></div><div class="line"><span class="meta">  @property</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self)</span>:</span></div><div class="line">    print(<span class="string">'get name in SubPerson'</span>)</div><div class="line">    <span class="keyword">return</span> super(SubPerson, self).name</div><div class="line"></div><div class="line"><span class="meta">  @name.setter</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self, value)</span>:</span></div><div class="line">    print(<span class="string">'set name in SubPerson'</span>)</div><div class="line">    super(SubPerson, SubPerson).name.__set__(self, value)</div><div class="line"></div><div class="line"><span class="meta">  @name.deleter</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self)</span>:</span></div><div class="line">    print(<span class="string">'Deleting name'</span>)</div><div class="line">    super(SubPerson, SubPerson).name.__delete__(self)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  s = SubPerson(<span class="string">'Guido'</span>)</div><div class="line">  <span class="keyword">print</span> s.name</div><div class="line">  s.name = <span class="string">'Larry'</span></div><div class="line">  <span class="keyword">print</span> s.name</div><div class="line">  s.name = <span class="number">42</span></div><div class="line">  <span class="keyword">print</span> s.name</div></pre></td></tr></table></figure>
+<p>result</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">set name in SubPerson</div><div class="line">set name in Person</div><div class="line">get name in SubPerson</div><div class="line">get name in Person</div><div class="line">Guido</div><div class="line">set name in SubPerson</div><div class="line">set name in Person</div><div class="line">get name in SubPerson</div><div class="line">get name in Person</div><div class="line">Larry</div><div class="line">set name in SubPerson</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;test.py&quot;, line 45, in &lt;module&gt;</div><div class="line">    s.name = 42</div><div class="line">  File &quot;test.py&quot;, line 33, in name</div><div class="line">    super(SubPerson, SubPerson).name.__set__(self, va</div><div class="line">  File &quot;test.py&quot;, line 15, in name</div><div class="line">    raise TypeError(&apos;Expected a string&apos;)</div><div class="line">TypeError: Expected a string</div></pre></td></tr></table></figure>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><blockquote>
+<p>Python-2.7.11\Objects\descrobject.c</p>
+</blockquote>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p><code>super</code>的用法,还真是有点疑惑</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2016/12/22/py_property/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/20/py_intobject/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python PyIntObject</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python property" data-url="http://superway117.github.io/2016/12/22/py_property/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"superway117"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Eason Pan
+    	</div>
+      	<div class="footer-right">
+      		
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js?v=4.0.0.js"></script>
+
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">python</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
+            缺失模块。<br/>1、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            2、在根目录_config.yml里添加配置：
+<pre style="font-size: 12px;" q-show="jsonFail">
+  jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: true
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
+</pre>
+          </p>
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends" q-show="friends">
+  		
+        <ul class="search-ul">
+          
+            <li class="search-li">
+              <a href="http://zksq.info/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>赚客神器</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://shouji.baidu.com/game/3907419.html/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>哈皮五子连珠</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://github.com/superway117/libsensors-for-android-froyo/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>libsensors</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://github.com/superway117/imagelib/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>imagelib</a>
+            </li>
+          
+        </ul>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">程序员一枚</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
