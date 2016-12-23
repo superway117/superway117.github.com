@@ -178,6 +178,110 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-py_descriptor" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/py_descriptor/">Python descriptor</a>
+    </h1>
+  
+
+        <a href="/2016/12/23/py_descriptor/" class="archive-article-date">
+  	<time datetime="2016-12-23T03:12:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-23</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>descriptor</code>应该算的上是python的黑魔法了,不了解这个东西,很多源码估计看的头晕脑胀的.</p>
+<h2 id="Definition-and-Introduction"><a href="#Definition-and-Introduction" class="headerlink" title="Definition and Introduction"></a>Definition and Introduction</h2><p>In general, a descriptor is an object attribute with “binding behavior”, one whose attribute access has been overridden by methods in the descriptor protocol. Those methods are <strong>get</strong>(), <strong>set</strong>(), and <strong>delete</strong>(). If any of those methods are defined for an object, it is said to be a descriptor.</p>
+<p>对属性的访问,通常是指set,get,delete操作, 比如 <code>a.x</code>,默认情况下,会follow下面的次序访问<code>a.x</code>:</p>
+<ul>
+<li>查找 <code>a.__dict__[&#39;x&#39;]</code>是否存在，如果存在，直接返回，不存在下一步</li>
+<li>查找 <code>type(a).__dict__[&#39;x&#39;]</code>是否存在，如果存在，直接返回，不存在下一步</li>
+<li>查找 <code>base classes of type(a)</code> excluding metaclasses</li>
+</ul>
+<p>上面的是默认的行为， 如果<code>a.x</code>,其中<code>x</code>是一个<code>descriptor</code>(只要定义了其中一个函数就算),走的就是另外的流程</p>
+<blockquote>
+<p>Python may override the default behavior and invoke the descriptor method instead. Where this occurs in the precedence chain depends on which descriptor methods were defined. Note that descriptors are only invoked for new style objects or classes (a class is new style if it inherits from object or type).</p>
+</blockquote>
+<p>需要注意的是<code>descriptor</code>必须继承<code>object</code>或者<code>type</code></p>
+<blockquote>
+<p> Note that descriptors are only invoked for new style objects or classes (a class is new style if it inherits from object or type).</p>
+<p>Descriptors are a powerful, general purpose protocol. They are the mechanism behind properties, methods, static methods, class methods, and super(). They are used throughout Python itself to implement the new style classes introduced in version 2.2. Descriptors simplify the underlying C-code and offer a flexible set of new tools for everyday Python programs.</p>
+</blockquote>
+<h2 id="Descriptor-Protocol"><a href="#Descriptor-Protocol" class="headerlink" title="Descriptor Protocol"></a>Descriptor Protocol</h2><p>其实就3个函数,只要定义了下面的3个函数(至少一个),这个类就认为是<code>descriptor</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">descr.__get__(self, obj, type=None) --&gt; value</div><div class="line"></div><div class="line">descr.__set__(self, obj, value) --&gt; None</div><div class="line"></div><div class="line">descr.__delete__(self, obj) --&gt; None</div></pre></td></tr></table></figure>
+<p><code>descriptor</code>:  定义了protocol里面任意一个函数,就认为是一个<code>descriptor</code> </p>
+<p><code>data descriptor</code>:  定义了<strong>get</strong>() and <strong>set</strong>(),就被认为是<code>data descriptor</code></p>
+<p><code>read-only data descriptor</code>: define both <strong>get</strong>() and <strong>set</strong>() with the <strong>set</strong>() raising an AttributeError when called</p>
+<p><code>non-data descriptors</code>: only define <strong>get</strong>() are called <code>non-data descriptors</code></p>
+<h2 id="Invoking-Descriptors"><a href="#Invoking-Descriptors" class="headerlink" title="Invoking Descriptors"></a>Invoking Descriptors</h2><p>如果<code>obj.d</code>, 其中<code>d</code>定义了 <code>__get__</code>.</p>
+<p>那么可以直接调用<code>__get__</code>,虽然很少这么用.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">d.__get__(obj)</div></pre></td></tr></table></figure></p>
+<p>大部分情况下这么用<code>obj.d</code>就可以了:</p>
+<ul>
+<li><code>obj.d</code> looks up d in the dictionary of obj: <code>obj.__dict__</code></li>
+<li>如果<code>d</code>定义了<code>__get__()</code>, then <code>d.__get__(obj)</code> is invoked according to the precedence rules listed below.</li>
+</ul>
+<blockquote>
+<p>For objects, the machinery is in object.<strong>getattribute</strong>() which transforms b.x into type(b).<strong>dict</strong>[‘x’].<strong>get</strong>(b, type(b)). The implementation works through a precedence chain that gives data descriptors priority over instance variables, instance variables priority over non-data descriptors, and assigns lowest priority to <strong>getattr</strong>() if provided. The full C implementation can be found in PyObject_GenericGetAttr() in Objects/object.c.</p>
+<p>For classes, the machinery is in <code>type.__getattribute__()</code> which transforms <code>B.x</code> into <code>B.__dict__[&#39;x&#39;].__get__(None, B)</code>. In pure Python, it looks like:</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span><span class="params">(self, key)</span>:</span></div><div class="line">    <span class="string">"Emulate type_getattro() in Objects/typeobject.c"</span></div><div class="line">    v = object.__getattribute__(self, key)</div><div class="line">    <span class="keyword">if</span> hasattr(v, <span class="string">'__get__'</span>):</div><div class="line">        <span class="keyword">return</span> v.__get__(<span class="keyword">None</span>, self)</div><div class="line">    <span class="keyword">return</span> v</div></pre></td></tr></table></figure>
+<p>The important points to remember are:</p>
+<ul>
+<li>descriptors are invoked by the <code>__getattribute__()</code> method</li>
+<li>overriding <code>__getattribute__()</code> prevents automatic descriptor calls</li>
+<li><code>__getattribute__()</code> is only available with new style classes and objects</li>
+<li><code>object.__getattribute__()</code> and <code>type.__getattribute__()</code> make different calls to <code>__get__()</code>.</li>
+<li>data descriptors always override instance dictionaries.</li>
+<li>non-data descriptors may be overridden by instance dictionaries.</li>
+</ul>
+<h2 id="Sample"><a href="#Sample" class="headerlink" title="Sample"></a>Sample</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RevealAccess</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">"""A data descriptor that sets and returns values</span></div><div class="line">       normally and prints a message logging their access.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, initval=None, name=<span class="string">'var'</span>)</span>:</span></div><div class="line">        self.val = initval</div><div class="line">        self.name = name</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span><span class="params">(self, obj, objtype)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'Retrieving'</span>, self.name</div><div class="line">        <span class="keyword">return</span> self.val</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__set__</span><span class="params">(self, obj, val)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'Updating'</span>, self.name</div><div class="line">        self.val = val</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span><span class="params">(object)</span>:</span></div><div class="line"><span class="meta">... </span>    x = RevealAccess(<span class="number">10</span>, <span class="string">'var "x"'</span>)</div><div class="line"><span class="meta">... </span>    y = <span class="number">5</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = MyClass()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.x</div><div class="line">Retrieving var <span class="string">"x"</span></div><div class="line"><span class="number">10</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.x = <span class="number">20</span></div><div class="line">Updating var <span class="string">"x"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.x</div><div class="line">Retrieving var <span class="string">"x"</span></div><div class="line"><span class="number">20</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.y</div><div class="line"><span class="number">5</span></div></pre></td></tr></table></figure>
+<h2 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h2><p>原来<code>Property</code>也是一个<code>descriptor</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Property</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">"Emulate PyProperty_Type() in Objects/descrobject.c"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, fget=None, fset=None, fdel=None, doc=None)</span>:</span></div><div class="line">        self.fget = fget</div><div class="line">        self.fset = fset</div><div class="line">        self.fdel = fdel</div><div class="line">        <span class="keyword">if</span> doc <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">and</span> fget <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            doc = fget.__doc__</div><div class="line">        self.__doc__ = doc</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span><span class="params">(self, obj, objtype=None)</span>:</span></div><div class="line">        <span class="keyword">if</span> obj <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> self</div><div class="line">        <span class="keyword">if</span> self.fget <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">raise</span> AttributeError(<span class="string">"unreadable attribute"</span>)</div><div class="line">        <span class="keyword">return</span> self.fget(obj)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__set__</span><span class="params">(self, obj, value)</span>:</span></div><div class="line">        <span class="keyword">if</span> self.fset <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">raise</span> AttributeError(<span class="string">"can't set attribute"</span>)</div><div class="line">        self.fset(obj, value)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__delete__</span><span class="params">(self, obj)</span>:</span></div><div class="line">        <span class="keyword">if</span> self.fdel <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">raise</span> AttributeError(<span class="string">"can't delete attribute"</span>)</div><div class="line">        self.fdel(obj)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getter</span><span class="params">(self, fget)</span>:</span></div><div class="line">        <span class="keyword">return</span> type(self)(fget, self.fset, self.fdel, self.__doc__)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setter</span><span class="params">(self, fset)</span>:</span></div><div class="line">        <span class="keyword">return</span> type(self)(self.fget, fset, self.fdel, self.__doc__)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleter</span><span class="params">(self, fdel)</span>:</span></div><div class="line">        <span class="keyword">return</span> type(self)(self.fget, self.fset, fdel, self.__doc__)</div></pre></td></tr></table></figure>
+<h2 id="references"><a href="#references" class="headerlink" title="references"></a>references</h2><p>下面的这篇文档值得多看几次.</p>
+<ul>
+<li><a href="https://docs.python.org/2/howto/descriptor.html?highlight=descriptor" target="_blank" rel="external">Descriptor HowTo Guide</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/23/py_descriptor/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-py_excepthook" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -269,25 +373,25 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-python_debug" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-py_debug" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/22/python_debug/">Python __debug__&amp;assert</a>
+      <a class="article-title" href="/2016/12/22/py_debug/">Python __debug__&amp;assert</a>
     </h1>
   
 
-        <a href="/2016/12/22/python_debug/" class="archive-article-date">
+        <a href="/2016/12/22/py_debug/" class="archive-article-date">
   	<time datetime="2016-12-22T05:24:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-22</time>
 </a>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>debug</strong>是python内置的变量,用来判断是否是调试模式. 我们开发过程中的debug代码,可以用它来控制.</p>
+        <p><code>__debug__</code>是python内置的变量,用来判断是否是调试模式. 我们开发过程中的debug代码,可以用它来控制.</p>
 <ul>
 <li>默认情况下<code>__debug__</code> == True</li>
 <li><p>如果执行python的时候加上option -o/-oo,<code>__debug__</code>会被设置成False.</p>
@@ -326,7 +430,7 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/22/python_debug/">展开全文 >></a>
+          <a class="article-more-a" href="/2016/12/22/py_debug/">展开全文 >></a>
         </p>
       
 
@@ -433,68 +537,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-py_stringobject" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/20/py_stringobject/">Python PyStringObject</a>
-    </h1>
-  
-
-        <a href="/2016/12/20/py_stringobject/" class="archive-article-date">
-  	<time datetime="2016-12-19T16:09:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><code>PyStringObject</code>属于变长size的object</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_VAR_HEAD</div><div class="line">    <span class="keyword">long</span> ob_shash;</div><div class="line">    <span class="keyword">int</span> ob_sstate;</div><div class="line">    <span class="keyword">char</span> ob_sval[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="comment">/* Invariants:</span></div><div class="line">     *     ob_sval contains space for 'ob_size+1' elements.</div><div class="line">     *     ob_sval[ob_size] == 0.</div><div class="line">     *     ob_shash is the hash of the string or -1 if not computed yet.</div><div class="line">     *     ob_sstate != 0 iff the string object is in stringobject.c's</div><div class="line">     *       'interned' dictionary; in this case the two references</div><div class="line">     *       from 'interned' to this object are *not counted* in ob_refcnt.</div><div class="line">     */</div><div class="line">&#125; PyStringObject;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PyObject_VAR_HEAD               \</span></div><div class="line">    PyObject_HEAD                       \</div><div class="line">    Py_ssize_t ob_size; <span class="comment">/* Number of items in variable part */</span></div></pre></td></tr></table></figure>
-<p>ob_size存的是字符串的size,strlen(str),不包含结束符</p>
-<h2 id="针对size-0-or-1的字符串内存优化"><a href="#针对size-0-or-1的字符串内存优化" class="headerlink" title="针对size=0 or 1的字符串内存优化"></a>针对size=0 or 1的字符串内存优化</h2><p>看<code>PyString_FromStringAndSize</code>的实现</p>
-<ol>
-<li>如果size==0, 返回<code>null_strings</code>,引用计数+1</li>
-<li>如果size==1，如果characters数组里面已经存在,直接返回,引用计数+1;如果characters数组里面不存在,创建一个，并保存在characters数组</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="function">PyObject *</span></div><div class="line"><span class="title">PyString_FromStringAndSize</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *str, Py_ssize_t size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">register</span> PyStringObject *op;</div><div class="line">    <span class="keyword">if</span> (size &lt; <span class="number">0</span>) &#123;</div><div class="line">        PyErr_SetString(PyExc_SystemError,</div><div class="line">            <span class="string">"Negative size passed to PyString_FromStringAndSize"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span> &amp;&amp; (op = nullstring) != <span class="literal">NULL</span>) &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        null_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span> &amp;&amp;</div><div class="line">        (op = characters[*str &amp; UCHAR_MAX]) != <span class="literal">NULL</span>)</div><div class="line">    &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        one_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (size &gt; PY_SSIZE_T_MAX - PyStringObject_SIZE) &#123;</div><div class="line">        PyErr_SetString(PyExc_OverflowError, <span class="string">"string is too large"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* Inline PyObject_NewVar */</span></div><div class="line">    op = (PyStringObject *)PyObject_MALLOC(PyStringObject_SIZE + size);</div><div class="line">    <span class="keyword">if</span> (op == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> PyErr_NoMemory();</div><div class="line">    PyObject_INIT_VAR(op, &amp;PyString_Type, size);</div><div class="line">    op-&gt;ob_shash = <span class="number">-1</span>;</div><div class="line">    op-&gt;ob_sstate = SSTATE_NOT_INTERNED;</div><div class="line">    <span class="keyword">if</span> (str != <span class="literal">NULL</span>)</div><div class="line">        Py_MEMCPY(op-&gt;ob_sval, str, size);</div><div class="line">    op-&gt;ob_sval[size] = <span class="string">'\0'</span>;</div><div class="line">    <span class="comment">/* share short strings */</span></div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        nullstring = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        characters[*str &amp; UCHAR_MAX] = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (PyObject *) op;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/20/py_stringobject/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
     <article id="post-py_intobject" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -554,6 +596,68 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2016/12/20/py_intobject/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-py_stringobject" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/20/py_stringobject/">Python PyStringObject</a>
+    </h1>
+  
+
+        <a href="/2016/12/20/py_stringobject/" class="archive-article-date">
+  	<time datetime="2016-12-19T16:09:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>PyStringObject</code>属于变长size的object</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_VAR_HEAD</div><div class="line">    <span class="keyword">long</span> ob_shash;</div><div class="line">    <span class="keyword">int</span> ob_sstate;</div><div class="line">    <span class="keyword">char</span> ob_sval[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="comment">/* Invariants:</span></div><div class="line">     *     ob_sval contains space for 'ob_size+1' elements.</div><div class="line">     *     ob_sval[ob_size] == 0.</div><div class="line">     *     ob_shash is the hash of the string or -1 if not computed yet.</div><div class="line">     *     ob_sstate != 0 iff the string object is in stringobject.c's</div><div class="line">     *       'interned' dictionary; in this case the two references</div><div class="line">     *       from 'interned' to this object are *not counted* in ob_refcnt.</div><div class="line">     */</div><div class="line">&#125; PyStringObject;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PyObject_VAR_HEAD               \</span></div><div class="line">    PyObject_HEAD                       \</div><div class="line">    Py_ssize_t ob_size; <span class="comment">/* Number of items in variable part */</span></div></pre></td></tr></table></figure>
+<p>ob_size存的是字符串的size,strlen(str),不包含结束符</p>
+<h2 id="针对size-0-or-1的字符串内存优化"><a href="#针对size-0-or-1的字符串内存优化" class="headerlink" title="针对size=0 or 1的字符串内存优化"></a>针对size=0 or 1的字符串内存优化</h2><p>看<code>PyString_FromStringAndSize</code>的实现</p>
+<ol>
+<li>如果size==0, 返回<code>null_strings</code>,引用计数+1</li>
+<li>如果size==1，如果characters数组里面已经存在,直接返回,引用计数+1;如果characters数组里面不存在,创建一个，并保存在characters数组</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="function">PyObject *</span></div><div class="line"><span class="title">PyString_FromStringAndSize</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *str, Py_ssize_t size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">register</span> PyStringObject *op;</div><div class="line">    <span class="keyword">if</span> (size &lt; <span class="number">0</span>) &#123;</div><div class="line">        PyErr_SetString(PyExc_SystemError,</div><div class="line">            <span class="string">"Negative size passed to PyString_FromStringAndSize"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span> &amp;&amp; (op = nullstring) != <span class="literal">NULL</span>) &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        null_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span> &amp;&amp;</div><div class="line">        (op = characters[*str &amp; UCHAR_MAX]) != <span class="literal">NULL</span>)</div><div class="line">    &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        one_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (size &gt; PY_SSIZE_T_MAX - PyStringObject_SIZE) &#123;</div><div class="line">        PyErr_SetString(PyExc_OverflowError, <span class="string">"string is too large"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* Inline PyObject_NewVar */</span></div><div class="line">    op = (PyStringObject *)PyObject_MALLOC(PyStringObject_SIZE + size);</div><div class="line">    <span class="keyword">if</span> (op == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> PyErr_NoMemory();</div><div class="line">    PyObject_INIT_VAR(op, &amp;PyString_Type, size);</div><div class="line">    op-&gt;ob_shash = <span class="number">-1</span>;</div><div class="line">    op-&gt;ob_sstate = SSTATE_NOT_INTERNED;</div><div class="line">    <span class="keyword">if</span> (str != <span class="literal">NULL</span>)</div><div class="line">        Py_MEMCPY(op-&gt;ob_sval, str, size);</div><div class="line">    op-&gt;ob_sval[size] = <span class="string">'\0'</span>;</div><div class="line">    <span class="comment">/* share short strings */</span></div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        nullstring = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        characters[*str &amp; UCHAR_MAX] = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (PyObject *) op;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/20/py_stringobject/">展开全文 >></a>
         </p>
       
 
@@ -934,68 +1038,10 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-hexo_usage" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/06/hexo_usage/">Hexo Usage</a>
-    </h1>
-  
-
-        <a href="/2016/12/06/hexo_usage/" class="archive-article-date">
-  	<time datetime="2016-12-06T00:54:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-06</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/06/hexo_usage/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
