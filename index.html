@@ -178,6 +178,70 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-hexo_draft" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/29/hexo_draft/">hexo draft</a>
+    </h1>
+  
+
+        <a href="/2016/12/29/hexo_draft/" class="archive-article-date">
+  	<time datetime="2016-12-29T08:10:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-29</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="如果文章写了一半-想设置成draft怎么办"><a href="#如果文章写了一半-想设置成draft怎么办" class="headerlink" title="如果文章写了一半,想设置成draft怎么办?"></a>如果文章写了一半,想设置成draft怎么办?</h2><ol>
+<li>看看<code>source/_drafts</code>存在否,不存在,创建一个</li>
+<li>把相关文章<code>xx.md</code>和<code>xx目录</code>扔进去就行,是mv不是cp</li>
+</ol>
+<h2 id="直接创建一个draft"><a href="#直接创建一个draft" class="headerlink" title="直接创建一个draft"></a>直接创建一个draft</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new draft &quot;new draft&quot;</div></pre></td></tr></table></figure>
+<p>这个命令也就是相关文件创建在<code>source/_drafts</code>,默认是创建在<code>source/_posts</code></p>
+<h2 id="强行显示draft"><a href="#强行显示draft" class="headerlink" title="强行显示draft"></a>强行显示draft</h2><p><code>__config.yml</code>里面修改:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">render_drafts: true</div></pre></td></tr></table></figure>
+<p>或者启动server的时候加参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo server --drafts</div></pre></td></tr></table></figure>
+<h2 id="发布draft"><a href="#发布draft" class="headerlink" title="发布draft"></a>发布draft</h2><p>下面的命令可以发布,未验证，事实上, <code>publish</code>我从来就没用过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo publish [layout] &lt;filename&gt;</div></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/29/hexo_draft/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-py_descriptor" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -938,89 +1002,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2016/12/09/py_package_import/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-py_thread_local" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/07/py_thread_local/">Python Thread Local</a>
-    </h1>
-  
-
-        <a href="/2016/12/07/py_thread_local/" class="archive-article-date">
-  	<time datetime="2016-12-06T16:54:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-07</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>如何实现: 保存线程自己的值或者状态,并且这个值对其他线程是不可见</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p><code>thread-local storage object</code> 可以用来满足这个需求,<code>thread-local</code>只有当前的线程可见.</p>
-<h2 id="Sample-Code"><a href="#Sample-Code" class="headerlink" title="Sample Code"></a>Sample Code</h2><p>下面的code demo了怎么样使用 thread-local</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> socket, AF_INET, SOCK_STREAM</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LazyConnection</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, address, family=AF_INET, type=SOCK_STREAM)</span>:</span></div><div class="line">    self.address = address</div><div class="line">    self.family = AF_INET</div><div class="line">    self.type = SOCK_STREAM</div><div class="line">    self.local = threading.local()</div><div class="line">    <span class="keyword">print</span> <span class="string">"__init__"</span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"__enter__"</span></div><div class="line">    <span class="keyword">if</span> hasattr(self.local, <span class="string">'sock'</span>):</div><div class="line">      <span class="keyword">raise</span> RuntimeError(<span class="string">'Already connected'</span>)</div><div class="line">    self.local.sock = socket(self.family, self.type)</div><div class="line">    self.local.sock.connect(self.address)</div><div class="line">    <span class="keyword">return</span> self.local.sock</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_ty, exc_val, tb)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"__exit__"</span></div><div class="line">    self.local.sock.close()</div><div class="line">    <span class="keyword">del</span> self.local.sock</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(conn)</span>:</span></div><div class="line">  <span class="keyword">with</span> conn <span class="keyword">as</span> s:</div><div class="line">    s.send(<span class="string">b'GET /index.html HTTP/1.0\r\n'</span>)</div><div class="line">    s.send(<span class="string">b'Host: www.python.org\r\n'</span>)</div><div class="line"></div><div class="line">    s.send(<span class="string">b'\r\n'</span>)</div><div class="line">    resp = <span class="string">b''</span>.join(iter(partial(s.recv, <span class="number">8192</span>), <span class="string">b''</span>))</div><div class="line">    print(<span class="string">'Got &#123;&#125; bytes'</span>.format(len(resp)))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  conn = LazyConnection((<span class="string">'www.python.org'</span>, <span class="number">80</span>))</div><div class="line">  t1 = threading.Thread(target=test, args=(conn,))</div><div class="line">  t2 = threading.Thread(target=test, args=(conn,))</div><div class="line">  t1.start()</div><div class="line">  t2.start()</div><div class="line">  t1.join()</div><div class="line">  t2.join()</div></pre></td></tr></table></figure>
-<p>打印的结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">__init__</div><div class="line">__enter__</div><div class="line">__enter__</div><div class="line">Got 795 bytes</div><div class="line">__exit__</div><div class="line">Got 795 bytes</div><div class="line">__exit__</div></pre></td></tr></table></figure>
-<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>打开python 2.7的源码,thread local 对应的源码在  </p>
-<blockquote>
-<p>Python-2.7.11\Lib\_threading_local.py</p>
-</blockquote>
-<p>thread local 就是下面的继承关系</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object &gt; _localbase &gt; local</div></pre></td></tr></table></figure>
-<h3 id="如何实现线程独立拥有自己的local"><a href="#如何实现线程独立拥有自己的local" class="headerlink" title="如何实现线程独立拥有自己的local"></a>如何实现线程独立拥有自己的local</h3><p>仔细看上面的code, LazyConnection 只实例化了一次,也就是说<code>__init__</code>只调用了一次,所以<code>conn</code>对各个线程来说是共享的,为什么下面的 socket 赋值可以做到各个线程拥有独立的sock对象?</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self.local.sock = socket(self.family, self.type)</div></pre></td></tr></table></figure>
-<p>虽然new 一个 local 实例, 这个实例对于所有线程是共享的,但是真正执行set/get操作的实现在 _patch,这个函数是关键.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_patch</span><span class="params">(self)</span>:</span></div><div class="line">    key = object.__getattribute__(self, <span class="string">'_local__key'</span>)</div><div class="line">    d = current_thread().__dict__.get(key)</div><div class="line">    <span class="keyword">if</span> d <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        d = &#123;&#125;</div><div class="line">        current_thread().__dict__[key] = d</div><div class="line">        object.__setattr__(self, <span class="string">'__dict__'</span>, d)</div><div class="line"></div><div class="line">        <span class="comment"># we have a new instance dict, so call out __init__ if we have</span></div><div class="line">        <span class="comment"># one</span></div><div class="line">        cls = type(self)</div><div class="line">        <span class="keyword">if</span> cls.__init__ <span class="keyword">is</span> <span class="keyword">not</span> object.__init__:</div><div class="line">            args, kw = object.__getattribute__(self, <span class="string">'_local__args'</span>)</div><div class="line">            cls.__init__(self, *args, **kw)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        object.__setattr__(self, <span class="string">'__dict__'</span>, d)</div></pre></td></tr></table></figure>
-<p>先看 if d is not None 的case</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object.__setattr__(self, <span class="string">'__dict__'</span>, d)</div></pre></td></tr></table></figure>
-<p>也就是说 每次set/get的时候，上面这句话改变了 <code>__dict__</code>,他把 <code>current_thread().__dict__.get(key)</code> 赋值给了<code>__dict__</code>, 而对object的set/get 操作，实际也就是对 <code>__dict__</code>的操作.</p>
-<h3 id="如何实现lock"><a href="#如何实现lock" class="headerlink" title="如何实现lock"></a>如何实现lock</h3><p>因为每次都要改变local.<strong>dict</strong>,必然存在一个问题,就是要锁操作.</p>
-<p>下面的代码会构造一个RLock 给 local, 注意,这个rlock是给local的,也就是说所有线程都是用这个rlock来执行锁操作的.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">_localbase</span><span class="params">(object)</span>:</span></div><div class="line">    __slots__ = <span class="string">'_local__key'</span>, <span class="string">'_local__args'</span>, <span class="string">'_local__lock'</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, *args, **kw)</span>:</span></div><div class="line">        self = object.__new__(cls)</div><div class="line">        key = <span class="string">'_local__key'</span>, <span class="string">'thread.local.'</span> + str(id(self))</div><div class="line">        object.__setattr__(self, <span class="string">'_local__key'</span>, key)</div><div class="line">        object.__setattr__(self, <span class="string">'_local__args'</span>, (args, kw))</div><div class="line">        object.__setattr__(self, <span class="string">'_local__lock'</span>, RLock())</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (args <span class="keyword">or</span> kw) <span class="keyword">and</span> (cls.__init__ <span class="keyword">is</span> object.__init__):</div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">"Initialization arguments are not supported"</span>)</div><div class="line"></div><div class="line">        <span class="comment"># We need to create the thread dict in anticipation of</span></div><div class="line">        <span class="comment"># __init__ being called, to make sure we don't call it</span></div><div class="line">        <span class="comment"># again ourselves.</span></div><div class="line">        dict = object.__getattribute__(self, <span class="string">'__dict__'</span>)</div><div class="line">        current_thread().__dict__[key] = dict</div><div class="line"></div><div class="line">        <span class="keyword">return</span> self</div></pre></td></tr></table></figure>
-<p>看下local get操作 ,进入之前acquire,finally 保证了释放</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span><span class="params">(self, name)</span>:</span></div><div class="line">  lock = object.__getattribute__(self, <span class="string">'_local__lock'</span>)</div><div class="line">  lock.acquire()</div><div class="line">  <span class="keyword">try</span>:</div><div class="line">      _patch(self)</div><div class="line">      <span class="keyword">return</span> object.__getattribute__(self, name)</div><div class="line">  <span class="keyword">finally</span>:</div><div class="line">      lock.release()</div></pre></td></tr></table></figure>
-<h3 id="slots"><a href="#slots" class="headerlink" title="__slots__"></a>__slots__</h3><p>_localbase 用 __slots__ 来限制 local的 instance variables</p>
-<p>__slots__ 的解释: copy from <a href="https://www.python.org/download/releases/2.2.2/descrintro/" target="_blank" rel="external">python org</a></p>
-<blockquote>
-<p>The __slots__ declaration takes a list of instance variables, and reserves space in the instance for exactly these in the instance. When __slots__ is used, other instance variables cannot be assigned to</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">defaultdict2</span><span class="params">(dict)</span>:</span></div><div class="line"></div><div class="line">    __slots__ = [<span class="string">'default'</span>]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, default=None)</span>:</span></div><div class="line">    ...(like before)...</div></pre></td></tr></table></figure>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = defaultdict2(default=0.0)</div><div class="line">&gt;&gt;&gt; a[1]</div><div class="line">0.0</div><div class="line">&gt;&gt;&gt; a.default = -1</div><div class="line">&gt;&gt;&gt; a[1]</div><div class="line">-1</div><div class="line">&gt;&gt;&gt; a.x1 = 1</div><div class="line">Traceback (most recent call last):</div><div class="line">  File "&lt;stdin&gt;", line 1, in ?</div><div class="line">AttributeError: 'defaultdict2' object has no attribute 'x1'</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/07/py_thread_local/">展开全文 >></a>
         </p>
       
 
