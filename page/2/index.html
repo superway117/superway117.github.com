@@ -178,6 +178,84 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-py_package_import" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/09/py_package_import/">Python Package管理</a>
+    </h1>
+  
+
+        <a href="/2016/12/09/py_package_import/" class="archive-article-date">
+  	<time datetime="2016-12-09T04:49:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-09</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="init-py"><a href="#init-py" class="headerlink" title="init.py"></a><strong>init</strong>.py</h2><p>module(包括sub module)目录下面, 在py2.7上面,这个文件是需要的;在3.x上面,这个文件已经不是必须的.</p>
+<p><code>__init__</code>是会被在module(submodule)加载之前加载 .</p>
+<p><code>__init__</code>可以用来实现下面的功能:</p>
+<ol>
+<li><p>帮用户加载需要的submodule或者符号 </p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># graphics/formats/__init__.py</span></div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> jpg</div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> png</div></pre></td></tr></table></figure>
+<p>这样的话用户只需要下面的语句,就可以得到需要的符号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import graphics.formats</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="如何控制-export-symbol"><a href="#如何控制-export-symbol" class="headerlink" title="如何控制 export symbol"></a>如何控制 export symbol</h2><h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><p>下面的语句会导致把<code>module</code>里面的所有符号都导出. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> module <span class="keyword">import</span> *</div></pre></td></tr></table></figure>
+<p>这样的做法是不受鼓励的,但是事实上为了方便,我们经常这么干.</p>
+<p>从性能或者从安全的角度出发,很多时候我们要控制export的符号</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p><code>__all__</code> 可以帮你控制输出的符号</p>
+<p>demo<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># somemodule.py</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">pass</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">grok</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">pass</span></div><div class="line"></div><div class="line">blah = <span class="number">42</span></div><div class="line"><span class="comment"># Only export 'spam' and 'grok'</span></div><div class="line">__all__ = [<span class="string">'spam'</span>, <span class="string">'grok'</span>]</div></pre></td></tr></table></figure></p>
+<ul>
+<li>如果你定义了<code>__all__</code>为一个空数组,那么nothing will be exported.</li>
+<li>AttributeError is raised on import if <strong>all</strong> contains undefined names.</li>
+</ul>
+<h2 id="Namespace-Packages"><a href="#Namespace-Packages" class="headerlink" title="Namespace Packages"></a>Namespace Packages</h2><p>“namespace package” Essentially, a namespace package is a special kind of package designed for merging different directories of code together under a common namespace</p>
+<p>links</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0420/" target="_blank" rel="external">Implicit Namespace Packages</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/09/py_package_import/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-py_thread_local" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     

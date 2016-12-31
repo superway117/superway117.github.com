@@ -178,6 +178,77 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-py_private_variables" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/31/py_private_variables/">Python Private Variables</a>
+    </h1>
+  
+
+        <a href="/2016/12/31/py_private_variables/" class="archive-article-date">
+  	<time datetime="2016-12-31T11:11:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-31</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Python是不支持<code>Private</code>关键字的.Python通过2种形式来支持private.</p>
+<h2 id="约定俗成"><a href="#约定俗成" class="headerlink" title="约定俗成"></a>约定俗成</h2><p>如果一个成员是以一个下划线开头(有且只有一个),这种情况是python里面约定俗成的私有变量. 但是注意 python语法上没有对他做任何处理, 这只是一个编码习惯.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">    self._internal = <span class="number">0</span> <span class="comment"># An internal attribute</span></div><div class="line">    self.public = <span class="number">1</span> <span class="comment"># A public attribute</span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">public_method</span><span class="params">(self)</span>:</span></div><div class="line">  <span class="string">'''</span></div><div class="line">  A public method</div><div class="line">  '''</div><div class="line">  ...</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">_internal_method</span><span class="params">(self)</span>:</span></div></pre></td></tr></table></figure>
+<h2 id="name-mangling"><a href="#name-mangling" class="headerlink" title="name mangling"></a>name mangling</h2><p>如果成员是以两个下划线开头,且结尾<strong>至多</strong>一个下划线,这种类成员python是会做一个重命名的,  <code>__spam</code>,python会改出: <code>_classname__spam</code>.</p>
+<p>python设计这样的东西,是为了阻止继承的类<code>oeverridden</code>这样的属性.</p>
+<p>下面是从python cookbook里面copy出来的.</p>
+<blockquote>
+<p>At this point, you might ask what purpose<br>such name mangling serves. The answer is inheritance—such attributes cannot be<br>overridden via inheritance</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">class B:</div><div class="line">  def __init__(self):</div><div class="line">    self.__private = 0    --&gt;相当于__B_private</div><div class="line">    def __private_method(self):</div><div class="line"> </div><div class="line">  def public_method(self):</div><div class="line">    ...</div><div class="line"></div><div class="line">  self.__private_method()  --&gt;相当于__B_private_method</div><div class="line">    ...</div><div class="line"></div><div class="line"></div><div class="line">class C(B):</div><div class="line">  def __init__(self):</div><div class="line">    super().__init__()</div><div class="line"></div><div class="line">  self.__private = 1 # Does not override B.__private</div><div class="line"></div><div class="line">  # Does not override B.__private_method()</div><div class="line">  def __private_method(self): --&gt;相当于__C_private_method</div></pre></td></tr></table></figure>
+<p>下面是<code>werkzeug\local.py</code>的code. 主要注意的是<code>object.__setattr__</code>用的是转换后的名字<code>_LocalProxy__local</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object.__setattr__(self, <span class="string">'_LocalProxy__local'</span>, local)</div></pre></td></tr></table></figure>
+<p>##references</p>
+<ul>
+<li><a href="https://docs.python.org/2/tutorial/classes.html#private-variables-and-class-local-references" target="_blank" rel="external">Private Variables and Class-local References</a></li>
+<li><a href="http://blog.csdn.net/zsuguangh/article/details/6207469" target="_blank" rel="external">关于Python的class的私有变量扎压 Python的命名机制</a></li>
+<li>Python Cookbook 8.5. Encapsulating Names in a Class</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/31/py_private_variables/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-hexo_draft" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -924,84 +995,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2016/12/12/py_decorator_1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-py_package_import" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/py_package_import/">Python Package管理</a>
-    </h1>
-  
-
-        <a href="/2016/12/09/py_package_import/" class="archive-article-date">
-  	<time datetime="2016-12-09T04:49:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-09</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="init-py"><a href="#init-py" class="headerlink" title="init.py"></a><strong>init</strong>.py</h2><p>module(包括sub module)目录下面, 在py2.7上面,这个文件是需要的;在3.x上面,这个文件已经不是必须的.</p>
-<p><code>__init__</code>是会被在module(submodule)加载之前加载 .</p>
-<p><code>__init__</code>可以用来实现下面的功能:</p>
-<ol>
-<li><p>帮用户加载需要的submodule或者符号 </p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># graphics/formats/__init__.py</span></div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> jpg</div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> png</div></pre></td></tr></table></figure>
-<p>这样的话用户只需要下面的语句,就可以得到需要的符号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import graphics.formats</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="如何控制-export-symbol"><a href="#如何控制-export-symbol" class="headerlink" title="如何控制 export symbol"></a>如何控制 export symbol</h2><h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><p>下面的语句会导致把<code>module</code>里面的所有符号都导出. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> module <span class="keyword">import</span> *</div></pre></td></tr></table></figure>
-<p>这样的做法是不受鼓励的,但是事实上为了方便,我们经常这么干.</p>
-<p>从性能或者从安全的角度出发,很多时候我们要控制export的符号</p>
-<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p><code>__all__</code> 可以帮你控制输出的符号</p>
-<p>demo<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># somemodule.py</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">pass</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">grok</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">pass</span></div><div class="line"></div><div class="line">blah = <span class="number">42</span></div><div class="line"><span class="comment"># Only export 'spam' and 'grok'</span></div><div class="line">__all__ = [<span class="string">'spam'</span>, <span class="string">'grok'</span>]</div></pre></td></tr></table></figure></p>
-<ul>
-<li>如果你定义了<code>__all__</code>为一个空数组,那么nothing will be exported.</li>
-<li>AttributeError is raised on import if <strong>all</strong> contains undefined names.</li>
-</ul>
-<h2 id="Namespace-Packages"><a href="#Namespace-Packages" class="headerlink" title="Namespace Packages"></a>Namespace Packages</h2><p>“namespace package” Essentially, a namespace package is a special kind of package designed for merging different directories of code together under a common namespace</p>
-<p>links</p>
-<ul>
-<li><a href="https://www.python.org/dev/peps/pep-0420/" target="_blank" rel="external">Implicit Namespace Packages</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/09/py_package_import/">展开全文 >></a>
         </p>
       
 
