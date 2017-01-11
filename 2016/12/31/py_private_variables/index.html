@@ -18,7 +18,7 @@
 <meta property="og:description" content="Python是不支持Private关键字的.Python通过2种形式来支持private.
 约定俗成如果一个成员是以一个下划线开头(有且只有一个),这种情况是python里面约定俗成的私有变量. 但是注意 python语法上没有对他做任何处理, 这只是一个编码习惯.
 123456789101112class A:  def __init__(self):    self._internal = 0">
-<meta property="og:updated_time" content="2016-12-31T15:40:58.418Z">
+<meta property="og:updated_time" content="2016-12-31T15:52:11.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python Private Variables">
 <meta name="twitter:description" content="Python是不支持Private关键字的.Python通过2种形式来支持private.
@@ -95,7 +95,7 @@ var _hmt = _hmt || [];
     			
             
     			
-    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">Links</a>
+    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">我的作品</a>
     			
     			
             
@@ -216,8 +216,7 @@ var _hmt = _hmt || [];
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">class B:</div><div class="line">  def __init__(self):</div><div class="line">    self.__private = 0    --&gt;相当于__B_private</div><div class="line">    def __private_method(self):</div><div class="line"> </div><div class="line">  def public_method(self):</div><div class="line">    ...</div><div class="line"></div><div class="line">  self.__private_method()  --&gt;相当于__B_private_method</div><div class="line">    ...</div><div class="line"></div><div class="line"></div><div class="line">class C(B):</div><div class="line">  def __init__(self):</div><div class="line">    super().__init__()</div><div class="line"></div><div class="line">  self.__private = 1 # Does not override B.__private</div><div class="line"></div><div class="line">  # Does not override B.__private_method()</div><div class="line">  def __private_method(self): --&gt;相当于__C_private_method</div></pre></td></tr></table></figure>
 <p>下面是<code>werkzeug\local.py</code>的code. 主要注意的是<code>object.__setattr__</code>用的是转换后的名字<code>_LocalProxy__local</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object.__setattr__(self, <span class="string">'_LocalProxy__local'</span>, local)</div></pre></td></tr></table></figure>
-<p>##references</p>
-<ul>
+<h2 id="references"><a href="#references" class="headerlink" title="references"></a>references</h2><ul>
 <li><a href="https://docs.python.org/2/tutorial/classes.html#private-variables-and-class-local-references" target="_blank" rel="external">Private Variables and Class-local References</a></li>
 <li><a href="http://blog.csdn.net/zsuguangh/article/details/6207469" target="_blank" rel="external">关于Python的class的私有变量扎压 Python的命名机制</a></li>
 <li>Python Cookbook 8.5. Encapsulating Names in a Class</li>
@@ -299,6 +298,15 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
+    <a href="/2017/01/11/py_nanmedtuple/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Python nanmedtuple
+        
+      </div>
+    </a>
+  
   
     <a href="/2016/12/29/hexo_draft/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">hexo draft</div>
@@ -342,7 +350,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2016 Eason Pan
+    		&copy; 2017 Eason Pan
     	</div>
       	<div class="footer-right">
       		
@@ -386,11 +394,11 @@ var _hmt = _hmt || [];
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">python</a>
+                <a href="javascript:void(0)">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">hexo</a>
+                <a href="javascript:void(0)">python</a>
               </li>
             
             <div class="clearfix"></div>
@@ -446,7 +454,7 @@ var _hmt = _hmt || [];
             </li>
           
             <li class="search-li">
-              <a href="http://shouji.baidu.com/game/3907419.html/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>哈皮五子连珠</a>
+              <a href="http://shouji.baidu.com/game/3907419.html" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>哈皮五子连珠</a>
             </li>
           
             <li class="search-li">

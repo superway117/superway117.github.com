@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://superway117.github.io/"/>
-  <updated>2016-12-31T15:40:58.418Z</updated>
+  <updated>2017-01-10T16:54:59.807Z</updated>
   <id>http://superway117.github.io/</id>
   
   <author>
@@ -16,11 +16,46 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Python nanmedtuple</title>
+    <link href="http://superway117.github.io/2017/01/11/py_nanmedtuple/"/>
+    <id>http://superway117.github.io/2017/01/11/py_nanmedtuple/</id>
+    <published>2017-01-10T16:43:38.000Z</published>
+    <updated>2017-01-10T16:54:59.807Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>tuple</code>只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.</p>
+<p>很多时候我们需要用类似<code>dict</code>的方式来取值. 这个时候就需要<code>nanmedtuple</code></p>
+<p><code>namedtuple</code>某种意义上就是一个文本的模板,帮助你定义一个<code>tuple</code>的子类.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Point = namedtuple(<span class="string">'Point'</span>, [<span class="string">'x'</span>, <span class="string">'y'</span>], verbose=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<p>就相当于定义了一个类<code>Point</code></p>
+<p>下面的代码关键在于 <code>__dict__ = _property(_asdict)</code>,他定义了一个<code>dict</code>,这样我们才可以实现用名字来获取值.</p>
+<p>另外因为用到了<code>__slots__</code>,这个是为了节省memory, 所以大胆的用<code>namedtuple</code>,开销不是很大.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span><span class="params">(tuple)</span>:</span></div><div class="line">    <span class="string">'Point(x, y)'</span></div><div class="line"></div><div class="line">    __slots__ = ()</div><div class="line"></div><div class="line">    _fields = (<span class="string">'x'</span>, <span class="string">'y'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(_cls, x, y)</span>:</span></div><div class="line">        <span class="string">'Create new instance of Point(x, y)'</span></div><div class="line">        <span class="keyword">return</span> _tuple.__new__(_cls, (x, y))</div><div class="line"></div><div class="line"><span class="meta">    @classmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_make</span><span class="params">(cls, iterable, new=tuple.__new__, len=len)</span>:</span></div><div class="line">        <span class="string">'Make a new Point object from a sequence or iterable'</span></div><div class="line">        result = new(cls, iterable)</div><div class="line">        <span class="keyword">if</span> len(result) != <span class="number">2</span>:</div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">'Expected 2 arguments, got %d'</span> % len(result))</div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return a nicely formatted representation string'</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'Point(x=%r, y=%r)'</span> % self</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_asdict</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return a new OrderedDict which maps field names to their values'</span></div><div class="line">        <span class="keyword">return</span> OrderedDict(zip(self._fields, self))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_replace</span><span class="params">(_self, **kwds)</span>:</span></div><div class="line">        <span class="string">'Return a new Point object replacing specified fields with new values'</span></div><div class="line">        result = _self._make(map(kwds.pop, (<span class="string">'x'</span>, <span class="string">'y'</span>), _self))</div><div class="line">        <span class="keyword">if</span> kwds:</div><div class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'Got unexpected field names: %r'</span> % kwds.keys())</div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getnewargs__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return self as a plain tuple.  Used by copy and pickle.'</span></div><div class="line">        <span class="keyword">return</span> tuple(self)</div><div class="line"></div><div class="line">    __dict__ = _property(_asdict)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getstate__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Exclude the OrderedDict from pickling'</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    x = _property(_itemgetter(<span class="number">0</span>), doc=<span class="string">'Alias for field number 0'</span>)</div><div class="line"></div><div class="line">    y = _property(_itemgetter(<span class="number">1</span>), doc=<span class="string">'Alias for field number 1'</span>)</div></pre></td></tr></table></figure>
+<h2 id="usage"><a href="#usage" class="headerlink" title="usage"></a>usage</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Point = namedtuple(&apos;Point&apos;, [&apos;x&apos;, &apos;y&apos;], verbose=True)</div><div class="line"></div><div class="line">&gt;&gt;&gt; p = Point(11, y=22)     # instantiate with positional or keyword arguments</div><div class="line">&gt;&gt;&gt; p[0] + p[1]             # indexable like the plain tuple (11, 22)</div><div class="line">33</div><div class="line">&gt;&gt;&gt; x, y = p                # unpack like a regular tuple</div><div class="line">&gt;&gt;&gt; x, y</div><div class="line">(11, 22)</div><div class="line">&gt;&gt;&gt; p.x + p.y               # fields also accessible by name</div><div class="line">33</div><div class="line">&gt;&gt;&gt; p                       # readable __repr__ with a name=value style</div><div class="line">Point(x=11, y=22)</div></pre></td></tr></table></figure>
+<p>另外注意<code>_fields</code>的用法，他直接返回了原始的<code>tuple</code></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><ul>
+<li><a href="https://docs.python.org/2/library/collections.html?highlight=namedtuple#collections.namedtuple" target="_blank" rel="external">collections.namedtuple</a></li>
+<li>Python cookbook 1.18. Mapping Names to Sequence Elements</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;tuple&lt;/code&gt;只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.&lt;/p&gt;
+&lt;p&gt;很多时候我们需要用类似&lt;code&gt;dict&lt;/code&gt;的方式来取值. 这个时候就需要&lt;code&gt;nanmedtuple&lt;
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://superway117.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Python Private Variables</title>
     <link href="http://superway117.github.io/2016/12/31/py_private_variables/"/>
     <id>http://superway117.github.io/2016/12/31/py_private_variables/</id>
     <published>2016-12-31T11:11:33.000Z</published>
-    <updated>2016-12-31T15:40:58.418Z</updated>
+    <updated>2016-12-31T15:52:11.332Z</updated>
     
     <content type="html"><![CDATA[<p>Python是不支持<code>Private</code>关键字的.Python通过2种形式来支持private.</p>
 <h2 id="约定俗成"><a href="#约定俗成" class="headerlink" title="约定俗成"></a>约定俗成</h2><p>如果一个成员是以一个下划线开头(有且只有一个),这种情况是python里面约定俗成的私有变量. 但是注意 python语法上没有对他做任何处理, 这只是一个编码习惯.</p>
@@ -34,8 +69,7 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">class B:</div><div class="line">  def __init__(self):</div><div class="line">    self.__private = 0    --&gt;相当于__B_private</div><div class="line">    def __private_method(self):</div><div class="line"> </div><div class="line">  def public_method(self):</div><div class="line">    ...</div><div class="line"></div><div class="line">  self.__private_method()  --&gt;相当于__B_private_method</div><div class="line">    ...</div><div class="line"></div><div class="line"></div><div class="line">class C(B):</div><div class="line">  def __init__(self):</div><div class="line">    super().__init__()</div><div class="line"></div><div class="line">  self.__private = 1 # Does not override B.__private</div><div class="line"></div><div class="line">  # Does not override B.__private_method()</div><div class="line">  def __private_method(self): --&gt;相当于__C_private_method</div></pre></td></tr></table></figure>
 <p>下面是<code>werkzeug\local.py</code>的code. 主要注意的是<code>object.__setattr__</code>用的是转换后的名字<code>_LocalProxy__local</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object.__setattr__(self, <span class="string">'_LocalProxy__local'</span>, local)</div></pre></td></tr></table></figure>
-<p>##references</p>
-<ul>
+<h2 id="references"><a href="#references" class="headerlink" title="references"></a>references</h2><ul>
 <li><a href="https://docs.python.org/2/tutorial/classes.html#private-variables-and-class-local-references" target="_blank" rel="external">Private Variables and Class-local References</a></li>
 <li><a href="http://blog.csdn.net/zsuguangh/article/details/6207469" target="_blank" rel="external">关于Python的class的私有变量扎压 Python的命名机制</a></li>
 <li>Python Cookbook 8.5. Encapsulating Names in a Class</li>

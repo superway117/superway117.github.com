@@ -85,7 +85,7 @@ var _hmt = _hmt || [];
     			
             
     			
-    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">Links</a>
+    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">我的作品</a>
     			
     			
             
@@ -178,6 +178,73 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-py_nanmedtuple" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/11/py_nanmedtuple/">Python nanmedtuple</a>
+    </h1>
+  
+
+        <a href="/2017/01/11/py_nanmedtuple/" class="archive-article-date">
+  	<time datetime="2017-01-10T16:43:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-11</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>tuple</code>只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.</p>
+<p>很多时候我们需要用类似<code>dict</code>的方式来取值. 这个时候就需要<code>nanmedtuple</code></p>
+<p><code>namedtuple</code>某种意义上就是一个文本的模板,帮助你定义一个<code>tuple</code>的子类.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Point = namedtuple(<span class="string">'Point'</span>, [<span class="string">'x'</span>, <span class="string">'y'</span>], verbose=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<p>就相当于定义了一个类<code>Point</code></p>
+<p>下面的代码关键在于 <code>__dict__ = _property(_asdict)</code>,他定义了一个<code>dict</code>,这样我们才可以实现用名字来获取值.</p>
+<p>另外因为用到了<code>__slots__</code>,这个是为了节省memory, 所以大胆的用<code>namedtuple</code>,开销不是很大.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span><span class="params">(tuple)</span>:</span></div><div class="line">    <span class="string">'Point(x, y)'</span></div><div class="line"></div><div class="line">    __slots__ = ()</div><div class="line"></div><div class="line">    _fields = (<span class="string">'x'</span>, <span class="string">'y'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(_cls, x, y)</span>:</span></div><div class="line">        <span class="string">'Create new instance of Point(x, y)'</span></div><div class="line">        <span class="keyword">return</span> _tuple.__new__(_cls, (x, y))</div><div class="line"></div><div class="line"><span class="meta">    @classmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_make</span><span class="params">(cls, iterable, new=tuple.__new__, len=len)</span>:</span></div><div class="line">        <span class="string">'Make a new Point object from a sequence or iterable'</span></div><div class="line">        result = new(cls, iterable)</div><div class="line">        <span class="keyword">if</span> len(result) != <span class="number">2</span>:</div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">'Expected 2 arguments, got %d'</span> % len(result))</div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return a nicely formatted representation string'</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'Point(x=%r, y=%r)'</span> % self</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_asdict</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return a new OrderedDict which maps field names to their values'</span></div><div class="line">        <span class="keyword">return</span> OrderedDict(zip(self._fields, self))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_replace</span><span class="params">(_self, **kwds)</span>:</span></div><div class="line">        <span class="string">'Return a new Point object replacing specified fields with new values'</span></div><div class="line">        result = _self._make(map(kwds.pop, (<span class="string">'x'</span>, <span class="string">'y'</span>), _self))</div><div class="line">        <span class="keyword">if</span> kwds:</div><div class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'Got unexpected field names: %r'</span> % kwds.keys())</div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getnewargs__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return self as a plain tuple.  Used by copy and pickle.'</span></div><div class="line">        <span class="keyword">return</span> tuple(self)</div><div class="line"></div><div class="line">    __dict__ = _property(_asdict)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getstate__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Exclude the OrderedDict from pickling'</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    x = _property(_itemgetter(<span class="number">0</span>), doc=<span class="string">'Alias for field number 0'</span>)</div><div class="line"></div><div class="line">    y = _property(_itemgetter(<span class="number">1</span>), doc=<span class="string">'Alias for field number 1'</span>)</div></pre></td></tr></table></figure>
+<h2 id="usage"><a href="#usage" class="headerlink" title="usage"></a>usage</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Point = namedtuple(&apos;Point&apos;, [&apos;x&apos;, &apos;y&apos;], verbose=True)</div><div class="line"></div><div class="line">&gt;&gt;&gt; p = Point(11, y=22)     # instantiate with positional or keyword arguments</div><div class="line">&gt;&gt;&gt; p[0] + p[1]             # indexable like the plain tuple (11, 22)</div><div class="line">33</div><div class="line">&gt;&gt;&gt; x, y = p                # unpack like a regular tuple</div><div class="line">&gt;&gt;&gt; x, y</div><div class="line">(11, 22)</div><div class="line">&gt;&gt;&gt; p.x + p.y               # fields also accessible by name</div><div class="line">33</div><div class="line">&gt;&gt;&gt; p                       # readable __repr__ with a name=value style</div><div class="line">Point(x=11, y=22)</div></pre></td></tr></table></figure>
+<p>另外注意<code>_fields</code>的用法，他直接返回了原始的<code>tuple</code></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><ul>
+<li><a href="https://docs.python.org/2/library/collections.html?highlight=namedtuple#collections.namedtuple" target="_blank" rel="external">collections.namedtuple</a></li>
+<li>Python cookbook 1.18. Mapping Names to Sequence Elements</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/01/11/py_nanmedtuple/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-py_private_variables" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -208,8 +275,7 @@ var _hmt = _hmt || [];
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">class B:</div><div class="line">  def __init__(self):</div><div class="line">    self.__private = 0    --&gt;相当于__B_private</div><div class="line">    def __private_method(self):</div><div class="line"> </div><div class="line">  def public_method(self):</div><div class="line">    ...</div><div class="line"></div><div class="line">  self.__private_method()  --&gt;相当于__B_private_method</div><div class="line">    ...</div><div class="line"></div><div class="line"></div><div class="line">class C(B):</div><div class="line">  def __init__(self):</div><div class="line">    super().__init__()</div><div class="line"></div><div class="line">  self.__private = 1 # Does not override B.__private</div><div class="line"></div><div class="line">  # Does not override B.__private_method()</div><div class="line">  def __private_method(self): --&gt;相当于__C_private_method</div></pre></td></tr></table></figure>
 <p>下面是<code>werkzeug\local.py</code>的code. 主要注意的是<code>object.__setattr__</code>用的是转换后的名字<code>_LocalProxy__local</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">object.__setattr__(self, <span class="string">'_LocalProxy__local'</span>, local)</div></pre></td></tr></table></figure>
-<p>##references</p>
-<ul>
+<h2 id="references"><a href="#references" class="headerlink" title="references"></a>references</h2><ul>
 <li><a href="https://docs.python.org/2/tutorial/classes.html#private-variables-and-class-local-references" target="_blank" rel="external">Private Variables and Class-local References</a></li>
 <li><a href="http://blog.csdn.net/zsuguangh/article/details/6207469" target="_blank" rel="external">关于Python的class的私有变量扎压 Python的命名机制</a></li>
 <li>Python Cookbook 8.5. Encapsulating Names in a Class</li>
@@ -892,126 +958,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-py_decorator_1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/py_decorator_1/">Python Decorator - 理解partial</a>
-    </h1>
-  
-
-        <a href="/2016/12/12/py_decorator_1/" class="archive-article-date">
-  	<time datetime="2016-12-12T15:42:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-12</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>主要topic是partial的源码实现</p>
-<h2 id="什么是partial"><a href="#什么是partial" class="headerlink" title="什么是partial"></a>什么是partial</h2><p><code>partial</code> 是<code>functools</code>里面的一个函数对象,虽然用起来就是一个函数.</p>
-<p>它是一个<code>decorator function</code>,也就是说用来decorator其他函数的.</p>
-<p>比如decorator add函数，它的第一个参数必须是一个函数,后面的参数,在真正执行add的时候，会带入到add里面,作为add的参数.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">9</span>]: <span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line">In [<span class="number">10</span>]: <span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a,b)</span>:</span></div><div class="line">....: <span class="keyword">return</span> a+b</div><div class="line">....:</div><div class="line"></div><div class="line">In [<span class="number">11</span>]: add(<span class="number">4</span>,<span class="number">3</span>)</div><div class="line">Out[<span class="number">11</span>]: <span class="number">7</span></div><div class="line"></div><div class="line">In [<span class="number">12</span>]: plus = partial(add,<span class="number">100</span>)</div><div class="line"></div><div class="line">In [<span class="number">13</span>]: plus(<span class="number">9</span>)</div><div class="line">Out[<span class="number">13</span>]: <span class="number">109</span></div><div class="line"></div><div class="line">In [<span class="number">14</span>]: plus2 = partial(add,<span class="number">99</span>)</div><div class="line"></div><div class="line">In [<span class="number">15</span>]: plus2(<span class="number">9</span>)</div><div class="line">Out[<span class="number">15</span>]: <span class="number">108</span></div></pre></td></tr></table></figure>
-<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>打开python 2.7的源码,partial是用C语言实现的,对应的源码在  </p>
-<blockquote>
-<p>Python-2.7.11\Modules\_functoolsmodule.c</p>
-</blockquote>
-<p>主要3个函数：</p>
-<ul>
-<li>partial_new: 执行plus = partial(add,100),会创建一个partialobject对象</li>
-<li>partial_dealloc: 释放partialobject对象</li>
-<li>partial_call: 执行plus(9),会调用到这个函数</li>
-<li>partial_setstate: 这个用来替换前面传入的add,以及参数, 一般情况很少用</li>
-</ul>
-<p>下面的这些函数,一般情况是用不上.</p>
-<ul>
-<li>partial_traverse</li>
-<li>partial_get_dict</li>
-<li>partial_set_dict</li>
-</ul>
-<h3 id="partial-new"><a href="#partial-new" class="headerlink" title="partial_new"></a>partial_new</h3><ul>
-<li>创建partialobject对象</li>
-<li><p>args是一个<code>PyTuple</code>,第一个参数必须是一个<code>PyCallable</code>，简单的说就是一个函数对象</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">func = PyTuple_GET_ITEM(args, <span class="number">0</span>);</div></pre></td></tr></table></figure>
-</li>
-<li><p>args其他的参数会保存为 <code>pto-&gt;args</code></p>
-  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pto-&gt;args = PyTuple_GetSlice(args, 1, PY_SSIZE_T_MAX);</div></pre></td></tr></table></figure>
-</li>
-<li><p>kw如果存在会被<code>复制</code>一份</p>
-  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pto-&gt;kw = (kw != NULL) ? PyDict_Copy(kw) : PyDict_New();</div></pre></td></tr></table></figure>
-</li>
-<li><p>dict默认是null, 后面可以通过<code>partial_set_dict</code>来设置</p>
-  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pto-&gt;dict = NULL;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>source code<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">static PyObject *</div><div class="line">partial_new(PyTypeObject *type, PyObject *args, PyObject *kw)</div><div class="line">&#123;</div><div class="line">    PyObject *func;</div><div class="line">    partialobject *pto;</div><div class="line"></div><div class="line">    if (PyTuple_GET_SIZE(args) &lt; 1) &#123;</div><div class="line">        PyErr_SetString(PyExc_TypeError,</div><div class="line">                        "type 'partial' takes at least one argument");</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    func = PyTuple_GET_ITEM(args, 0);</div><div class="line">    if (!PyCallable_Check(func)) &#123;</div><div class="line">        PyErr_SetString(PyExc_TypeError,</div><div class="line">                        "the first argument must be callable");</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /* create partialobject structure */</div><div class="line">    pto = (partialobject *)type-&gt;tp_alloc(type, 0);</div><div class="line">    if (pto == NULL)</div><div class="line">        return NULL;</div><div class="line"></div><div class="line">    pto-&gt;fn = func;</div><div class="line">    Py_INCREF(func);</div><div class="line">    pto-&gt;args = PyTuple_GetSlice(args, 1, PY_SSIZE_T_MAX);</div><div class="line">    if (pto-&gt;args == NULL) &#123;</div><div class="line">        pto-&gt;kw = NULL;</div><div class="line">        Py_DECREF(pto);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    pto-&gt;kw = (kw != NULL) ? PyDict_Copy(kw) : PyDict_New();</div><div class="line">    if (pto-&gt;kw == NULL) &#123;</div><div class="line">        Py_DECREF(pto);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    pto-&gt;weakreflist = NULL;</div><div class="line">    pto-&gt;dict = NULL;</div><div class="line"></div><div class="line">    return (PyObject *)pto;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="partial-dealloc"><a href="#partial-dealloc" class="headerlink" title="partial_dealloc"></a>partial_dealloc</h3><p>new创建的所有对象的引用计数全部dec一下</p>
-<h3 id="partial-call"><a href="#partial-call" class="headerlink" title="partial_call"></a>partial_call</h3><ul>
-<li>执行plus(9),会调用到这个函数</li>
-<li><p>args会做一次合并,如果都不为空的话</p>
-  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">argappl = PySequence_Concat(pto-&gt;args, args);</div></pre></td></tr></table></figure>
-</li>
-<li><p>kw会做一次合并,如果都不为空的话</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (PyDict_Merge(kwappl, kw, <span class="number">1</span>) != <span class="number">0</span>)</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>基本上看到这里,大概能理解<code>partial</code>的作用了.</p>
-<p>source code<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">static PyObject *</div><div class="line">partial_call(partialobject *pto, PyObject *args, PyObject *kw)</div><div class="line">&#123;</div><div class="line">    PyObject *ret;</div><div class="line">    PyObject *argappl = NULL, *kwappl = NULL;</div><div class="line"></div><div class="line">    assert (PyCallable_Check(pto-&gt;fn));</div><div class="line">    assert (PyTuple_Check(pto-&gt;args));</div><div class="line">    assert (pto-&gt;kw == Py_None  ||  PyDict_Check(pto-&gt;kw));</div><div class="line"></div><div class="line">    if (PyTuple_GET_SIZE(pto-&gt;args) == 0) &#123;</div><div class="line">        argappl = args;</div><div class="line">        Py_INCREF(args);</div><div class="line">    &#125; else if (PyTuple_GET_SIZE(args) == 0) &#123;</div><div class="line">        argappl = pto-&gt;args;</div><div class="line">        Py_INCREF(pto-&gt;args);</div><div class="line">    &#125; else &#123;</div><div class="line">        argappl = PySequence_Concat(pto-&gt;args, args);</div><div class="line">        if (argappl == NULL)</div><div class="line">            return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (pto-&gt;kw == Py_None) &#123;</div><div class="line">        kwappl = kw;</div><div class="line">        Py_XINCREF(kw);</div><div class="line">    &#125; else &#123;</div><div class="line">        kwappl = PyDict_Copy(pto-&gt;kw);</div><div class="line">        if (kwappl == NULL) &#123;</div><div class="line">            Py_DECREF(argappl);</div><div class="line">            return NULL;</div><div class="line">        &#125;</div><div class="line">        if (kw != NULL) &#123;</div><div class="line">            if (PyDict_Merge(kwappl, kw, 1) != 0) &#123;</div><div class="line">                Py_DECREF(argappl);</div><div class="line">                Py_DECREF(kwappl);</div><div class="line">                return NULL;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ret = PyObject_Call(pto-&gt;fn, argappl, kwappl);</div><div class="line">    Py_DECREF(argappl);</div><div class="line">    Py_XDECREF(kwappl);</div><div class="line">    return ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="partial的帮手"><a href="#partial的帮手" class="headerlink" title="partial的帮手"></a>partial的帮手</h2><p>从source code里面copy出来的注释:</p>
-<blockquote>
-<p>update_wrapper() and wraps() are tools to help write wrapper functions that can handle naive introspection</p>
-</blockquote>
-<p>简单的说,decorator function会导致被 decorator的函数,原有的<strong>module</strong>,<strong>name</strong>,<strong>doc</strong>丢失. update_wrapper() and wraps()就是为了解决这个问题存在的. 所以一般来说,还是多用<code>wraps</code>比较好,他会保留原函数的信息.</p>
-<p>但是<code>wraps</code>有一个限制，用了这个函数，第一个参数是函数对象, 后面没机会他给传其他参数了.也就是说，只能传被wrapper的函数,后面调用的时候自己传了. <code>partial</code>就没用这个限制.</p>
-<h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><p>下面是一个例子,用wraps来实现怎么打印一个函数的时间消耗.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">timethis</span><span class="params">(func)</span>:</span></div><div class="line">  <span class="string">'''</span></div><div class="line">  Decorator that reports the execution time.</div><div class="line">  '''</div><div class="line"><span class="meta">  @wraps(func)</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    start = time.time()</div><div class="line">    result = func(*args, **kwargs)</div><div class="line">    end = time.time()</div><div class="line">    print(func.__name__, end-start)</div><div class="line">    <span class="keyword">return</span> result</div><div class="line">  <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
-<p>Here is an example of using the decorator:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>@timethis</div><div class="line"><span class="meta">... </span><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></div><div class="line"><span class="meta">... </span><span class="string">'''</span></div><div class="line"><span class="meta">... </span>Counts down</div><div class="line"><span class="meta">... </span>'''</div><div class="line"><span class="meta">... </span><span class="keyword">while</span> n &gt; <span class="number">0</span>:</div><div class="line"><span class="meta">... </span>n -= <span class="number">1</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>countdown(<span class="number">100000</span>)</div><div class="line">countdown <span class="number">0.008917808532714844</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>countdown(<span class="number">10000000</span>)</div><div class="line">countdown <span class="number">0.87188299392912</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
-<p>前面提到wraps,只能</p>
-<h3 id="源码分析-1"><a href="#源码分析-1" class="headerlink" title="源码分析"></a>源码分析</h3><p>代码行比较少,就是给新函数重新赋值原函数的信息.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">WRAPPER_ASSIGNMENTS = (<span class="string">'__module__'</span>, <span class="string">'__name__'</span>, <span class="string">'__doc__'</span>)</div><div class="line">WRAPPER_UPDATES = (<span class="string">'__dict__'</span>,)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_wrapper</span><span class="params">(wrapper,</span></span></div><div class="line">                   wrapped,</div><div class="line">                   assigned = WRAPPER_ASSIGNMENTS,</div><div class="line">                   updated = WRAPPER_UPDATES):</div><div class="line">    <span class="string">"""Update a wrapper function to look like the wrapped function</span></div><div class="line"></div><div class="line">       wrapper is the function to be updated</div><div class="line">       wrapped is the original function</div><div class="line">       assigned is a tuple naming the attributes assigned directly</div><div class="line">       from the wrapped function to the wrapper function (defaults to</div><div class="line">       functools.WRAPPER_ASSIGNMENTS)</div><div class="line">       updated is a tuple naming the attributes of the wrapper that</div><div class="line">       are updated with the corresponding attribute from the wrapped</div><div class="line">       function (defaults to functools.WRAPPER_UPDATES)</div><div class="line">    """</div><div class="line">    <span class="keyword">for</span> attr <span class="keyword">in</span> assigned:</div><div class="line">        setattr(wrapper, attr, getattr(wrapped, attr))</div><div class="line">    <span class="keyword">for</span> attr <span class="keyword">in</span> updated:</div><div class="line">        getattr(wrapper, attr).update(getattr(wrapped, attr, &#123;&#125;))</div><div class="line">    <span class="comment"># Return the wrapper so this can be used as a decorator via partial()</span></div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">wraps</span><span class="params">(wrapped,</span></span></div><div class="line">          assigned = WRAPPER_ASSIGNMENTS,</div><div class="line">          updated = WRAPPER_UPDATES):</div><div class="line">    <span class="string">"""Decorator factory to apply update_wrapper() to a wrapper function</span></div><div class="line"></div><div class="line">       Returns a decorator that invokes update_wrapper() with the decorated</div><div class="line">       function as the wrapper argument and the arguments to wraps() as the</div><div class="line">       remaining arguments. Default arguments are as for update_wrapper().</div><div class="line">       This is a convenience function to simplify applying partial() to</div><div class="line">       update_wrapper().</div><div class="line">    """</div><div class="line">    <span class="keyword">return</span> partial(update_wrapper, wrapped=wrapped,</div><div class="line">                   assigned=assigned, updated=updated)</div></pre></td></tr></table></figure>
-<h3 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h3><p>copy from python cookbook</p>
-<blockquote>
-<p>Last, but not least, be aware that not all decorators utilize @wraps, and thus, they may not work as described. In particular, the built-in decorators @staticmethod and @class method create descriptor objects that don’t follow this convention (instead, they store the original function in a <strong>func</strong> attribute). Your mileage may vary.</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/12/py_decorator_1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1026,7 +972,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2016 Eason Pan
+    		&copy; 2017 Eason Pan
     	</div>
       	<div class="footer-right">
       		
@@ -1070,11 +1016,11 @@ var _hmt = _hmt || [];
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">python</a>
+                <a href="javascript:void(0)">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">hexo</a>
+                <a href="javascript:void(0)">python</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1130,7 +1076,7 @@ var _hmt = _hmt || [];
             </li>
           
             <li class="search-li">
-              <a href="http://shouji.baidu.com/game/3907419.html/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>哈皮五子连珠</a>
+              <a href="http://shouji.baidu.com/game/3907419.html" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>哈皮五子连珠</a>
             </li>
           
             <li class="search-li">
