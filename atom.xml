@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://superway117.github.io/"/>
-  <updated>2017-01-12T08:57:53.950Z</updated>
+  <updated>2017-01-12T09:07:43.937Z</updated>
   <id>http://superway117.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://superway117.github.io/2017/01/12/py_Sphinx/"/>
     <id>http://superway117.github.io/2017/01/12/py_Sphinx/</id>
     <published>2017-01-12T08:52:21.000Z</published>
-    <updated>2017-01-12T08:57:53.950Z</updated>
+    <updated>2017-01-12T09:07:43.937Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li>Sphinx是一个静态网站生成器,可以用来做静态网站或者写文档</li>
@@ -50,17 +50,11 @@
 <h3 id="支持Markdown"><a href="#支持Markdown" class="headerlink" title="支持Markdown"></a>支持Markdown</h3><p>支持Markdown，简单说需要2步:</p>
 <ol>
 <li><p>安装Markdown解析工具</p>
-<p> pip install recommonmark.parser</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install recommonmark.parser</div></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
 <li><p>修改conf.py告诉sphinx支持Markdown</p>
-<p> from recommonmark.parser import CommonMarkParser</p>
-<p> 默认只支持rst后缀文件<br> source_suffix = ‘.rst’</p>
-<pre><code>改成
-</code></pre><p> source_parsers = {‘.md’: CommonMarkParser}</p>
-<pre><code>source_suffix = [&apos;.rst&apos;, &apos;.md&apos;]
-</code></pre></li>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">from recommonmark.parser import CommonMarkParser</div><div class="line"></div><div class="line">默认只支持rst后缀文件</div><div class="line">source_suffix = &apos;.rst&apos;</div><div class="line">    改成</div><div class="line">source_parsers = &#123;&apos;.md&apos;: CommonMarkParser&#125;</div><div class="line">    source_suffix = [&apos;.rst&apos;, &apos;.md&apos;]</div></pre></td></tr></table></figure>
+</li>
 </ol>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
 <li><p><code>scrapinghub</code> </p>
