@@ -6,21 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://superway117.github.io">
-  <title>Python PyStringObject | Eason&#39;s Blog</title>
+  <title>Python namedtuple | Eason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="PyStringObject属于变长size的object
-12345678910111213141516171819typedef struct &amp;#123;    PyObject_VAR_HEAD    long ob_shash;    int ob_sstate;    char ob_sval[1];    /* Invariants:     *     ob_sval contai">
+  <meta name="description" content="tuple只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.
+很多时候我们需要用类似dict的方式来取值. 这个时候就需要namedtuple
+namedtuple某种意义上就是一个文本的模板,帮助你定义一个tuple的子类.
+1Point = namedtuple(&apos;Point&apos;, [&apos;x&apos;, &apos;y&apos;], verbose=True)
+就相当于定义">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python PyStringObject">
-<meta property="og:url" content="http://superway117.github.io/2016/12/20/py_stringobject/index.html">
+<meta property="og:title" content="Python namedtuple">
+<meta property="og:url" content="http://superway117.github.io/2017/01/11/py_namedtuple/index.html">
 <meta property="og:site_name" content="Eason's Blog">
-<meta property="og:description" content="PyStringObject属于变长size的object
-12345678910111213141516171819typedef struct &amp;#123;    PyObject_VAR_HEAD    long ob_shash;    int ob_sstate;    char ob_sval[1];    /* Invariants:     *     ob_sval contai">
-<meta property="og:updated_time" content="2016-12-20T14:53:12.792Z">
+<meta property="og:description" content="tuple只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.
+很多时候我们需要用类似dict的方式来取值. 这个时候就需要namedtuple
+namedtuple某种意义上就是一个文本的模板,帮助你定义一个tuple的子类.
+1Point = namedtuple(&apos;Point&apos;, [&apos;x&apos;, &apos;y&apos;], verbose=True)
+就相当于定义">
+<meta property="og:updated_time" content="2017-01-11T05:40:02.923Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python PyStringObject">
-<meta name="twitter:description" content="PyStringObject属于变长size的object
-12345678910111213141516171819typedef struct &amp;#123;    PyObject_VAR_HEAD    long ob_shash;    int ob_sstate;    char ob_sval[1];    /* Invariants:     *     ob_sval contai">
+<meta name="twitter:title" content="Python namedtuple">
+<meta name="twitter:description" content="tuple只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.
+很多时候我们需要用类似dict的方式来取值. 这个时候就需要namedtuple
+namedtuple某种意义上就是一个文本的模板,帮助你定义一个tuple的子类.
+1Point = namedtuple(&apos;Point&apos;, [&apos;x&apos;, &apos;y&apos;], verbose=True)
+就相当于定义">
   
     <link rel="alternative" href="/atom.xml" title="Eason&#39;s Blog" type="application/atom+xml">
   
@@ -183,33 +192,38 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-py_stringobject" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-py_namedtuple" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python PyStringObject
+      Python namedtuple
     </h1>
   
 
-        <a href="/2016/12/20/py_stringobject/" class="archive-article-date">
-  	<time datetime="2016-12-19T16:09:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+        <a href="/2017/01/11/py_namedtuple/" class="archive-article-date">
+  	<time datetime="2017-01-10T16:43:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-11</time>
 </a>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><code>PyStringObject</code>属于变长size的object</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_VAR_HEAD</div><div class="line">    <span class="keyword">long</span> ob_shash;</div><div class="line">    <span class="keyword">int</span> ob_sstate;</div><div class="line">    <span class="keyword">char</span> ob_sval[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="comment">/* Invariants:</span></div><div class="line">     *     ob_sval contains space for 'ob_size+1' elements.</div><div class="line">     *     ob_sval[ob_size] == 0.</div><div class="line">     *     ob_shash is the hash of the string or -1 if not computed yet.</div><div class="line">     *     ob_sstate != 0 iff the string object is in stringobject.c's</div><div class="line">     *       'interned' dictionary; in this case the two references</div><div class="line">     *       from 'interned' to this object are *not counted* in ob_refcnt.</div><div class="line">     */</div><div class="line">&#125; PyStringObject;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PyObject_VAR_HEAD               \</span></div><div class="line">    PyObject_HEAD                       \</div><div class="line">    Py_ssize_t ob_size; <span class="comment">/* Number of items in variable part */</span></div></pre></td></tr></table></figure>
-<p>ob_size存的是字符串的size,strlen(str),不包含结束符</p>
-<h2 id="针对size-0-or-1的字符串内存优化"><a href="#针对size-0-or-1的字符串内存优化" class="headerlink" title="针对size=0 or 1的字符串内存优化"></a>针对size=0 or 1的字符串内存优化</h2><p>看<code>PyString_FromStringAndSize</code>的实现</p>
-<ol>
-<li>如果size==0, 返回<code>null_strings</code>,引用计数+1</li>
-<li>如果size==1，如果characters数组里面已经存在,直接返回,引用计数+1;如果characters数组里面不存在,创建一个，并保存在characters数组</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="function">PyObject *</span></div><div class="line"><span class="title">PyString_FromStringAndSize</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *str, Py_ssize_t size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">register</span> PyStringObject *op;</div><div class="line">    <span class="keyword">if</span> (size &lt; <span class="number">0</span>) &#123;</div><div class="line">        PyErr_SetString(PyExc_SystemError,</div><div class="line">            <span class="string">"Negative size passed to PyString_FromStringAndSize"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span> &amp;&amp; (op = nullstring) != <span class="literal">NULL</span>) &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        null_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span> &amp;&amp;</div><div class="line">        (op = characters[*str &amp; UCHAR_MAX]) != <span class="literal">NULL</span>)</div><div class="line">    &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        one_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (size &gt; PY_SSIZE_T_MAX - PyStringObject_SIZE) &#123;</div><div class="line">        PyErr_SetString(PyExc_OverflowError, <span class="string">"string is too large"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* Inline PyObject_NewVar */</span></div><div class="line">    op = (PyStringObject *)PyObject_MALLOC(PyStringObject_SIZE + size);</div><div class="line">    <span class="keyword">if</span> (op == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> PyErr_NoMemory();</div><div class="line">    PyObject_INIT_VAR(op, &amp;PyString_Type, size);</div><div class="line">    op-&gt;ob_shash = <span class="number">-1</span>;</div><div class="line">    op-&gt;ob_sstate = SSTATE_NOT_INTERNED;</div><div class="line">    <span class="keyword">if</span> (str != <span class="literal">NULL</span>)</div><div class="line">        Py_MEMCPY(op-&gt;ob_sval, str, size);</div><div class="line">    op-&gt;ob_sval[size] = <span class="string">'\0'</span>;</div><div class="line">    <span class="comment">/* share short strings */</span></div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        nullstring = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        characters[*str &amp; UCHAR_MAX] = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (PyObject *) op;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p><code>tuple</code>只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.</p>
+<p>很多时候我们需要用类似<code>dict</code>的方式来取值. 这个时候就需要<code>namedtuple</code></p>
+<p><code>namedtuple</code>某种意义上就是一个文本的模板,帮助你定义一个<code>tuple</code>的子类.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Point = namedtuple(<span class="string">'Point'</span>, [<span class="string">'x'</span>, <span class="string">'y'</span>], verbose=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<p>就相当于定义了一个类<code>Point</code></p>
+<p>下面的代码关键在于 <code>__dict__ = _property(_asdict)</code>,他定义了一个<code>dict</code>,这样我们才可以实现用名字来获取值.</p>
+<p>另外因为用到了<code>__slots__</code>,这个是为了节省memory, 所以大胆的用<code>namedtuple</code>,开销不是很大.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span><span class="params">(tuple)</span>:</span></div><div class="line">    <span class="string">'Point(x, y)'</span></div><div class="line"></div><div class="line">    __slots__ = ()</div><div class="line"></div><div class="line">    _fields = (<span class="string">'x'</span>, <span class="string">'y'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(_cls, x, y)</span>:</span></div><div class="line">        <span class="string">'Create new instance of Point(x, y)'</span></div><div class="line">        <span class="keyword">return</span> _tuple.__new__(_cls, (x, y))</div><div class="line"></div><div class="line"><span class="meta">    @classmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_make</span><span class="params">(cls, iterable, new=tuple.__new__, len=len)</span>:</span></div><div class="line">        <span class="string">'Make a new Point object from a sequence or iterable'</span></div><div class="line">        result = new(cls, iterable)</div><div class="line">        <span class="keyword">if</span> len(result) != <span class="number">2</span>:</div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">'Expected 2 arguments, got %d'</span> % len(result))</div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return a nicely formatted representation string'</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'Point(x=%r, y=%r)'</span> % self</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_asdict</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return a new OrderedDict which maps field names to their values'</span></div><div class="line">        <span class="keyword">return</span> OrderedDict(zip(self._fields, self))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_replace</span><span class="params">(_self, **kwds)</span>:</span></div><div class="line">        <span class="string">'Return a new Point object replacing specified fields with new values'</span></div><div class="line">        result = _self._make(map(kwds.pop, (<span class="string">'x'</span>, <span class="string">'y'</span>), _self))</div><div class="line">        <span class="keyword">if</span> kwds:</div><div class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'Got unexpected field names: %r'</span> % kwds.keys())</div><div class="line">        <span class="keyword">return</span> result</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getnewargs__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Return self as a plain tuple.  Used by copy and pickle.'</span></div><div class="line">        <span class="keyword">return</span> tuple(self)</div><div class="line"></div><div class="line">    __dict__ = _property(_asdict)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getstate__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'Exclude the OrderedDict from pickling'</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    x = _property(_itemgetter(<span class="number">0</span>), doc=<span class="string">'Alias for field number 0'</span>)</div><div class="line"></div><div class="line">    y = _property(_itemgetter(<span class="number">1</span>), doc=<span class="string">'Alias for field number 1'</span>)</div></pre></td></tr></table></figure>
+<h2 id="usage"><a href="#usage" class="headerlink" title="usage"></a>usage</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Point = namedtuple(&apos;Point&apos;, [&apos;x&apos;, &apos;y&apos;], verbose=True)</div><div class="line"></div><div class="line">&gt;&gt;&gt; p = Point(11, y=22)     # instantiate with positional or keyword arguments</div><div class="line">&gt;&gt;&gt; p[0] + p[1]             # indexable like the plain tuple (11, 22)</div><div class="line">33</div><div class="line">&gt;&gt;&gt; x, y = p                # unpack like a regular tuple</div><div class="line">&gt;&gt;&gt; x, y</div><div class="line">(11, 22)</div><div class="line">&gt;&gt;&gt; p.x + p.y               # fields also accessible by name</div><div class="line">33</div><div class="line">&gt;&gt;&gt; p                       # readable __repr__ with a name=value style</div><div class="line">Point(x=11, y=22)</div></pre></td></tr></table></figure>
+<p>另外注意<code>_fields</code>的用法，他直接返回了原始的<code>tuple</code></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><ul>
+<li><a href="https://docs.python.org/2/library/collections.html?highlight=namedtuple#collections.namedtuple" target="_blank" rel="external">collections.namedtuple</a></li>
+<li>Python cookbook 1.18. Mapping Names to Sequence Elements</li>
+</ul>
 
       
 
@@ -273,7 +287,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2016/12/20/py_stringobject/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2017/01/11/py_namedtuple/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -287,18 +301,18 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2016/12/22/py_property/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/01/12/py_Sphinx/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Python property
+          Python Sphinx
         
       </div>
     </a>
   
   
-    <a href="/2016/12/20/py_intobject/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python PyIntObject</div>
+    <a href="/2016/12/31/py_private_variables/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python Private Variables</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -311,7 +325,7 @@ var _hmt = _hmt || [];
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python PyStringObject" data-url="http://superway117.github.io/2016/12/20/py_stringobject/"></div>
+	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python namedtuple" data-url="http://superway117.github.io/2017/01/11/py_namedtuple/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

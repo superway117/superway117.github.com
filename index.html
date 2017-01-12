@@ -178,18 +178,133 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-py_nanmedtuple" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-py_Sphinx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/11/py_nanmedtuple/">Python nanmedtuple</a>
+      <a class="article-title" href="/2017/01/12/py_Sphinx/">Python Sphinx</a>
     </h1>
   
 
-        <a href="/2017/01/11/py_nanmedtuple/" class="archive-article-date">
+        <a href="/2017/01/12/py_Sphinx/" class="archive-article-date">
+  	<time datetime="2017-01-12T08:52:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-12</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>Sphinx是一个静态网站生成器,可以用来做静态网站或者写文档</li>
+<li>Sphinx基于reStructuredText,markdown语法，配置文件就是py文件: conf.py</li>
+<li>Sphinx支持Python 2.6+, 3.3+.</li>
+</ul>
+<p>For full documentation visit <a href="http://www.sphinx-doc.org/en/latest" target="_blank" rel="external">sphinx-doc</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>Install</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install Sphinx</div></pre></td></tr></table></figure>
+<p>Start a new project</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sphinx-quickstart</div></pre></td></tr></table></figure>
+<p>执行这个命令后，会step by step的生成一个工程,同时conf.py就生成了.同时根目录下面会生成一个make.bat文件（window下面)，后面我们就可以通过这个make.bat来生成页面或者发布了.</p>
+<p>make.bat支持多种格式，比如html,epub,json,latex,singlehtml. 支持列表可以敲入下面的命令查看.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make.bat help</div></pre></td></tr></table></figure>
+<p>通过下面的命令生成网页</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make.bat html</div></pre></td></tr></table></figure>
+<p>这个命令等同于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sphinx-build -b html sourcedir builddir</div></pre></td></tr></table></figure>
+<h2 id="Theme"><a href="#Theme" class="headerlink" title="Theme"></a>Theme</h2><p>在conf.py修改theme</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">html_theme = &quot;classic&quot;</div><div class="line">html_theme_options = &#123;</div><div class="line">    &quot;rightsidebar&quot;: &quot;true&quot;,</div><div class="line">    &quot;relbarbgcolor&quot;: &quot;black&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>参考页面<a href="http://www.sphinx-doc.org/en/latest/theming.html" target="_blank" rel="external">theming</a></p>
+<h4 id="sphinx-rtd-theme"><a href="#sphinx-rtd-theme" class="headerlink" title="sphinx_rtd_theme"></a>sphinx_rtd_theme</h4><p>scrapy和readthedocs都是采用的<code>sphinx_rtd_theme</code>,效果参考<a href="http://doc.scrapy.org/en/1.1/index.html" target="_blank" rel="external">scrapy doc页面</a>或者<a href="http://docs.readthedocs.io/en/latest/" target="_blank" rel="external">readthedocs</a></p>
+<p>install</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install sphinx_rtd_theme</div></pre></td></tr></table></figure>
+<p>usage</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">import sphinx_rtd_theme</div><div class="line"></div><div class="line">html_theme = &quot;sphinx_rtd_theme&quot;</div><div class="line"></div><div class="line">html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]</div></pre></td></tr></table></figure>
+<h3 id="支持Markdown"><a href="#支持Markdown" class="headerlink" title="支持Markdown"></a>支持Markdown</h3><p>支持Markdown，简单说需要2步:</p>
+<ol>
+<li><p>安装Markdown解析工具</p>
+<p> pip install recommonmark.parser</p>
+</li>
+</ol>
+<ol>
+<li><p>修改conf.py告诉sphinx支持Markdown</p>
+<p> from recommonmark.parser import CommonMarkParser</p>
+<p> 默认只支持rst后缀文件<br> source_suffix = ‘.rst’</p>
+<pre><code>改成
+</code></pre><p> source_parsers = {‘.md’: CommonMarkParser}</p>
+<pre><code>source_suffix = [&apos;.rst&apos;, &apos;.md&apos;]
+</code></pre></li>
+</ol>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><p><code>scrapinghub</code> </p>
+<ul>
+<li>scrapinghub 文档,rst格式</li>
+<li><a href="https://github.com/scrapinghub/doc.scrapinghub.com" target="_blank" rel="external">source link</a></li>
+<li><a href="http://doc.scrapinghub.com/" target="_blank" rel="external">doc link</a></li>
+</ul>
+</li>
+<li><p><code>readthedocs</code> </p>
+<ul>
+<li>readthedocs 文档,rst格式</li>
+<li><a href="http://docs.readthedocs.io/en/latest/" target="_blank" rel="external">doc link</a></li>
+</ul>
+</li>
+<li><p><code>scrapy</code> </p>
+<ul>
+<li>scrapy 文档,rst格式</li>
+<li><a href="https://github.com/scrapy/scrapy/tree/master/docs" target="_blank" rel="external">source link</a></li>
+<li><a href="http://doc.scrapy.org/en/1.1/" target="_blank" rel="external">doc link</a></li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/01/12/py_Sphinx/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-py_namedtuple" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/11/py_namedtuple/">Python namedtuple</a>
+    </h1>
+  
+
+        <a href="/2017/01/11/py_namedtuple/" class="archive-article-date">
   	<time datetime="2017-01-10T16:43:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-11</time>
 </a>
       </header>
@@ -197,7 +312,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p><code>tuple</code>只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.</p>
-<p>很多时候我们需要用类似<code>dict</code>的方式来取值. 这个时候就需要<code>nanmedtuple</code></p>
+<p>很多时候我们需要用类似<code>dict</code>的方式来取值. 这个时候就需要<code>namedtuple</code></p>
 <p><code>namedtuple</code>某种意义上就是一个文本的模板,帮助你定义一个<code>tuple</code>的子类.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Point = namedtuple(<span class="string">'Point'</span>, [<span class="string">'x'</span>, <span class="string">'y'</span>], verbose=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
 <p>就相当于定义了一个类<code>Point</code></p>
@@ -227,7 +342,7 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/01/11/py_nanmedtuple/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/01/11/py_namedtuple/">展开全文 >></a>
         </p>
       
 
@@ -738,6 +853,68 @@ var _hmt = _hmt || [];
 
 
   
+    <article id="post-py_stringobject" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/20/py_stringobject/">Python PyStringObject</a>
+    </h1>
+  
+
+        <a href="/2016/12/20/py_stringobject/" class="archive-article-date">
+  	<time datetime="2016-12-19T16:09:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>PyStringObject</code>属于变长size的object</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_VAR_HEAD</div><div class="line">    <span class="keyword">long</span> ob_shash;</div><div class="line">    <span class="keyword">int</span> ob_sstate;</div><div class="line">    <span class="keyword">char</span> ob_sval[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="comment">/* Invariants:</span></div><div class="line">     *     ob_sval contains space for 'ob_size+1' elements.</div><div class="line">     *     ob_sval[ob_size] == 0.</div><div class="line">     *     ob_shash is the hash of the string or -1 if not computed yet.</div><div class="line">     *     ob_sstate != 0 iff the string object is in stringobject.c's</div><div class="line">     *       'interned' dictionary; in this case the two references</div><div class="line">     *       from 'interned' to this object are *not counted* in ob_refcnt.</div><div class="line">     */</div><div class="line">&#125; PyStringObject;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PyObject_VAR_HEAD               \</span></div><div class="line">    PyObject_HEAD                       \</div><div class="line">    Py_ssize_t ob_size; <span class="comment">/* Number of items in variable part */</span></div></pre></td></tr></table></figure>
+<p>ob_size存的是字符串的size,strlen(str),不包含结束符</p>
+<h2 id="针对size-0-or-1的字符串内存优化"><a href="#针对size-0-or-1的字符串内存优化" class="headerlink" title="针对size=0 or 1的字符串内存优化"></a>针对size=0 or 1的字符串内存优化</h2><p>看<code>PyString_FromStringAndSize</code>的实现</p>
+<ol>
+<li>如果size==0, 返回<code>null_strings</code>,引用计数+1</li>
+<li>如果size==1，如果characters数组里面已经存在,直接返回,引用计数+1;如果characters数组里面不存在,创建一个，并保存在characters数组</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="function">PyObject *</span></div><div class="line"><span class="title">PyString_FromStringAndSize</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *str, Py_ssize_t size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">register</span> PyStringObject *op;</div><div class="line">    <span class="keyword">if</span> (size &lt; <span class="number">0</span>) &#123;</div><div class="line">        PyErr_SetString(PyExc_SystemError,</div><div class="line">            <span class="string">"Negative size passed to PyString_FromStringAndSize"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span> &amp;&amp; (op = nullstring) != <span class="literal">NULL</span>) &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        null_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span> &amp;&amp;</div><div class="line">        (op = characters[*str &amp; UCHAR_MAX]) != <span class="literal">NULL</span>)</div><div class="line">    &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        one_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (size &gt; PY_SSIZE_T_MAX - PyStringObject_SIZE) &#123;</div><div class="line">        PyErr_SetString(PyExc_OverflowError, <span class="string">"string is too large"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* Inline PyObject_NewVar */</span></div><div class="line">    op = (PyStringObject *)PyObject_MALLOC(PyStringObject_SIZE + size);</div><div class="line">    <span class="keyword">if</span> (op == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> PyErr_NoMemory();</div><div class="line">    PyObject_INIT_VAR(op, &amp;PyString_Type, size);</div><div class="line">    op-&gt;ob_shash = <span class="number">-1</span>;</div><div class="line">    op-&gt;ob_sstate = SSTATE_NOT_INTERNED;</div><div class="line">    <span class="keyword">if</span> (str != <span class="literal">NULL</span>)</div><div class="line">        Py_MEMCPY(op-&gt;ob_sval, str, size);</div><div class="line">    op-&gt;ob_sval[size] = <span class="string">'\0'</span>;</div><div class="line">    <span class="comment">/* share short strings */</span></div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        nullstring = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        characters[*str &amp; UCHAR_MAX] = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (PyObject *) op;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/20/py_stringobject/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-py_intobject" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -814,150 +991,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-py_stringobject" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/20/py_stringobject/">Python PyStringObject</a>
-    </h1>
-  
-
-        <a href="/2016/12/20/py_stringobject/" class="archive-article-date">
-  	<time datetime="2016-12-19T16:09:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><code>PyStringObject</code>属于变长size的object</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_VAR_HEAD</div><div class="line">    <span class="keyword">long</span> ob_shash;</div><div class="line">    <span class="keyword">int</span> ob_sstate;</div><div class="line">    <span class="keyword">char</span> ob_sval[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="comment">/* Invariants:</span></div><div class="line">     *     ob_sval contains space for 'ob_size+1' elements.</div><div class="line">     *     ob_sval[ob_size] == 0.</div><div class="line">     *     ob_shash is the hash of the string or -1 if not computed yet.</div><div class="line">     *     ob_sstate != 0 iff the string object is in stringobject.c's</div><div class="line">     *       'interned' dictionary; in this case the two references</div><div class="line">     *       from 'interned' to this object are *not counted* in ob_refcnt.</div><div class="line">     */</div><div class="line">&#125; PyStringObject;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PyObject_VAR_HEAD               \</span></div><div class="line">    PyObject_HEAD                       \</div><div class="line">    Py_ssize_t ob_size; <span class="comment">/* Number of items in variable part */</span></div></pre></td></tr></table></figure>
-<p>ob_size存的是字符串的size,strlen(str),不包含结束符</p>
-<h2 id="针对size-0-or-1的字符串内存优化"><a href="#针对size-0-or-1的字符串内存优化" class="headerlink" title="针对size=0 or 1的字符串内存优化"></a>针对size=0 or 1的字符串内存优化</h2><p>看<code>PyString_FromStringAndSize</code>的实现</p>
-<ol>
-<li>如果size==0, 返回<code>null_strings</code>,引用计数+1</li>
-<li>如果size==1，如果characters数组里面已经存在,直接返回,引用计数+1;如果characters数组里面不存在,创建一个，并保存在characters数组</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="function">PyObject *</span></div><div class="line"><span class="title">PyString_FromStringAndSize</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *str, Py_ssize_t size)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">register</span> PyStringObject *op;</div><div class="line">    <span class="keyword">if</span> (size &lt; <span class="number">0</span>) &#123;</div><div class="line">        PyErr_SetString(PyExc_SystemError,</div><div class="line">            <span class="string">"Negative size passed to PyString_FromStringAndSize"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span> &amp;&amp; (op = nullstring) != <span class="literal">NULL</span>) &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        null_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span> &amp;&amp;</div><div class="line">        (op = characters[*str &amp; UCHAR_MAX]) != <span class="literal">NULL</span>)</div><div class="line">    &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COUNT_ALLOCS</span></div><div class="line">        one_strings++;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">        Py_INCREF(op);</div><div class="line">        <span class="keyword">return</span> (PyObject *)op;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (size &gt; PY_SSIZE_T_MAX - PyStringObject_SIZE) &#123;</div><div class="line">        PyErr_SetString(PyExc_OverflowError, <span class="string">"string is too large"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* Inline PyObject_NewVar */</span></div><div class="line">    op = (PyStringObject *)PyObject_MALLOC(PyStringObject_SIZE + size);</div><div class="line">    <span class="keyword">if</span> (op == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> PyErr_NoMemory();</div><div class="line">    PyObject_INIT_VAR(op, &amp;PyString_Type, size);</div><div class="line">    op-&gt;ob_shash = <span class="number">-1</span>;</div><div class="line">    op-&gt;ob_sstate = SSTATE_NOT_INTERNED;</div><div class="line">    <span class="keyword">if</span> (str != <span class="literal">NULL</span>)</div><div class="line">        Py_MEMCPY(op-&gt;ob_sval, str, size);</div><div class="line">    op-&gt;ob_sval[size] = <span class="string">'\0'</span>;</div><div class="line">    <span class="comment">/* share short strings */</span></div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        nullstring = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size == <span class="number">1</span> &amp;&amp; str != <span class="literal">NULL</span>) &#123;</div><div class="line">        PyObject *t = (PyObject *)op;</div><div class="line">        PyString_InternInPlace(&amp;t);</div><div class="line">        op = (PyStringObject *)t;</div><div class="line">        characters[*str &amp; UCHAR_MAX] = op;</div><div class="line">        Py_INCREF(op);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (PyObject *) op;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/20/py_stringobject/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-py_decorator_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/py_decorator_2/">Python Decorator - 理解调用过程</a>
-    </h1>
-  
-
-        <a href="/2016/12/15/py_decorator_2/" class="archive-article-date">
-  	<time datetime="2016-12-15T06:54:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-15</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>主要topic</p>
-<ul>
-<li>Decorator是怎么调用的</li>
-<li>用partial来实现一个带参数的Decorator</li>
-</ul>
-<h2 id="Decorator的调用"><a href="#Decorator的调用" class="headerlink" title="Decorator的调用"></a><code>Decorator</code>的调用</h2><p>理解<code>Decorator</code>的第一步要理解<code>Decorator</code>是怎么调用的.</p>
-<p>下面的例子是<code>Decorator</code>不带参数的情况</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@logged()</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></div><div class="line">  <span class="keyword">return</span> x+y</div></pre></td></tr></table></figure>
-<p>他相当于</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></div><div class="line">  <span class="keyword">return</span> x + y</div><div class="line"></div><div class="line">add = logged(add)</div></pre></td></tr></table></figure>
-<p>下面的例子是<code>Decorator</code>带参数的情况<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@logged(level=logging.CRITICAL, name='example')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">()</span>:</span></div><div class="line">  print(<span class="string">'Spam!'</span>)</div></pre></td></tr></table></figure></p>
-<p>他相当于</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">()</span>:</span></div><div class="line">  print(<span class="string">'Spam!'</span>)</div><div class="line">spam = logged(level=logging.CRITICAL, name=<span class="string">'example'</span>)(spam)</div></pre></td></tr></table></figure>
-<h2 id="用partial实现带参数的Decorator"><a href="#用partial实现带参数的Decorator" class="headerlink" title="用partial实现带参数的Decorator"></a>用<code>partial</code>实现带参数的<code>Decorator</code></h2><p>下面的 <code>logged</code> demo了,怎么样实现兼容一个带或者不带参数的<code>Decorator</code></p>
-<p>关键的地方是: 理解如何调用</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps, partial</div><div class="line"><span class="keyword">import</span> logging</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">logged</span><span class="params">(func=None, *, level=logging.DEBUG, name=None, message=None)</span>:</span></div><div class="line">  <span class="keyword">if</span> func <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">    <span class="keyword">return</span> partial(logged, level=level, name=name, message=message)</div><div class="line"></div><div class="line">  logname = name <span class="keyword">if</span> name <span class="keyword">else</span> func.__module__</div><div class="line">  log = logging.getLogger(logname)</div><div class="line">  logmsg = message <span class="keyword">if</span> message <span class="keyword">else</span> func.__name__</div><div class="line"></div><div class="line"><span class="meta">  @wraps(func)</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    log.log(level, logmsg)</div><div class="line">    <span class="keyword">return</span> func(*args, **kwargs)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
-<p>Example use</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@logged</div><div class="line">def add(x, y):</div><div class="line">  return x + y</div><div class="line"></div><div class="line">@logged(level=logging.CRITICAL, name=&apos;example&apos;)</div><div class="line">def spam():</div><div class="line">  print(&apos;Spam!&apos;)</div></pre></td></tr></table></figure>
-<h3 id="不带参数的情况"><a href="#不带参数的情况" class="headerlink" title="不带参数的情况"></a>不带参数的情况</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@logged</div><div class="line">def add(x, y):</div><div class="line">  return x + y</div></pre></td></tr></table></figure>
-<p>等价<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def add(x, y):</div><div class="line">  return x + y</div><div class="line"></div><div class="line">add = logged(add)</div></pre></td></tr></table></figure></p>
-<p>logged里面针对这个情况,返回的是<code>wrapper</code>,注意, 这个<code>wrapper</code>是被<code>@wraps(func)</code>包装过的.</p>
-<p>相当于</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">add = logged(add) == wraps(add)(wrapper)</div></pre></td></tr></table></figure>
-<p>wraps的实现如下:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">WRAPPER_ASSIGNMENTS = (<span class="string">'__module__'</span>, <span class="string">'__name__'</span>, <span class="string">'__doc__'</span>)</div><div class="line">WRAPPER_UPDATES = (<span class="string">'__dict__'</span>,)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_wrapper</span><span class="params">(wrapper,</span></span></div><div class="line">                   wrapped,</div><div class="line">                   assigned = WRAPPER_ASSIGNMENTS,</div><div class="line">                   updated = WRAPPER_UPDATES):</div><div class="line">    <span class="string">"""Update a wrapper function to look like the wrapped function</span></div><div class="line"></div><div class="line">       wrapper is the function to be updated</div><div class="line">       wrapped is the original function</div><div class="line">       assigned is a tuple naming the attributes assigned directly</div><div class="line">       from the wrapped function to the wrapper function (defaults to</div><div class="line">       functools.WRAPPER_ASSIGNMENTS)</div><div class="line">       updated is a tuple naming the attributes of the wrapper that</div><div class="line">       are updated with the corresponding attribute from the wrapped</div><div class="line">       function (defaults to functools.WRAPPER_UPDATES)</div><div class="line">    """</div><div class="line">    <span class="keyword">for</span> attr <span class="keyword">in</span> assigned:</div><div class="line">        setattr(wrapper, attr, getattr(wrapped, attr))</div><div class="line">    <span class="keyword">for</span> attr <span class="keyword">in</span> updated:</div><div class="line">        getattr(wrapper, attr).update(getattr(wrapped, attr, &#123;&#125;))</div><div class="line">    <span class="comment"># Return the wrapper so this can be used as a decorator via partial()</span></div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">wraps</span><span class="params">(wrapped,</span></span></div><div class="line">          assigned = WRAPPER_ASSIGNMENTS,</div><div class="line">          updated = WRAPPER_UPDATES):</div><div class="line">    <span class="string">"""Decorator factory to apply update_wrapper() to a wrapper function</span></div><div class="line"></div><div class="line">       Returns a decorator that invokes update_wrapper() with the decorated</div><div class="line">       function as the wrapper argument and the arguments to wraps() as the</div><div class="line">       remaining arguments. Default arguments are as for update_wrapper().</div><div class="line">       This is a convenience function to simplify applying partial() to</div><div class="line">       update_wrapper().</div><div class="line">    """</div><div class="line">    <span class="keyword">return</span> partial(update_wrapper, wrapped=wrapped,</div><div class="line">                   assigned=assigned, updated=updated)</div></pre></td></tr></table></figure>
-<p>所以<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">add = logged(add) == wraps(add)(wrapper)</div><div class="line">==&gt;</div><div class="line">1. wraps(add) 返回一个 partialobject 实例(pto),他封装的函数是 update_wrapper</div><div class="line">2. wraps(add)(wrapper) 相当于执行 partial_call</div><div class="line">   partial_call</div><div class="line">    --&gt; ret = PyObject_Call(pto-&gt;fn, argappl, kwappl) --&gt; update_wrapper()</div><div class="line">    --&gt; update_wrapper() --&gt; return add</div></pre></td></tr></table></figure></p>
-<p>这样绕了一圈 add 终于还是等于 add 了</p>
-<h3 id="带参数的情况"><a href="#带参数的情况" class="headerlink" title="带参数的情况"></a>带参数的情况</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@logged(level=logging.CRITICAL, name='example')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">()</span>:</span></div><div class="line">  print(<span class="string">'Spam!'</span>)</div></pre></td></tr></table></figure>
-<p>相当于</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">add = logged(level=logging.CRITICAL, name='example')(add) == partial(logged,xxx)(add)</div><div class="line"></div><div class="line">partial 封装的是logged, 参数:level=logging.CRITICAL, name='example'也被带入partial</div><div class="line">--&gt;partial_new(logged,level=logging.CRITICAL, name='example')</div><div class="line"></div><div class="line">partial(logged,xxx)(add) 调用 partial_call</div><div class="line">--&gt;partial_call(add)</div><div class="line">--&gt;logged(add,level=logging.CRITICAL, name='example')</div><div class="line">不过这里有个疑问是,logged 怎么指定 func==add?, add是作为PyTuple传入的,不是PyDict</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/15/py_decorator_2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1016,11 +1049,11 @@ var _hmt = _hmt || [];
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">hexo</a>
+                <a href="javascript:void(0)">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">python</a>
+                <a href="javascript:void(0)">hexo</a>
               </li>
             
             <div class="clearfix"></div>
