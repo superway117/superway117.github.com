@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://superway117.github.io/"/>
-  <updated>2017-01-12T09:07:43.937Z</updated>
+  <updated>2017-01-13T07:41:53.033Z</updated>
   <id>http://superway117.github.io/</id>
   
   <author>
@@ -14,6 +14,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python numpy shape</title>
+    <link href="http://superway117.github.io/2017/01/13/py_numpy_shape/"/>
+    <id>http://superway117.github.io/2017/01/13/py_numpy_shape/</id>
+    <published>2017-01-13T06:32:13.000Z</published>
+    <updated>2017-01-13T07:41:53.033Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">In [52]: x3 = np.random.randint(10, size=(3, 4, 5))</div><div class="line"></div><div class="line">In [53]: x3</div><div class="line">Out[53]:</div><div class="line">array([[[1, 7, 4, 7, 5],</div><div class="line">        [3, 5, 9, 4, 3],</div><div class="line">        [6, 9, 4, 1, 4],</div><div class="line">        [2, 0, 8, 9, 4]],</div><div class="line"></div><div class="line">       [[8, 6, 8, 7, 6],</div><div class="line">        [1, 7, 8, 7, 1],</div><div class="line">        [4, 8, 6, 5, 7],</div><div class="line">        [9, 0, 2, 7, 9]],</div><div class="line"></div><div class="line">       [[6, 6, 6, 2, 1],</div><div class="line">        [6, 5, 7, 5, 9],</div><div class="line">        [5, 0, 8, 8, 1],</div><div class="line">        [4, 7, 0, 6, 1]]])</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">In [57]: x3.ndim</div><div class="line">Out[57]: 3</div><div class="line"></div><div class="line">In [58]: x3.shape</div><div class="line">Out[58]: (3L, 4L, 5L)</div><div class="line"></div><div class="line">In [59]: x3.size</div><div class="line">Out[59]: 60</div><div class="line"></div><div class="line">In [61]: x3.strides</div><div class="line">Out[61]: (80L, 20L, 4L)</div></pre></td></tr></table></figure>
+<p><code>ndim</code> :  the number of dimensions,也就是维度, 上面的<code>x3</code>就是一个3维数组.</p>
+<p><code>shape</code>:  the size of each dimension, 可以认为是数组的形状,每一维的大小.</p>
+<p><code>size</code> :  total size of the array, 这个<code>size</code>是指元素的个数: 3<em>4</em>5==60</p>
+<p><code>strides</code>:</p>
+<ul>
+<li>每个轴上面相邻元素的地址差. 上面的例子(80L, 20L, 4L), 其中80==20*4,最后一个轴的元素size就是4(int).</li>
+<li>numpy在数据存储上面支持C语言的方式:连续的内存存储空间,也支持Fortan的方式.默认是C语言.</li>
+</ul>
+<p><code>numpy.ndarray.flags</code> 描述了数组的内存layout信息. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">In [63]: x3.flags</div><div class="line">Out[63]:</div><div class="line">  C_CONTIGUOUS : True</div><div class="line">  F_CONTIGUOUS : False</div><div class="line">  OWNDATA : True</div><div class="line">  WRITEABLE : True</div><div class="line">  ALIGNED : True</div><div class="line">  UPDATEIFCOPY : False</div></pre></td></tr></table></figure>
+<ul>
+<li><code>C_CONTIGUOUS</code>就是C语言的存储方式</li>
+<li><code>F_CONTIGUOUS</code>就是Fortan语言的存储方式</li>
+<li><code>ALIGNED</code>,C语言里面要内存对其，就存在padding的问题,这个true就表示完全follow C语言做内存对其</li>
+<li><code>OWNDATA</code>, 如果是view的话，这里就是false.</li>
+</ul>
+<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><ul>
+<li><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.flags.html" target="_blank" rel="external">numpy.ndarray.flags</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://superway117.github.io/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>Python Sphinx</title>

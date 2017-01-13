@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://superway117.github.io">
-  <title>Tag: python | Eason&#39;s Blog</title>
+  <title>Python numpy shape | Eason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Eason's Blog">
-<meta property="og:url" content="http://superway117.github.io/tags/python/page/2/index.html">
+  <meta name="description" content="123456789101112131415161718In [52]: x3 = np.random.randint(10, size=(3, 4, 5))In [53]: x3Out[53]:array([[[1, 7, 4, 7, 5],        [3, 5, 9, 4, 3],        [6, 9, 4, 1, 4],        [2, 0, 8, 9, 4]],">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python numpy shape">
+<meta property="og:url" content="http://superway117.github.io/2017/01/13/py_numpy_shape/index.html">
 <meta property="og:site_name" content="Eason's Blog">
+<meta property="og:description" content="123456789101112131415161718In [52]: x3 = np.random.randint(10, size=(3, 4, 5))In [53]: x3Out[53]:array([[[1, 7, 4, 7, 5],        [3, 5, 9, 4, 3],        [6, 9, 4, 1, 4],        [2, 0, 8, 9, 4]],">
+<meta property="og:updated_time" content="2017-01-13T07:41:53.033Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eason's Blog">
+<meta name="twitter:title" content="Python numpy shape">
+<meta name="twitter:description" content="123456789101112131415161718In [52]: x3 = np.random.randint(10, size=(3, 4, 5))In [53]: x3Out[53]:array([[[1, 7, 4, 7, 5],        [3, 5, 9, 4, 3],        [6, 9, 4, 1, 4],        [2, 0, 8, 9, 4]],">
   
     <link rel="alternative" href="/atom.xml" title="Eason&#39;s Blog" type="application/atom+xml">
   
@@ -176,154 +180,156 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-py_numpy_shape" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python numpy shape
+    </h1>
+  
+
+        <a href="/2017/01/13/py_numpy_shape/" class="archive-article-date">
+  	<time datetime="2017-01-13T06:32:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-13</time>
+</a>
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">In [52]: x3 = np.random.randint(10, size=(3, 4, 5))</div><div class="line"></div><div class="line">In [53]: x3</div><div class="line">Out[53]:</div><div class="line">array([[[1, 7, 4, 7, 5],</div><div class="line">        [3, 5, 9, 4, 3],</div><div class="line">        [6, 9, 4, 1, 4],</div><div class="line">        [2, 0, 8, 9, 4]],</div><div class="line"></div><div class="line">       [[8, 6, 8, 7, 6],</div><div class="line">        [1, 7, 8, 7, 1],</div><div class="line">        [4, 8, 6, 5, 7],</div><div class="line">        [9, 0, 2, 7, 9]],</div><div class="line"></div><div class="line">       [[6, 6, 6, 2, 1],</div><div class="line">        [6, 5, 7, 5, 9],</div><div class="line">        [5, 0, 8, 8, 1],</div><div class="line">        [4, 7, 0, 6, 1]]])</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">In [57]: x3.ndim</div><div class="line">Out[57]: 3</div><div class="line"></div><div class="line">In [58]: x3.shape</div><div class="line">Out[58]: (3L, 4L, 5L)</div><div class="line"></div><div class="line">In [59]: x3.size</div><div class="line">Out[59]: 60</div><div class="line"></div><div class="line">In [61]: x3.strides</div><div class="line">Out[61]: (80L, 20L, 4L)</div></pre></td></tr></table></figure>
+<p><code>ndim</code> :  the number of dimensions,也就是维度, 上面的<code>x3</code>就是一个3维数组.</p>
+<p><code>shape</code>:  the size of each dimension, 可以认为是数组的形状,每一维的大小.</p>
+<p><code>size</code> :  total size of the array, 这个<code>size</code>是指元素的个数: 3<em>4</em>5==60</p>
+<p><code>strides</code>:</p>
+<ul>
+<li>每个轴上面相邻元素的地址差. 上面的例子(80L, 20L, 4L), 其中80==20*4,最后一个轴的元素size就是4(int).</li>
+<li>numpy在数据存储上面支持C语言的方式:连续的内存存储空间,也支持Fortan的方式.默认是C语言.</li>
+</ul>
+<p><code>numpy.ndarray.flags</code> 描述了数组的内存layout信息. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">In [63]: x3.flags</div><div class="line">Out[63]:</div><div class="line">  C_CONTIGUOUS : True</div><div class="line">  F_CONTIGUOUS : False</div><div class="line">  OWNDATA : True</div><div class="line">  WRITEABLE : True</div><div class="line">  ALIGNED : True</div><div class="line">  UPDATEIFCOPY : False</div></pre></td></tr></table></figure>
+<ul>
+<li><code>C_CONTIGUOUS</code>就是C语言的存储方式</li>
+<li><code>F_CONTIGUOUS</code>就是Fortan语言的存储方式</li>
+<li><code>ALIGNED</code>,C语言里面要内存对其，就存在padding的问题,这个true就表示完全follow C语言做内存对其</li>
+<li><code>OWNDATA</code>, 如果是view的话，这里就是false.</li>
+</ul>
+<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><ul>
+<li><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.flags.html" target="_blank" rel="external">numpy.ndarray.flags</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/15/py_decorator_2/" class="archive-article-date">
-  	<time datetime="2016-12-15T06:54:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/15/py_decorator_2/">Python Decorator - 理解调用过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://superway117.github.io/2017/01/13/py_numpy_shape/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/12/py_decorator_1/" class="archive-article-date">
-  	<time datetime="2016-12-12T15:42:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/12/py_decorator_1/">Python Decorator - 理解partial</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/12/py_Sphinx/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python Sphinx</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/09/py_package_import/" class="archive-article-date">
-  	<time datetime="2016-12-09T04:49:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/09/py_package_import/">Python Package管理</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/07/py_thread_local/" class="archive-article-date">
-  	<time datetime="2016-12-06T16:54:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/07/py_thread_local/">Python Thread Local</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="3c267193e67e5140068e8e30d99ed46a" data-title="Python numpy shape" data-url="http://superway117.github.io/2017/01/13/py_numpy_shape/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"superway117"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/tags/python/">&laquo; Prev</a><a class="page-number" href="/tags/python/">1</a><span class="page-number current">2</span>
-    </nav>
-  
 
 
           </div>
@@ -346,9 +352,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

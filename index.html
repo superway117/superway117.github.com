@@ -178,6 +178,80 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-py_numpy_shape" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/13/py_numpy_shape/">Python numpy shape</a>
+    </h1>
+  
+
+        <a href="/2017/01/13/py_numpy_shape/" class="archive-article-date">
+  	<time datetime="2017-01-13T06:32:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-13</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">In [52]: x3 = np.random.randint(10, size=(3, 4, 5))</div><div class="line"></div><div class="line">In [53]: x3</div><div class="line">Out[53]:</div><div class="line">array([[[1, 7, 4, 7, 5],</div><div class="line">        [3, 5, 9, 4, 3],</div><div class="line">        [6, 9, 4, 1, 4],</div><div class="line">        [2, 0, 8, 9, 4]],</div><div class="line"></div><div class="line">       [[8, 6, 8, 7, 6],</div><div class="line">        [1, 7, 8, 7, 1],</div><div class="line">        [4, 8, 6, 5, 7],</div><div class="line">        [9, 0, 2, 7, 9]],</div><div class="line"></div><div class="line">       [[6, 6, 6, 2, 1],</div><div class="line">        [6, 5, 7, 5, 9],</div><div class="line">        [5, 0, 8, 8, 1],</div><div class="line">        [4, 7, 0, 6, 1]]])</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">In [57]: x3.ndim</div><div class="line">Out[57]: 3</div><div class="line"></div><div class="line">In [58]: x3.shape</div><div class="line">Out[58]: (3L, 4L, 5L)</div><div class="line"></div><div class="line">In [59]: x3.size</div><div class="line">Out[59]: 60</div><div class="line"></div><div class="line">In [61]: x3.strides</div><div class="line">Out[61]: (80L, 20L, 4L)</div></pre></td></tr></table></figure>
+<p><code>ndim</code> :  the number of dimensions,也就是维度, 上面的<code>x3</code>就是一个3维数组.</p>
+<p><code>shape</code>:  the size of each dimension, 可以认为是数组的形状,每一维的大小.</p>
+<p><code>size</code> :  total size of the array, 这个<code>size</code>是指元素的个数: 3<em>4</em>5==60</p>
+<p><code>strides</code>:</p>
+<ul>
+<li>每个轴上面相邻元素的地址差. 上面的例子(80L, 20L, 4L), 其中80==20*4,最后一个轴的元素size就是4(int).</li>
+<li>numpy在数据存储上面支持C语言的方式:连续的内存存储空间,也支持Fortan的方式.默认是C语言.</li>
+</ul>
+<p><code>numpy.ndarray.flags</code> 描述了数组的内存layout信息. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">In [63]: x3.flags</div><div class="line">Out[63]:</div><div class="line">  C_CONTIGUOUS : True</div><div class="line">  F_CONTIGUOUS : False</div><div class="line">  OWNDATA : True</div><div class="line">  WRITEABLE : True</div><div class="line">  ALIGNED : True</div><div class="line">  UPDATEIFCOPY : False</div></pre></td></tr></table></figure>
+<ul>
+<li><code>C_CONTIGUOUS</code>就是C语言的存储方式</li>
+<li><code>F_CONTIGUOUS</code>就是Fortan语言的存储方式</li>
+<li><code>ALIGNED</code>,C语言里面要内存对其，就存在padding的问题,这个true就表示完全follow C语言做内存对其</li>
+<li><code>OWNDATA</code>, 如果是view的话，这里就是false.</li>
+</ul>
+<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><ul>
+<li><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.flags.html" target="_blank" rel="external">numpy.ndarray.flags</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/01/13/py_numpy_shape/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-py_Sphinx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -892,82 +966,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2016/12/20/py_stringobject/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-py_intobject" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/20/py_intobject/">Python PyIntObject</a>
-    </h1>
-  
-
-        <a href="/2016/12/20/py_intobject/" class="archive-article-date">
-  	<time datetime="2016-12-19T16:09:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><code>PyIntObject</code>属于固定size的object,所以数据结构也比较简单.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_HEAD</div><div class="line">    <span class="keyword">long</span> ob_ival;</div><div class="line">&#125; PyIntObject;</div></pre></td></tr></table></figure>
-<p>本文topic主要在<code>PyIntObject</code>如何实现内存/性能优化. 概括的说</p>
-<ul>
-<li>对于small int, 默认是-5–257之间的PyIntObject,是预分配的, 每次只要从small_ints这个池子里面去就行</li>
-<li>预先分配了一个pool(free_list),2.7定义的是(1000-8)个PyIntObject,每次需要分配PyIntObject,直接从free_list取</li>
-</ul>
-<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="PyInt-Init"><a href="#PyInt-Init" class="headerlink" title="_PyInt_Init"></a>_PyInt_Init</h3><p>Python解释器执行的时候会做一个动作.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Py_InitializeEx</div><div class="line">  --&gt;_PyInt_Init</div></pre></td></tr></table></figure>
-<p>所有的逻辑看<code>_PyInt_Init</code>就清楚了.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span></div><div class="line">_PyInt_Init(<span class="keyword">void</span>)</div><div class="line">&#123;</div><div class="line">    PyIntObject *v;</div><div class="line">    <span class="keyword">int</span> ival;</div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> NSMALLNEGINTS + NSMALLPOSINTS &gt; 0</span></div><div class="line">    <span class="keyword">for</span> (ival = -NSMALLNEGINTS; ival &lt; NSMALLPOSINTS; ival++) &#123;</div><div class="line">          <span class="keyword">if</span> (!free_list &amp;&amp; (free_list = fill_free_list()) == <span class="literal">NULL</span>)</div><div class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="comment">/* PyObject_New is inlined */</span></div><div class="line">        v = free_list;</div><div class="line">        free_list = (PyIntObject *)Py_TYPE(v);</div><div class="line">        PyObject_INIT(v, &amp;PyInt_Type);</div><div class="line">        v-&gt;ob_ival = ival;</div><div class="line">        small_ints[ival + NSMALLNEGINTS] = v;</div><div class="line">    &#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">    <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面的逻辑:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(ival=<span class="number">-5</span>; ival&lt;<span class="number">257</span>; ival++)</div><div class="line">&#123;</div><div class="line">  <span class="number">1.</span> 从free_list里面去一个空闲的 PyIntObject --&gt;v</div><div class="line">  <span class="number">2.</span> 给v赋值 ob_ival = ival</div><div class="line">  <span class="number">3.</span> free_list里面ob_type用来指向前一个block,所有这里需要做一个PyObject_INIT</div><div class="line">  <span class="number">4.</span> 因为是从<span class="number">-5</span>开始算起，所有small_ints[<span class="number">0</span>]是给<span class="number">-5</span>用的,以此类推</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>free_list只分配一次<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!free_list &amp;&amp; (free_list = fill_free_list()) == <span class="literal">NULL</span>)</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div></pre></td></tr></table></figure></p>
-<h3 id="free-list"><a href="#free-list" class="headerlink" title="free_list"></a>free_list</h3><p>fill_free_list的逻辑就是一次申请 N_INTOBJECTS 个 PyIntObject.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PyMem_MALLOC(<span class="keyword">sizeof</span>(PyIntBlock))</div></pre></td></tr></table></figure>
-<p>需要注意的是:</p>
-<ul>
-<li>fill_free_list返回的是最后一个block: p + N_INTOBJECTS - 1</li>
-<li>每一个block的ob_type,用来指向前一个block</li>
-<li>第一个block的ob_type是null,这个用来判断当前free_list是否已经用完了</li>
-<li>block_list用来维护多个free_list</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> _intblock &#123;</div><div class="line">    <span class="keyword">struct</span> _intblock *next;</div><div class="line">    PyIntObject objects[N_INTOBJECTS];</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> _intblock PyIntBlock;</div><div class="line"></div><div class="line"><span class="keyword">static</span> PyIntBlock *block_list = <span class="literal">NULL</span>;</div><div class="line"><span class="keyword">static</span> PyIntObject *free_list = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> PyIntObject *</span></div><div class="line"><span class="title">fill_free_list</span><span class="params">(<span class="keyword">void</span>)</span></div><div class="line">&#123;</div><div class="line">    PyIntObject *p, *q;</div><div class="line">    <span class="comment">/* Python's object allocator isn't appropriate for large blocks. */</span></div><div class="line">    p = (PyIntObject *) PyMem_MALLOC(<span class="keyword">sizeof</span>(PyIntBlock));</div><div class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> (PyIntObject *) PyErr_NoMemory();</div><div class="line">    ((PyIntBlock *)p)-&gt;next = block_list;</div><div class="line">    block_list = (PyIntBlock *)p;</div><div class="line">    <span class="comment">/* Link the int objects together, from rear to front, then return</span></div><div class="line">       the address of the last int object in the block. */</div><div class="line">    p = &amp;((PyIntBlock *)p)-&gt;objects[<span class="number">0</span>];</div><div class="line">    q = p + N_INTOBJECTS;</div><div class="line">    <span class="keyword">while</span> (--q &gt; p)</div><div class="line">        Py_TYPE(q) = (<span class="keyword">struct</span> _typeobject *)(q<span class="number">-1</span>);</div><div class="line">    Py_TYPE(q) = <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">return</span> p + N_INTOBJECTS - <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/20/py_intobject/">展开全文 >></a>
         </p>
       
 
