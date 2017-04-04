@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://superway117.github.io/"/>
-  <updated>2017-03-02T04:30:42.421Z</updated>
+  <updated>2017-03-15T01:32:40.369Z</updated>
   <id>http://superway117.github.io/</id>
   
   <author>
@@ -16,11 +16,71 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>mongoose findOneAndUpdate</title>
+    <link href="http://superway117.github.io/2017/03/15/findOneAndUpdate/"/>
+    <id>http://superway117.github.io/2017/03/15/findOneAndUpdate/</id>
+    <published>2017-03-15T01:09:44.000Z</published>
+    <updated>2017-03-15T01:32:40.369Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>mongoose</code> <code>findOneAndUpdate</code>的用法</p>
+<p>Mongoose supports this natively with <a href="http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate" target="_blank" rel="external">findOneAndUpdate</a> , it calls MongoDB <a href="https://docs.mongodb.com/manual/reference/method/db.collection.findAndModify/" target="_blank" rel="external">findAndModify</a>.</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p><code>upsert</code></p>
+<p>if true, it creates the object if it doesn’t exist. defaults to false.</p>
+<p><code>new</code></p>
+<p>if true, returns the modified document rather than the original. The findAndModify() method ignores the new option for remove operations. The default is false.</p>
+<h2 id="update-操作"><a href="#update-操作" class="headerlink" title="update 操作"></a>update 操作</h2><p><a href="https://docs.mongodb.com/manual/reference/operator/update/#id1" target="_blank" rel="external">mongodb update</a></p>
+<p><code>$setOnInsert</code></p>
+<p>Sets the value of a field if an update results in an insert of a document. Has no effect on update operations that modify existing documents.</p>
+<p>也就是说新增才会写</p>
+<p><code>mongoose</code>里面用<code>setDefaultsOnInsert</code></p>
+<p><a href="http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate" target="_blank" rel="external">setDefaultsOnInsert</a>: if this and upsert are true, mongoose will apply the defaults specified in the model’s schema if a new document is created. This option only works on MongoDB &gt;= 2.4 because it relies on MongoDB’s $setOnInsert operator.</p>
+<p>如果要用这个选项的，需要的model的地方配置默认值</p>
+<p><code>$set</code></p>
+<p>Sets the value of a field in a document.</p>
+<h2 id="Sample"><a href="#Sample" class="headerlink" title="Sample"></a>Sample</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Model.findByIdAndUpdate(id, &#123; $set: &#123; name: &apos;jason borne&apos; &#125;&#125;, options, callback)</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;mongoose&lt;/code&gt; &lt;code&gt;findOneAndUpdate&lt;/code&gt;的用法&lt;/p&gt;
+&lt;p&gt;Mongoose supports this natively with &lt;a href=&quot;http://mongoosejs.com/docs/ap
+    
+    </summary>
+    
+    
+      <category term="MongoDB" scheme="http://superway117.github.io/tags/MongoDB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Adminlte Usage</title>
+    <link href="http://superway117.github.io/2017/03/08/adminlte-usage/"/>
+    <id>http://superway117.github.io/2017/03/08/adminlte-usage/</id>
+    <published>2017-03-08T01:40:09.000Z</published>
+    <updated>2017-03-08T01:45:16.144Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="sidebar"><a href="#sidebar" class="headerlink" title="sidebar"></a>sidebar</h1><p><code>sidebar-mini</code>: sidebar只显示图片,不设置它，就是图片文字都显示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;body class=&quot;hold-transition skin-blue sidebar-mini&quot;&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">`</div></pre></td></tr></table></figure>
+<p><code>sidebar-collapse</code>: sidebar初始是收缩状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;body class=&quot;hold-transition skin-blue sidebar-collapse&quot;&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">`</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;sidebar&quot;&gt;&lt;a href=&quot;#sidebar&quot; class=&quot;headerlink&quot; title=&quot;sidebar&quot;&gt;&lt;/a&gt;sidebar&lt;/h1&gt;&lt;p&gt;&lt;code&gt;sidebar-mini&lt;/code&gt;: sidebar只显示图片,不设置它，就是图片文
+    
+    </summary>
+    
+    
+      <category term="前端" scheme="http://superway117.github.io/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title>如何在ng-repeat里面,每隔3个元素换行</title>
     <link href="http://superway117.github.io/2017/03/02/angular_row_4/"/>
     <id>http://superway117.github.io/2017/03/02/angular_row_4/</id>
     <published>2017-03-02T04:27:14.000Z</published>
-    <updated>2017-03-02T04:30:42.421Z</updated>
+    <updated>2017-03-08T01:41:20.753Z</updated>
     
     <content type="html"><![CDATA[<p>problem:</p>
 <p>如何在ng-repeat里面,每隔3个元素换行</p>
@@ -39,7 +99,7 @@
     </summary>
     
     
-      <category term="angularjs" scheme="http://superway117.github.io/tags/angularjs/"/>
+      <category term="前端" scheme="http://superway117.github.io/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
@@ -885,35 +945,6 @@
     
     
       <category term="python" scheme="http://superway117.github.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo Usage</title>
-    <link href="http://superway117.github.io/2016/12/06/hexo_usage/"/>
-    <id>http://superway117.github.io/2016/12/06/hexo_usage/</id>
-    <published>2016-12-06T00:54:05.000Z</published>
-    <updated>2016-12-07T16:40:26.491Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-    
-    </summary>
-    
-    
-      <category term="hexo" scheme="http://superway117.github.io/tags/hexo/"/>
     
   </entry>
   
