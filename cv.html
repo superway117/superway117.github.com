@@ -603,12 +603,13 @@ ul {
           <h1>Skills</h1>
           <p>I'm passionate about technology and a fast-learner with experience in different area</p>
           <ul>
-            <li>Modem Driver Developing(Intel Modem Driver)</li>
+            <li>Modem Driver Development(Intel Modem Driver based on ARM)</li>
+            <li>Linux Driver Development</li>
             <li>Trace32</li>
-            <li>Android Application Developing(ionic1.x)</li>
-            <li>Web Server Developing(nodejs,python)</li>
-            <li>Front End Developing(angularjs)</li>
-            <li>Mobile Game Developing(cocos2d-x)</li>
+            <li>Android Application Development(ionic1.x)</li>
+            <li>Web Server Development(nodejs,python,nginx)</li>
+            <li>Front End Development(angularjs)</li>
+            <li>Mobile Game Development(cocos2d-x)</li>
             <li>SQL DB(sqlite)</li>
             <li>NOSQL DB(MonogDB)</li>
           </ul>
@@ -633,7 +634,7 @@ ul {
         </div>
         <div class="block" id="workexperience">
           <h1>Work Experience</h1>
-          <p>14 years working experience for total 3 companies!</p>
+          <p>15 years working experience for total 3 companies!</p>
         </div>
 
         <div class="block">
@@ -664,8 +665,10 @@ ul {
         <div class="block">
           <h2>Intel</h2>
           <ul>
+            <li>Deep learning related development.</li>
+            <li>Linux driver development.</li>
             <li>Support customers, like Apple,Huawei, Fibocom,SWI, etc.</li>
-            <li>Modem Driver developing</li>
+            <li>Modem Driver development</li>
             <li>Android Platform Developing</li>
             <li>MMI Framework Developing</li>
           </ul>
@@ -694,7 +697,29 @@ ul {
         <div class="block" id="featuredprojects">
           <h1>Projects</h1>
         </div>
-
+        <div class="block">
+          <h2>HDDL Project</h2>
+          <p>From 201707--</p>
+          <h4>Role</h4>
+          <ul>
+            <li>Software Engineer</li>
+          </ul>
+          <h4>Description</h4>
+          <ul>
+            <li>It is a project to implement neural network devices(Movidius neural network stick) clusters on a X86 server</li>
+            <li>It is support max 4*8 devices on one host</li>
+      
+          </ul>
+          <h4>Key Contributions</h4>
+          <ul>
+            <li>Design and implement zero copy feature to reduce system DDR and CPU bandwidth, including 2 linux drivers and 2 user space libarary</li>
+            <li>Design and implement user space library for a STM32 chip/IOExpander what is used to control all compute stick</li>
+            <li>Maintain Movidius device driver</li>
+            <li>System debug</li>
+            <li>Deep Learning model training and optimization</li>
+            
+          </ul>
+        </div>
         <div class="block">
           <h2>XMM6260/XMM7160/M.27260/M.2 7360/ICE7360</h2>
           <p>From 201110-201705</p>
@@ -705,11 +730,11 @@ ul {
           <h4>Key Contributions</h4>
           <ul>
             <li>M.2 7360 power up</li>
-            <li>Partition table tool developing</li>
-            <li>PCIE coredump feature developing</li>
+            <li>Partition table tool implement</li>
+            <li>PCIE coredump feature implement</li>
             <li>Apple Factory Support, fix some urgent issues in factory</li>
             <li>Speed up bootloader,from 3.5s to 1.8s </li>
-            <li>Memory debug tool developing to locate memory leak,memory overwrite</li>
+            <li>Memory debug tool to locate memory leak,memory overwrite</li>
           </ul>
         </div>
 
@@ -834,13 +859,62 @@ ul {
         <div class="block">
           <h2>zbmate</h2>
           <ul>
-            <li>From 201703-201704</li>
-            <li>直播伴侣</li>
-            <li>link: www.zbmate.com</li>
-            <li>Nodejs, AngularJS, MongoDB, Coffeescript</li>
+            <li>From 201703--</li>
+            <li>Link: <a href="www.zbmate.com">www.zbmate.com</a></li>
+            <li>Description:
+              <ul>
+                <li>It is a sevice for video broadcast something like <a href="https://streamlabs.com/">streamlabs</a> who is for twitch
+                </li>
+                <li>
+                  Support 10 video broadcast platform,like <a href="https://www.douyu.com/">douyu</a>, <a href="https://live.bilibili.com/">bilibili</a> ,etc.
+                </li>
+              </ul>
+            </li>
+            <li>Use: Nodejs, AngularJS, MongoDB, Coffeescript,Nginx</li>
+            <li>Status:
+              <ul>
+                <li>6000+ registered users; each day increases 50+ new users;
+                </li>
+                <li>
+                  11 servers cluster
+                </li>
+              </ul>
+            </li>
+
+            
           </ul>
         </div>
+        <div class="block">
+          <h2>superdevice</h2>
+          <ul>
+            <li>From 201510-201603</li>
+            <li>A hack tool to modify android phone information, like IMEI,Mac</li>
+            <li>Introduction link: <a href="http://zksq.info">http://zksq.info</a></li>
+            <li>Download link: <a href=http://android.myapp.com/myapp/detail.htm?apkName=com.ionicframework.addevice769827&ADTAG=mobile>App marketing </a></li>
+            <li>Use: Coffeescript,Ionic,Java,C</li>
+            <li>Status:
+              <ul>
+                <li>1,2000+ registered users;
+                </li>
+                <li>Not maintained since the source code is cracked
+                </li>
 
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <h2>HapiQuant</h2>
+          <ul>
+            <li>From 201510-201603</li>
+            <li>A stock backtest and trade tool</li>
+            <li>Support history backtest</li>
+            <li>Support auto place order according the trade strategy(only support 湘财证券)</li>
+            <li>It is a Cmd tool(maybe one day i will modify it to a online tool)</li>
+            <li>Python</li>
+
+          </ul>
+        </div>
         <div class="block">
           <h2>Toypai</h2>
           <ul>
@@ -862,28 +936,9 @@ ul {
           </ul>
         </div>
 
-        <div class="block">
-          <h2>superdevice</h2>
-          <ul>
-            <li>From 201510-201603</li>
-            <li>A hack tool to modify android phone information, like IMEI,Mac</li>
-            <li>download link: <a src=http://zksq.info>http://zksq.info</a></li>
-            <li>Coffeescript,Ionic,Java,C</li>
-          </ul>
-        </div>
+        
 
-        <div class="block">
-          <h2>HapiQuant</h2>
-          <ul>
-            <li>From 201510-201603</li>
-            <li>A stock backtest and trade tool</li>
-            <li>Support history backtest</li>
-            <li>Support auto place order according the trade strategy(only support 湘财证券)</li>
-            <li>It is a Cmd tool(maybe one day i will modify it to a online tool)</li>
-            <li>Python</li>
-
-          </ul>
-        </div>
+        
 
         <div class="block">
           <h2>Find Cheaper</h2>
