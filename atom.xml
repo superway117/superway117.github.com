@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://superway117.github.io/"/>
-  <updated>2017-03-15T01:32:40.369Z</updated>
+  <updated>2018-09-17T04:42:10.661Z</updated>
   <id>http://superway117.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://superway117.github.io/2017/03/15/findOneAndUpdate/"/>
     <id>http://superway117.github.io/2017/03/15/findOneAndUpdate/</id>
     <published>2017-03-15T01:09:44.000Z</published>
-    <updated>2017-03-15T01:32:40.369Z</updated>
+    <updated>2018-09-17T04:42:10.661Z</updated>
     
     <content type="html"><![CDATA[<p><code>mongoose</code> <code>findOneAndUpdate</code>的用法</p>
 <p>Mongoose supports this natively with <a href="http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate" target="_blank" rel="external">findOneAndUpdate</a> , it calls MongoDB <a href="https://docs.mongodb.com/manual/reference/method/db.collection.findAndModify/" target="_blank" rel="external">findAndModify</a>.</p>
@@ -47,7 +47,7 @@
     </summary>
     
     
-      <category term="MongoDB" scheme="http://superway117.github.io/tags/MongoDB/"/>
+      <category term="mongodb" scheme="http://superway117.github.io/tags/mongodb/"/>
     
   </entry>
   
@@ -56,7 +56,7 @@
     <link href="http://superway117.github.io/2017/03/08/adminlte-usage/"/>
     <id>http://superway117.github.io/2017/03/08/adminlte-usage/</id>
     <published>2017-03-08T01:40:09.000Z</published>
-    <updated>2017-03-08T01:45:16.144Z</updated>
+    <updated>2018-09-17T04:42:59.994Z</updated>
     
     <content type="html"><![CDATA[<h1 id="sidebar"><a href="#sidebar" class="headerlink" title="sidebar"></a>sidebar</h1><p><code>sidebar-mini</code>: sidebar只显示图片,不设置它，就是图片文字都显示</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;body class=&quot;hold-transition skin-blue sidebar-mini&quot;&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">`</div></pre></td></tr></table></figure>
@@ -71,7 +71,7 @@
     </summary>
     
     
-      <category term="前端" scheme="http://superway117.github.io/tags/%E5%89%8D%E7%AB%AF/"/>
+      <category term="css" scheme="http://superway117.github.io/tags/css/"/>
     
   </entry>
   
@@ -80,7 +80,7 @@
     <link href="http://superway117.github.io/2017/03/02/angular_row_4/"/>
     <id>http://superway117.github.io/2017/03/02/angular_row_4/</id>
     <published>2017-03-02T04:27:14.000Z</published>
-    <updated>2017-03-08T01:41:20.753Z</updated>
+    <updated>2018-09-17T04:42:45.410Z</updated>
     
     <content type="html"><![CDATA[<p>problem:</p>
 <p>如何在ng-repeat里面,每隔3个元素换行</p>
@@ -99,7 +99,7 @@
     </summary>
     
     
-      <category term="前端" scheme="http://superway117.github.io/tags/%E5%89%8D%E7%AB%AF/"/>
+      <category term="angularjs" scheme="http://superway117.github.io/tags/angularjs/"/>
     
   </entry>
   
@@ -224,7 +224,7 @@
     <link href="http://superway117.github.io/2017/01/12/py_Sphinx/"/>
     <id>http://superway117.github.io/2017/01/12/py_Sphinx/</id>
     <published>2017-01-12T08:52:21.000Z</published>
-    <updated>2017-01-12T09:07:43.937Z</updated>
+    <updated>2017-01-12T09:07:43.938Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li>Sphinx是一个静态网站生成器,可以用来做静态网站或者写文档</li>
@@ -303,7 +303,7 @@
     <link href="http://superway117.github.io/2017/01/11/py_namedtuple/"/>
     <id>http://superway117.github.io/2017/01/11/py_namedtuple/</id>
     <published>2017-01-10T16:43:38.000Z</published>
-    <updated>2017-01-11T05:40:02.923Z</updated>
+    <updated>2017-01-11T05:40:02.924Z</updated>
     
     <content type="html"><![CDATA[<p><code>tuple</code>只能用index来获取对应位置的值,也就是0,1,2,3 这种形式对代码可读性,可维护性都不是很好.</p>
 <p>很多时候我们需要用类似<code>dict</code>的方式来取值. 这个时候就需要<code>namedtuple</code></p>
@@ -538,7 +538,7 @@
     <link href="http://superway117.github.io/2016/12/22/py_debug/"/>
     <id>http://superway117.github.io/2016/12/22/py_debug/</id>
     <published>2016-12-22T05:24:31.000Z</published>
-    <updated>2016-12-22T21:50:06.079Z</updated>
+    <updated>2016-12-22T21:50:06.080Z</updated>
     
     <content type="html"><![CDATA[<p><code>__debug__</code>是python内置的变量,用来判断是否是调试模式. 我们开发过程中的debug代码,可以用它来控制.</p>
 <ul>
@@ -583,7 +583,7 @@
     <link href="http://superway117.github.io/2016/12/22/py_property/"/>
     <id>http://superway117.github.io/2016/12/22/py_property/</id>
     <published>2016-12-21T16:49:22.000Z</published>
-    <updated>2016-12-22T04:55:04.867Z</updated>
+    <updated>2016-12-22T04:55:04.868Z</updated>
     
     <content type="html"><![CDATA[<p><code>property</code>对应的是c代码的实现<code>propertyobject</code>. </p>
 <p>主要是用来处理class里面的属性get/set/delete/doc操作. </p>
@@ -685,7 +685,7 @@
     <link href="http://superway117.github.io/2016/12/20/py_stringobject/"/>
     <id>http://superway117.github.io/2016/12/20/py_stringobject/</id>
     <published>2016-12-19T16:09:10.000Z</published>
-    <updated>2016-12-20T14:53:12.792Z</updated>
+    <updated>2016-12-20T14:53:12.793Z</updated>
     
     <content type="html"><![CDATA[<p><code>PyStringObject</code>属于变长size的object</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    PyObject_VAR_HEAD</div><div class="line">    <span class="keyword">long</span> ob_shash;</div><div class="line">    <span class="keyword">int</span> ob_sstate;</div><div class="line">    <span class="keyword">char</span> ob_sval[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="comment">/* Invariants:</span></div><div class="line">     *     ob_sval contains space for 'ob_size+1' elements.</div><div class="line">     *     ob_sval[ob_size] == 0.</div><div class="line">     *     ob_shash is the hash of the string or -1 if not computed yet.</div><div class="line">     *     ob_sstate != 0 iff the string object is in stringobject.c's</div><div class="line">     *       'interned' dictionary; in this case the two references</div><div class="line">     *       from 'interned' to this object are *not counted* in ob_refcnt.</div><div class="line">     */</div><div class="line">&#125; PyStringObject;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PyObject_VAR_HEAD               \</span></div><div class="line">    PyObject_HEAD                       \</div><div class="line">    Py_ssize_t ob_size; <span class="comment">/* Number of items in variable part */</span></div></pre></td></tr></table></figure>
@@ -715,7 +715,7 @@
     <link href="http://superway117.github.io/2016/12/15/py_decorator_2/"/>
     <id>http://superway117.github.io/2016/12/15/py_decorator_2/</id>
     <published>2016-12-15T06:54:30.000Z</published>
-    <updated>2016-12-16T16:02:11.870Z</updated>
+    <updated>2016-12-16T16:02:11.871Z</updated>
     
     <content type="html"><![CDATA[<p>主要topic</p>
 <ul>
@@ -769,7 +769,7 @@
     <link href="http://superway117.github.io/2016/12/12/py_decorator_1/"/>
     <id>http://superway117.github.io/2016/12/12/py_decorator_1/</id>
     <published>2016-12-12T15:42:20.000Z</published>
-    <updated>2016-12-16T02:49:00.078Z</updated>
+    <updated>2016-12-16T02:49:00.079Z</updated>
     
     <content type="html"><![CDATA[<p>主要topic是partial的源码实现</p>
 <h2 id="什么是partial"><a href="#什么是partial" class="headerlink" title="什么是partial"></a>什么是partial</h2><p><code>partial</code> 是<code>functools</code>里面的一个函数对象,虽然用起来就是一个函数.</p>
