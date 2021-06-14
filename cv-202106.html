@@ -1,0 +1,981 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CV of Eason Pan</title>
+<style>
+@import url(http://weloveiconfonts.com/api/?family=entypo|fontawesome);
+/* entypo */
+[class*="entypo-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+/* fontawesome */
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+/* Utils */
+
+.clear {
+  clear: both;
+}
+.purple {
+  color: #837c9a;
+}
+
+.block {
+  margin: 25px 30px;
+}
+  .block h1 {
+    margin-left: -5px;
+    font-weight: 200;
+  }
+
+.last.block {
+  margin-bottom: 110px;
+}
+
+.horizontal_list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+  .horizontal_list li {
+    float: left;
+  }
+  .horizontal_list li:before {
+    content: none;
+  }
+  .horizontal_list li { 
+    padding-left: 0; 
+    text-indent: 0;
+  }
+
+.horizontal_line{
+  margin: 34px 0 0 30px;
+  height: 26px;
+  position: relative; 
+}
+  .line_left,
+  .line_right{
+    border-top: 1px solid #434247;
+    width: 305px;
+    margin-top: 13px;
+  }
+  .line_left{
+    float: left;
+  }
+  .line_right {
+    float: right;
+  }
+  .left_circle, 
+  .central_circle, 
+  .right_circle {
+    background: rgb(69,68,73);
+    background: rgba(255,255,255, 0.15);
+    position: absolute;
+    border-radius: 50px;
+  }
+  .left_circle, 
+  .right_circle {
+    width: 13px;
+    height: 13px;
+    top: 7px;
+  }
+  .left_circle{
+    left: 314px;
+  }
+  .central_circle{
+    width: 26px;
+    height: 26px;   
+    top: 0px;
+    left: 322px;
+  }
+  .right_circle{
+    left: 343px;
+  }
+  
+/* Main tags */
+
+body {
+  margin: 0;
+}
+
+h1,h2,h3, h4 {
+  font-family: 'Lato', Helvetica, sans-serif;
+  font-weight: 300;
+  color: #48DA9B;
+}
+  h1 {
+    font-size: 48px;
+    font-weight: 300;
+    margin: 20px 0;
+  }
+  h2 {
+    font-size: 28px;
+    margin: 32px 0 24px;
+  }
+  h3 {
+    font-size: 24px;
+  }
+  h4 {
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+blockquote {
+  font-style: italic;
+  margin: 25px 0;
+  padding-left: 20px;
+  border-left: 2px solid #48DA9B;
+}
+  
+blockquote, p , a, li {
+  font-family: 'Lato', Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  color: #000000;
+}
+
+a:focus { 
+    outline: none;
+}
+
+ul {
+    list-style: none;
+    padding:0;
+    margin:0;
+}
+  li { 
+    padding-left: 1em; 
+    text-indent: -.7em;
+  }
+  li:before {
+    content: "• ";
+    color: #837c9a;
+    font-size: 20px;
+    padding-right: 8px;
+  }
+
+/* Containers size */
+
+#main_container {
+  width: 960px;
+  margin: 0 auto;
+}
+  #header {
+    height: 130px;
+    border-bottom: 1px solid #403F44;
+  }
+    .header_logotype_container {
+      width: 260px;
+      height: 130px;
+      border-right: 1px solid #403F44;
+      float: left;
+    }
+    .header_menu_container {
+      height: 130px;
+      width: 699px;
+      float: left;
+    }
+      .header_menu_container a {
+        font-family: 'Lato', Helvetica, sans-serif;
+      }
+  #left_col {
+    width: 260px;
+    float: left;
+  }
+  .content_container {
+    width: 699px;
+    border-left: 1px solid #403F44;
+    float: left;
+  }
+  #footer {
+    width: 960px;
+    height: 60px;
+    border-top: 1px solid #403F44;
+    display: inline-block;
+  }
+
+/* HEADER */
+
+.logotype_name{
+  text-transform: uppercase;
+  font-size: 32px;
+  margin: 43px 0 0;
+}
+.logotype_occupation{
+  text-transform: uppercase;
+  margin-top: 5px;
+  color: #5ce2af;
+  font-size: 14px;
+  letter-spacing: 2px;
+  padding-left: 7px;
+}
+
+.download_print_buttons {
+  width: 225px;
+  height: 45px;
+  float: right;
+}
+  .download_print_buttons a {
+    text-decoration: none;
+    font-size: 12px;
+    font-family: 'Lato', Helvetica, sans-serif;
+    font-style: italic;
+    line-height: 45px;
+    padding: 16px 17px;
+    background: #353638;
+  }
+    .download_print_buttons a:hover {
+      background: #020609;
+    }
+    .download_print_buttons .icon {
+      color: #02070a;
+      padding-right: 6px;
+      font-style: normal;
+      font-size: 18px;
+    }
+    .icon-angle-double-right {
+      position: relative;
+      top: 2px;
+    }
+      .download_print_buttons a:hover .icon {
+        color: #e4e3e8;
+      }
+      
+.header_menu {
+  width: 699px;
+  margin-top: 40px;
+  margin-left: 5px;
+}
+  .header_menu a{
+    text-decoration: none;
+    padding: 0 20px;
+    border-left: 1px solid #e4e3e8;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .header_menu a.no_border{
+    border-left: none;
+  }
+    .header_menu a:hover {
+      color: #837c9a;
+    }
+    
+/* LEFT NAV */
+
+#left_nav h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.profile_frame{
+  width: 230px;
+  height: 220px;
+
+
+  margin-top: 30px;
+}
+  .profile_picture{
+    width: 200px;
+    height: 200px;
+    margin:10px;
+    background: url(http://superway117.github.io/images/header.png);
+    border-radius: 200px;
+  }
+
+.hello_content,
+.contact_details_content {
+  margin-top: 25px;
+}
+
+.hello_content{
+  width: 230px;
+}
+.contact_details_content h2 + p.purple{
+  margin-top: 10px;
+}
+.contact_details_content p{
+  margin: 0;
+}
+.contact_details_content p.purple{
+  margin-top: 25px;
+}
+
+.send_message_button,
+.special_button {
+  margin-top: 25px;
+  display: block;
+  background: #48DA9B;
+  width: 230px;
+  height: 50px;
+  position: relative;
+  z-index: 1;
+}
+  .cut1:after {
+    content: "";
+    position: absolute;
+    bottom: -19px;
+    left: -20px;
+    width: 30px;
+    height: 30px;
+    z-index: 9;
+    background: url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/dark_wall.png) repeat;
+    transform: rotate(45deg);
+  }
+  .cut2:before {
+      content: "";
+      position: absolute;
+      top: -19px;
+      right: -20px;
+      width: 30px;
+      height: 30px;
+      z-index: 9;
+      background: url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/dark_wall.png) repeat;
+      transform: rotate(45deg);
+  }
+  .content {
+      text-align: center;   
+      color: #04080b;
+      width: 100%;
+      height: 40px;
+      position: absolute;
+      z-index: 2;
+      font: 18px 'Lato', Arial, sans-serif;
+      margin: 0;
+      padding: 16px 0 0;
+        top: -4px;
+        bottom: 10px;
+      border-top: 1px solid #403F44;
+      border-bottom: 1px solid #403F44;
+  }
+  .send_message_button:hover,
+  .special_button:hover {
+    background: #29C782;
+  }
+
+.get_social_content {
+  margin-top: 15px;
+}
+  .get_social_content h2{
+    margin-bottom: 8px;
+  }
+  .social_icons {
+    margin-left: -8px;
+  }
+  .social_icons a {
+    font-size: 35px;
+    text-decoration: none;
+    color: #000507;
+    padding: 0;
+    padding: 0 5px;
+  }
+    .social_icons a span.invisible {
+      display:none;
+    }
+    .social_icons .facebook:hover{
+      background: #3b5998;
+      color: #dfe3ee;
+      border-top-right-radius: 50px;
+      border-bottom-left-radius: 50px;
+    }
+    .social_icons .twitter:hover{
+      background: #00B0ED;
+      color: #fff;
+      border-top-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+    }
+    .social_icons .linkedin:hover{
+      background: #007bb6;
+      color: #fff;
+      border-top-right-radius: 50px;
+      border-bottom-left-radius: 50px;
+    }
+  .social_icons .github:hover{
+    background: #007bb6;
+    color: #fff;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+
+.footer_name {
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Profile Content */
+
+.profile_quote {
+  position: relative;
+  /* margin-left: 5px; */
+}
+  .profile_quote p {
+    font-size: 17px;
+    width: 455px;
+  }
+  .profile_quote  .entypo-quote {
+    color: #3d3a41;
+    font-size: 80px;
+    font-style: normal;
+    position: absolute;
+    top: -20px;
+    right: 70px;
+    cursor: default;
+  }
+
+.philosophy_content {
+  margin-top: 20px;
+}
+.philosophy_content p {
+  margin: 0;
+  width: 370px;
+  float: left;
+}
+.philosophy_content ul {
+  float: left;
+  padding-left: 40px;
+}
+/*
+ * Component: Timeline
+ * -------------------
+ */
+.timeline {
+  list-style: none;
+  list-style-type: none;
+}
+.timeline > ul {
+  list-style: none;
+}
+.timeline > li {
+  margin-bottom: 40px;
+  list-style: none;
+}
+
+/* for Desktop */
+@media ( min-width : 640px ){
+  .timeline > ul {
+    list-style: none;
+  }
+  .timeline > li {
+    overflow: hidden;
+    margin: 0;
+    position: relative;
+    list-style: none;
+  }
+  .timeline-date {
+    width: 110px;
+    float: left;
+    margin-top: 20px;
+  }
+  .timeline-content {
+    width: 75%;
+    float: left;
+    border-left: 3px #e5e5d1 solid;
+    padding-left: 30px;
+  }
+  .timeline-content:before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #6fc173;
+    position: absolute;
+    left: 106px;
+    top: 24px;
+    border-radius: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic' rel='stylesheet' type='text/css'>
+
+<!-- MAIN CONTAINER -->
+    <div id="main_container">
+      <!-- HEADER -->
+      <div id="header">
+        <!-- LOGOTYPE/NAME -->
+        <div class="header_logotype_container">
+          <h1 class="logotype_name">Eason Pan</span></h1>
+          <h2 class="logotype_occupation">Coder</h2>
+        </div>
+        <!-- MAIN MENU -->
+        <div class="header_menu_container">
+          
+          <div class="clear"></div>
+          <ul class="header_menu horizontal_list">
+            <li><a class="no_border purple" href="#profile">Profile</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#workexperience">Work Experience</a></li>
+            <li><a href="#featuredprojects">Projects</a></li>
+            <li><a href="#sideprojects">Side Projects</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- LEFT COL -->
+      <div id="left_col">
+   
+        <div class="hello_content">
+          <h2>Hello!</h2>
+          <p>I'm passionate about technology and human behavior, hardworker and a fast-learner with experience in different area.</p>
+        </div>
+        <div class="contact_details_content">
+          <h2>Contact details</h2>
+          <p class="purple">Phone:</p>
+          <p>+86 135 2488 5464</p>
+          <p class="purple">Email:</p>
+          <p>superway_build@hotmail.com</p>
+          <p class="purple">Adress:</p>
+          <p>上海浦东新区</p>
+          <p>201203</p>
+        </div>
+        <a href="mailto:superway_build@hotmail.com" class="send_message_button">
+          <span class="cut1"></span>
+          <span class="cut2"></span>
+          <span class="content">Send me a message <span class="fontawesome-double-angle-right"></span></span>
+        </a>
+        <div class="get_social_content">
+          <h2>Get social</h2>
+          <ul class="social_icons horizontal_list">
+            <li><a class="github" href="https://www.github.com/superway117"><span class="entypo-github-circled"></span><span class="invisible">Github</span></a></li>
+            <li><a class="linkedin" href="https://www.linkedin.com/in/wei-pan-bb6a5182/"><span class="entypo-linkedin-circled"></span><span class="invisible">LinkedIn</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- PROFILE CONTENT -->
+      <div class="content_container">        
+   
+
+        <div class="block" id="education">
+          <h2>Education</h2>
+          <p>Northwestern Polytechnical University(西北工业大学)</p>
+          <p>Bachelor from 1999.07-2003.07</p>
+        </div>
+        <div class="horizontal_line">
+          <div class="line_left"></div>
+          <div class="left_circle"></div>
+          <div class="central_circle"></div>
+          <div class="right_circle"></div>
+          <div class="line_right"></div>
+        </div>
+        <div class="block" id="skills">
+          <h1>Skills</h1>
+          <p>I'm passionate about technology and a fast-learner with experience in different area</p>
+          <ul>
+            <li>Deep Learning Related Application</li>
+            <li>Modem Driver Development(Intel Modem Driver based on ARM)</li>
+            <li>Linux Application/User Space Library Development</li>
+            <li>Linux Driver Development</li>
+            <li>Trace32</li>
+            <li>Android Framework</li>
+            <li>Android Application Development(ionic1.x,Flutter)</li>
+            <li>Web Server Development(nodejs,python,nginx)</li>
+            <li>Front End Development(angularjs1.x,Vue,html,css)</li>
+            <li>Mobile Game Development(cocos2d-x)</li>
+            <li>SQL DB(sqlite)</li>
+            <li>NOSQL DB(MonogDB,LowDB)</li>
+
+          </ul>
+          <p>Languages</p>
+          <ul>
+            <li>C</li>
+            <li>CoffeeScript</li>
+            <li>JavaScript</li>
+            <li>Python</li>
+            <li>C++/QT</li>
+            <li>Dart</li>
+            <li>Java</li>
+            <li>AWK</li>
+          </ul>
+        </div>
+        <div class="horizontal_line">
+          <div class="line_left"></div>
+          <div class="left_circle"></div>
+          <div class="central_circle"></div>
+          <div class="right_circle"></div>
+          <div class="line_right"></div>
+        </div>
+        <div class="block" id="workexperience">
+          <h1>Work Experience</h1>
+          <p>20 years working experience for total 4 companies!</p>
+        </div>
+
+        <div class="block">
+          <ul class="timeline">
+            <li>
+              <p class="timeline-date">201909--</p>
+              <div class="timeline-content">
+                <h4>深圳智播科技有限公司</h4>
+                <p>Founder</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline-date">200711-201909</p>
+              <div class="timeline-content">
+                <h4>Intel, including Infineon wireless</h4>
+                <p>Staff Software Engineer</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline-date">200407-200711</p>
+              <div class="timeline-content">
+                <h4>上海经菲科技有限公司</h4>
+                <p>Senior Software Engineer</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline-date">200307-200407</p>
+              <div class="timeline-content">
+                <h4>Shanghai Ares(上海泓越通信有限公司)</h4>
+                <p>Software Engineer</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <h2>深圳智播科技有限公司</h2>
+          <ul>
+            <li>Develop a series of tools for livestreaming, including zbmate.com, 智播管家, 智播公会助手</li>
+            <li>Setup up relationship with Douyu, Embed some features for zbmate.com into 斗鱼伴侣</li>
+            <li>Setup up relationship with Iqiyi, Iqiyi purchased the VIP cards for the anchors on Iqiyi </li>
+            <li>zbmate.com has total 12w+ users</li>
+            <li>one patent, six software copyrights</li>
+          </ul>
+        </div>
+        <div class="block">
+          <h2>Intel</h2>
+          <ul>
+            <li>Deep Learning Related Development.</li>
+            <li>Linux Driver Development.</li>
+            <li>Linux User Space Library Development</li>
+            <li>Modem Driver Development</li>
+            <li>Android Platform Development</li>
+            <li>MMI Framework Development</li>
+          </ul>
+        </div>
+        
+        <div class="block">
+          <h2>上海经菲科技有限公司</h2>
+          <ul>
+            <li>Feature Phone Driver Development</li>
+            <li>MMI Application Development</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h2>Ares(上海泓越通信有限公司)</h2>
+          <ul>
+            <li>MMI Application Development</li>
+          </ul>
+        </div>
+        <div class="horizontal_line">
+          <div class="line_left"></div>
+          <div class="left_circle"></div>
+          <div class="central_circle"></div>
+          <div class="right_circle"></div>
+          <div class="line_right"></div>
+        </div>
+        <div class="block" id="featuredprojects">
+          <h1>Projects</h1>
+        </div>
+        <div class="block">
+          <h2>HDDL Project(OpenVino HDDL plugin)</h2>
+          <p>From 201707--</p>
+          <h4>Role</h4>
+          <ul>
+            <li>Software Engineer</li>
+          </ul>
+          <h4>Description</h4>
+          <ul>
+            <li>Implement a pcie card integrated 8 Movidius ma2485 cores(VPU), including hardware design, host software stack, firmware, neural model porting and integrtation with OpenVino.</li>
+      
+          </ul>
+          <h4>Key Contributions</h4>
+          <ul>
+            <li>Design and implement zero copy feature to reduce system DDR and CPU bandwidth, including 2 linux drivers and 2 user space libarary; with the solution, CPU usage can be reduce 30%-50%, DDR write bindwidth can be huge reduced from about 500M/s to 20M/s</li>
+            <br/>
+            <li>Design and implement mechanism to reset all VPUs through a extra chip in the PCIe card or GPIOs from PCH, support both Linux and Window; this implement includes a user space libraray and a window driver(SMBus driver)</li>
+            <br/>
+            <li>Maintain ncsdk library, that is the lower interface used by host to communicate with VPU </li>
+            <br/>
+            <li>Maintain Movidius device driver</li>
+            <br/>
+            <li>System debug</li>
+            
+          </ul>
+        </div>
+        <div class="block">
+          <h2>XMM6260/XMM7160/M.27260/M.2 7360/ICE7360</h2>
+          <p>From 201110-201705</p>
+          <h4>Role</h4>
+          <ul>
+            <li>System debug</li>
+          </ul>
+          <h4>Key Contributions</h4>
+          <ul>
+            <li>M.2 7360 power up</li>
+            <li>Partition table tool implement</li>
+            <li>PCIE coredump feature implement</li>
+            <li>Apple Factory Support, fix some urgent issues in factory</li>
+            <li>Speed up bootloader,from 3.5s to 1.8s </li>
+            <li>Memory debug tool to locate memory leak,memory overwrite</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h2>XMM2231 Android Platform</h2>
+          <p>From 201010-201110</p>
+          <h4>Role</h4>
+          <ul>
+            <li>System debug</li>
+            <li>Android HAL Layer Development</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h2 href="https://github.com/superway117/libsensors-for-android-froyo" target="_blank">libsensors</h2>
+          <p>From 201010-201110</p>
+          <p>Library on android froyo to handle Bosch BMC050 and Avago apds990x sensors</p>
+          <a href="https://github.com/superway117/libsensors-for-android-froyo" target="_blank">Click here to check the source code</a>
+        </div>
+        <div class="block">
+          <h2>Android Crash Dump Tool For XMM2231</h2>
+          <p>From 201010-201110</p>
+          <p>Crash dump tool to analyse androud crash issue</p>
+          <a href="https://github.com/superway117/crashdump"  target="_blank">Click here to check the source code</a>
+        </div>
+
+        <div class="block">
+          <h2>RedArrow</h2>
+          <p>From 200910-201010</p>
+          <p>MMI Framework for Feature Phone</p>
+          <h4>Role</h4>
+          <ul>
+            <li>Storage related developing</li>
+            <li>DB related developing</li>
+            <li>Memory algorithms related developing</li>
+            <li>Image library related developing</li>
+            <li>Appliction Developing</li>
+          </ul>
+          <h4>Parts of the code is opensource</h4>
+          <ul>
+            <li>
+              <a href="https://github.com/superway117/preferences">Preferences</a>
+              <ul>
+                <li>manage application preferences data.</li>
+                <li>
+                <a href="https://github.com/superway117/preferences"  target="_blank">Click here to check the source code</a>
+                </li>
+               
+              </ul>
+              
+            </li>
+            <br/>
+            <li>
+              <a href="https://github.com/superway117/content_provider">
+              Content Provider</a>
+              <ul>
+                <li>
+                help an application manage access to data stored by itself, stored by other apps, and provide a way to share data with other apps.
+                </li>
+                <li>
+                <a href="https://github.com/superway117/content_provider"  target="_blank">Click here to check the source code</a>
+                </li>
+          
+              </ul>
+            </li>
+            <br/>
+            <li>
+              <a href="https://github.com/superway117/sqlite_wrapper">Sqlite Wrapper
+              </a>
+              <ul>
+                <li>
+                Wrap Sqlite interface to provide easy interafce
+                </li>
+                <li>
+                <a href="https://github.com/superway117/sqlite_wrapper"  target="_blank">Click here to check the source code</a>
+                </li>
+           
+              </ul>
+            </li>
+            <br/>
+            <li>
+              <a href="https://github.com/superway117/dlmalloc_debug">Dlmalloc Debug
+              </a>
+              <ul>
+                <li>
+                Add debug information for dlmalloc, also provide trace32 script to easily locate memory leak,memory overwrite issues
+                </li>
+                <li>
+                <a href="https://github.com/superway117/dlmalloc_debug"  target="_blank">Click here to check the source code</a>
+                </li>
+              </ul>
+            </li>
+            <br/>
+            <li>
+              <a href="https://github.com/superway117/imagelib">imagelib
+              </a>
+              <ul>
+                <li>
+                support gif/png/jpg/wbmp/bmp decode and encode by line
+                </li>
+  
+                <li>
+                <a href="https://github.com/superway117/imagelib"  target="_blank">Click here to check the source code</a>
+                </li>
+              </ul>
+            </li>
+
+      
+          </ul>
+          
+        </div>
+
+
+
+        <div class="horizontal_line">
+          <div class="line_left"></div>
+          <div class="left_circle"></div>
+          <div class="central_circle"></div>
+          <div class="right_circle"></div>
+          <div class="line_right"></div>
+        </div>
+        <div class="block" id="sideprojects">
+          <h1>Side Projects</h1>
+        </div>
+
+        <div class="block">
+          <h2>zbmate</h2>
+          <ul>
+            <li>From 201703--</li>
+            <br/>
+            <li>Link: <a href="www.zbmate.com">www.zbmate.com</a></li>
+            <br/>
+            <li>
+              Provide services to make video broadcast more simpler 
+              <br/>
+              <br/>
+                
+              <ul>
+                <li>
+                 Provide web services with 200+ plugins to help anchor to decorate the living room, this part is something like <a href="https://streamlabs.com/">streamlabs</a> what is for twitch.
+                </li>
+                <br/>
+                <li>
+                  Provide tool to statistics the history gifts and danmus  
+                </li>
+                <br/>
+                <li>
+                  Provide tool to push vidoe flow,with it, anchor can easily use the plugins
+                </li>
+              </ul>
+            </li>
+            </br>
+            <li>
+              Provide online development platform to get more developer involved.
+              </br>
+              <ul>
+ 
+                <br/>
+                <li>
+                  Implemented online program,online submit,online review and online publish
+                </li>
+              </ul>
+            </li>
+            <br/>
+            <li>Use: Nodejs, AngularJS, MongoDB, Coffeescript,Nginx</li>
+            <br/>
+            <li>Achieved:
+              <br/>
+              <ul>
+                <li>20000+ registered users; 1000+ pay users; each day increases 50+ new users;
+                </li>
+                <li>
+                  16 servers cluster
+                </li>
+                <li>
+                  10 developers involved.
+                </li>
+                <br/>
+              </ul>
+            </li>
+
+            
+          </ul>
+        </div>
+        <div class="block">
+          <h2>superdevice</h2>
+          <ul>
+            <li>From 201510-201603</li>
+            <li>A hack tool to modify android phone information, like IMEI,Mac</li>
+            <li>Introduction link: <a href="http://zksq.info">http://zksq.info</a></li>
+            <li>Download link: <a href=http://android.myapp.com/myapp/detail.htm?apkName=com.ionicframework.addevice769827&ADTAG=mobile>App marketing </a></li>
+            <li>Use: Coffeescript,Ionic,Java,C</li>
+            <li>Achieved:
+              <ul>
+                <li>1,2000+ registered users;
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <h2>HapiQuant</h2>
+          <ul>
+            <li>From 201510-201603</li>
+            <li>A stock backtest and trade tool</li>
+            <li>Support history backtest</li>
+            <li>Support auto place order according the trade strategy(only support 湘财证券)</li>
+            <li>It is a Cmd tool</li>
+            <li>Python</li>
+            <br/>
+
+          </ul>
+        </div>
+        <div class="block">
+          <h2>Toypai</h2>
+          <ul>
+            <li>From 201510-201603</li>
+            <li>LEGO Online Leasing Store</li>
+            <li>link: www.toypai.com</li>
+            <li>Nodejs, AngularJS, Ionic, MongoDB, Coffeescript</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h2>哈皮五子连珠</h2>
+          <ul>
+            <li>From 201510-201603</li>
+            <li>Small Mobile Game</li>
+            <li>download link: http://shouji.baidu.com/game/3907419.html</li>
+            <li>sourcecode link: https://github.com/superway117/Renju</li>
+            <li>cocos2d-x, C++</li>
+            <br/>
+          </ul>
+        </div>
+
+        
+
+        
+
+        <div class="block">
+          <h2>Find Cheaper</h2>
+          <ul>
+            <li>From 201101-201103</li>
+            <li>Online tool to find cheaper good(比价)</li>
+            <li>Based on GAE</li>
+            <li>Not maintained for longtime since GAE is blocked</li>
+            <li>Source code: https://github.com/superway117/findcheaper</li>
+            <li>Python</li>
+
+          </ul>
+        </div>
+
+      <div class="clear"></div>
+      <div id="footer">
+        <p class="footer_name">Eason Pan CV 2019-03</p>
+      </div>
+    </div>
+</body>
+</html>
